@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ethereum Blockchain Explorer</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <meta charset="utf-8">
+        
+        <link rel="stylesheet" type="text/css" href="./assets/components/bootstrap/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
+        <script type="text/javascript" src="./assets/components/bootstrap/bootstrap.js"></script>
+        <script
+            src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+        <script type="text/javascript" src="./assets/components/web3/web3.js"></script>
+        <script type="text/javascript" src="./assets/components/vuejs/vue.js"></script>
+        <script type="text/javascript" src="./assets/js/app.js"></script>
+        <script type="text/javascript" src="./assets/js/views/index.js"></script>
+    </head>
+    <body class="bg-light">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+       <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link nav-brand" href="./index.html">Ethereum Blockchain Explorer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="nav-scroller bg-white shadow-sm">
+        <nav class="nav nav-underline">
+            <a class="nav-link active" href="./index.html">Dashboard</a>
+        </nav>
+    </div>
+    <div class="main-content container">
+        <!-- 대시보드 개요 시작 -->
+        <div id="dashboard-overview" class="row">
+            <div class="col-md">
+                <div class="dashboard-item bg-info">
+                    <h4 class="label">LATEST BLOCK</h4>
+                    <span>{{ latestBlock }}</span>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="dashboard-item bg-primary">
+                    <h4 class="label">TRANSACTIONS</h4>
+                    <span>{{ latestTxCount }}</span>
+                </div>
+            </div>
+        </div>
+        <!-- 대시보드 개요 끝 -->
+        <!-- 검색 화면 시작 -->
+        <div class="row">
+            <div class="col-md-12 search-form">
+                <div class="card shadow-sm">
+                    <div class="card-header">검색</div>
+                    <div class="card-body">
+                        <form>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="블록 넘버 / 트랜잭션 해시">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">검색</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 검색 화면 끝 -->
+        <div class="row">
+            <div id="blocks" class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header">Blocks</div>
+                    <div class="card-body">
+                        <div class="row block-info" v-for="item in blocks">
+                            <div class="col-md-2">BK</div>
+                            <div class="col-md-4">
+                                <a v-bind:href="'./block_detail.html?blockNumber=' + item.number" class="block-number">{{ item.number }}</a>
+                                <p class="block-timestamp">{{ item.timestamp }}</p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <p class="block-num-transactions">{{ item.txCount }} Txes</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="./block_list.html" class="btn btn-primary btn-block">View All</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="transactions" class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header">Transactions</div>
+                    <div class="card-body">
+                        <div class="row tx-info" v-for="item in transactions">
+                            <div class="col-md-2">Tx</div>
+                            <div class="col-md-4">
+                                <a v-bind:href="'./tx_detail.html?hash=' + item.hash" class="tx-number">{{ item.hash | truncate(10) }}</a>
+                                <p class="tx-timestamp">{{ item.timeSince }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><label class="text-secondary">From</label> {{ item.from | truncate(10) }}</p>
+                                <p><label class="text-secondary">To</label> {{ item.to | truncate(10) }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="./tx_list.html" class="btn btn-primary btn-block">View All</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

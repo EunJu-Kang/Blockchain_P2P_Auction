@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ethereum Blockchain Explorer</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <meta charset="utf-8">
+        
+        <link rel="stylesheet" type="text/css" href="./assets/components/bootstrap/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
+        <script type="text/javascript" src="./assets/components/bootstrap/bootstrap.js"></script>
+        <script
+            src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+        <script type="text/javascript" src="./assets/components/web3/web3.js"></script>
+        <script type="text/javascript" src="./assets/components/vuejs/vue.js"></script>
+        <script type="text/javascript" src="./assets/js/app.js"></script>
+        <script type="text/javascript" src="./assets/js/views/block_detail.js"></script>
+    </head>
+    <body class="bg-light">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+       <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link nav-brand" href="./index.html">Ethereum Blockchain Explorer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="nav-scroller bg-white shadow-sm">
+        <nav class="nav nav-underline">
+            <a class="nav-link active" href="./index.html">Dashboard</a>
+        </nav>
+    </div>
+    <div class="main-content container">
+        <!-- 블록 상세 정보 기록 -->
+        <div id="block-detail" class="row">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header">블록 <strong># {{ block.number }}</strong></div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th width="300">블록 height</th>
+                                <td>{{ block.number }}</td>
+                            </tr>
+                            <tr>
+                                <th>블록 해시</th>
+                                <td>{{ block.hash }}</td>
+                            </tr>
+                            <tr>
+                                <th>블록 생성 시간</th>
+                                <td>{{ block.timestamp }}</td>
+                            </tr>
+                            <tr>
+                                <th>Miner</th>
+                                <td><a href="#">{{ block.miner }}</a></td>
+                            </tr>
+                            <tr>
+                                <th>Nonce</th>
+                                <td>{{ block.nonce }}</td>
+                            </tr>
+                            <tr>
+                                <th>문제 난이도 (Difficulty)</th>
+                                <td>{{ block.difficulty }}</td>
+                            </tr>
+                            <tr>
+                                <th>블록 크기</th>
+                                <td>{{ block.size }} bytes</td>
+                            </tr>
+                            <tr>
+                                <th>gasLimit</th>
+                                <td>{{ block.gasLimit }}</td>
+                            </tr>
+                            <tr>
+                                <th>gasUsed</th>
+                                <td>{{ block.gasUsed }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

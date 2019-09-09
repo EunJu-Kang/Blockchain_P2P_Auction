@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ethereum Blockchain Explorer</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <meta charset="utf-8">
+        
+        <link rel="stylesheet" type="text/css" href="./assets/components/bootstrap/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
+        <script type="text/javascript" src="./assets/components/bootstrap/bootstrap.js"></script>
+        <script
+            src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+        <script type="text/javascript" src="./assets/components/web3/web3.js"></script>
+        <script type="text/javascript" src="./assets/components/vuejs/vue.js"></script>
+        <script type="text/javascript" src="./assets/js/app.js"></script>
+        <script type="text/javascript" src="./assets/js/views/tx_list.js"></script>
+    </head>
+    <body class="bg-light">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+       <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link nav-brand" href="./index.html">Ethereum Blockchain Explorer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="nav-scroller bg-white shadow-sm">
+        <nav class="nav nav-underline">
+            <a class="nav-link active" href="./index.html">Dashboard</a>
+        </nav>
+    </div>
+    <div class="main-content container">
+        <div class="row">
+            <div id="transactions" class="col-md-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-header">Transactions</div>
+                    <div class="card-body">
+                        <div class="row tx-info" v-for="item in transactions">
+                            <div class="col-md-2">Tx</div>
+                            <div class="col-md-4">
+                                <a v-bind:href="'./tx_detail.html?hash=' + item.hash" class="tx-number">{{ item.hash | truncate(10) }}</a>
+                                <p class="tx-timestamp">{{ item.timeSince }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><label class="text-secondary">From</label> {{ item.from | truncate(10) }}</p>
+                                <p><label class="text-secondary">To</label> {{ item.to | truncate(10) }}</p>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-12">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

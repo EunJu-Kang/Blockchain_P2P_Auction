@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>블록체인 기반 경매 시스템</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <meta charset="utf-8">
+
+        <link rel="stylesheet" type="text/css" href="./assets/components/bootstrap/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
+        <script
+            src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+        <script type="text/javascript" src="./assets/components/bootstrap/bootstrap.js"></script>
+        <script type="text/javascript" src="./assets/components/web3/web3.js"></script>
+        <script type="text/javascript" src="./assets/components/vuejs/vue.js"></script>
+        <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+        <script type="text/javascript" src="./components/store.js"></script>
+        <script type="text/javascript" src="./components/constants.js"></script>
+        <script type="text/javascript" src="./components/auctionFactory.js"></script>
+        <script type="text/javascript" src="./components/blockchainProvider.js"></script>
+
+        <!-- Common Services -->
+        <script type="text/javascript" src="./services/walletService.js"></script>
+        <script type="text/javascript" src="./services/workService.js"></script>
+        <script type="text/javascript" src="./services/auctionService.js"></script>
+        <script type="text/javascript" src="./services/userService.js"></script>
+        <script type="text/javascript" src="./services/etheriumService.js"></script>
+
+        <!-- Vue pages -->
+        <script type="text/javascript" src="./pages/common/nav.vue.js"></script>
+        <script type="text/javascript" src="./pages/common/mypage-nav.vue.js"></script>
+        <script type="text/javascript" src="./pages/common/breadcrumb.vue.js"></script>
+
+        <script type="text/javascript" src="./pages/login.vue.js"></script>
+        <script type="text/javascript" src="./pages/register.vue.js"></script>
+        <script type="text/javascript" src="./pages/home.vue.js"></script>
+
+        <!-- 마이페이지 관련 화면 -->
+        <script type="text/javascript" src="./pages/mypage/wallet.vue.js"></script>
+        <script type="text/javascript" src="./pages/mypage/walletInfo.vue.js"></script>
+        <script type="text/javascript" src="./pages/mypage/artwork.vue.js"></script>
+        <script type="text/javascript" src="./pages/mypage/update.vue.js"></script>
+        <script type="text/javascript" src="./pages/mypage/change-password.vue.js"></script>
+
+        <!-- 작품 관련 화면 -->
+        <script type="text/javascript" src="./pages/artworks.vue.js"></script>
+        <script type="text/javascript" src="./pages/works/create.vue.js"></script>
+        <script type="text/javascript" src="./pages/works/detail.vue.js"></script>
+        <script type="text/javascript" src="./pages/works/update.vue.js"></script>
+        <script type="text/javascript" src="./pages/works/by-users.vue.js"></script>
+
+        <!-- 경매 관련 화면 -->
+        <script type="text/javascript" src="./pages/auction.vue.js"></script>
+        <script type="text/javascript" src="./pages/auction/detail.vue.js"></script>
+        <script type="text/javascript" src="./pages/auction/register.vue.js"></script>
+        <script type="text/javascript" src="./pages/auction/bid.vue.js"></script>
+
+        <script type="text/javascript" src="./pages/explorer/explorer-nav.vue.js"></script>
+        <script type="text/javascript" src="./pages/explorer/auctionList.vue.js"></script>
+        <script type="text/javascript" src="./pages/explorer/auctionDetail.vue.js"></script>
+        <script type="text/javascript" src="./pages/explorer/blockDetail.vue.js"></script>
+        <script type="text/javascript" src="./pages/explorer/blockList.vue.js"></script>
+        <script type="text/javascript" src="./pages/explorer/txDetail.vue.js"></script>
+        <script type="text/javascript" src="./pages/explorer/txList.vue.js"></script>
+    </head>
+    <body class="bg-light">
+        <div id="app" v-cloak>
+            <!-- URL에 따라 화면이 바뀌는 부분 -->
+            <router-view></router-view>
+        </div>
+        <!-- Router 세팅 -->
+        <script type="text/javascript" src="./routes.js"></script>
+        <script type="text/javascript">
+            Vue.use(VueRouter);
+
+            let router = new VueRouter({
+                routes: routes
+            });
+
+            router.beforeEach((to, from, next) => {
+            let isSigned = store.state.isSigned;
+                let isAvailableToGuest = (['/', '/login', '/register'].includes(to.path)) || to.path.startsWith("/explorer");
+
+                // 회원 가입도 하지 않았고 게스트에게 허용된 주소가 아니라면 로그인 화면으로 이동한다.
+                if(!isSigned && !isAvailableToGuest) {
+                    alert("로그인을 하신 뒤에 사용이 가능합니다.");
+                    next('/login');
+                } else {
+                    next();
+                }
+            });
+
+            const app = new Vue({
+                router
+            }).$mount('#app');
+        </script>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+version: '2'
+
+services:
+    kafka2:
+        extends:
+            file: kafka-zookeeper-base.yaml
+            service: kafka-base
+        container_name: kafka2
+        hostname: kafka2
+        environment:
+            - KAFKA_ADVERTISED_HOST_NAME=10.0.0.8
+            - KAFKA_ADVERTISED_PORT=9092
+            - KAFKA_BROKER_ID=2
+            - KAFKA_MIN_INSYNC_REPLICAS=2
+            - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+            - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:3181,zookeeper2:2181
+        extra_hosts:
+            - "zookeeper0:10.0.0.7"
+            - "zookeeper1:10.0.0.7"
+            - "kafka0:10.0.0.7"
+            - "kafka1:10.0.0.7"
+        expose:
+            - '9093'
+        ports:
+            - "9092:9092"
+            - "9093:9093"
+
+    kafka3:
+        extends:
+            file: kafka-zookeeper-base.yaml
+            service: kafka-base
+        container_name: kafka3
+        hostname: kafka3
+        environment:
+            - KAFKA_ADVERTISED_HOST_NAME=10.0.0.8
+            - KAFKA_ADVERTISED_PORT=10092
+            - KAFKA_BROKER_ID=3
+            - KAFKA_MIN_INSYNC_REPLICAS=2
+            - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+            - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:3181,zookeeper2:2181
+        extra_hosts:
+            - "zookeeper0:10.0.0.7"
+            - "zookeeper1:10.0.0.7"
+            - "kafka0:10.0.0.7"
+            - "kafka1:10.0.0.7"
+        expose:
+            - '10092'

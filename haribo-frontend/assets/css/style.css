@@ -1,0 +1,141 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: #293046;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* 메인 소개글 스타일 시트 */
+#main-overview {
+    margin-top: 80px;
+}
+
+#main-overview h1 {
+    font-size: 50px;
+    font-weight: 800;
+    padding-top: 50px;
+}
+
+#main-overview h4 {
+    font-weight: 300;
+    padding-top: 150px;
+}
+
+#main-overview a.btn {
+    margin-top: 15px;
+}
+
+.breadcrumb {
+    padding-top: 100px;
+}
+
+#my-artwork .artwork {
+    padding: 10px !important;
+}
+
+/* 작품 리스트 스타일 시트 */
+#auction-list,
+#artwork-list {
+    padding: 50px 0;
+}
+
+#auction-list .auction,
+#artwork-list .artwork {
+    padding: 20px 10px;
+    text-align: center;
+}
+
+#auction-list .auction img,
+#artwork-list .artwork img {
+    width: 100%;
+}
+
+#auction-list .auction h4,
+#artwork-list .artwork h4 {
+    padding-top: 40px;
+}
+
+#auction-list .auction p,
+#artwork-list .artwork p {
+    padding-top: 10px;
+}
+
+/* 로그인 & 회원가입 스타일 시트 */
+#register-form,
+#login-form {
+    margin-top: 150px;
+    padding: 30px;
+}
+
+/* 마이페이지 > 서브 메뉴 */
+.sub-nav .nav-item.nav-link {
+    background: #fff;
+    margin-right: 10px;
+    border: 1px solid #eaeaea;
+}
+
+.sub-nav .nav-item.nav-link.active {
+    background: #007bff;
+    border: 1px solid #007bff;
+}
+
+/* 마이페이지 > 내 작품 스타일 시트 */
+#my-artwork {
+    margin-bottom: 300px;
+}
+
+#my-artwork .artwork {
+    padding: 20px 40px;
+    text-align: center;
+}
+
+#my-artwork .artwork img {
+    width: 100px;
+    height: 100px;
+    margin: 20px 0;
+}
+
+/* 마이페이지 > 내 지갑 정보 스타일 시트 */
+.card .table {
+    padding: 0;
+    margin: 0;
+}
+
+nav.bottom-pagination {
+    display: inline-block;
+}
+
+/* 작품 리스트 > 작품 상세 정보 > 사용자 별 작품 조회 */
+.work-list-item {
+    display: block;
+    border-bottom: 1px solid #eee;
+    color: #aaa;
+    padding: 10px;
+}
+
+.work-list-item:hover {
+    text-decoration :none;
+    background: #f7f7f7;
+}
+
+.work-list-item:hover h4 {
+    color: #4444bb;
+}
+
+.work-list-item:hover p {
+    color: #4444bb;
+}
+
+.work-list-item h4 {
+    color: #333;
+    padding: 0;
+    margin: 0;
+}
+
+.work-list-item p {
+    padding: 0;
+    margin: 0;
+}

@@ -1,0 +1,47 @@
+version: '2'
+services:
+   orderer0-digitalAuthorOrg:
+          image: hyperledger/fabric-orderer:latest
+          container_name: orderer0-digitalAuthorOrg
+          hostname: orderer0-digitalAuthorOrg
+          #restart: always
+          environment:
+                  - FABRIC_LOGGING_SPEC=INFO
+                  - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+                  - ORDERER_GENERAL_LISTENPORT=7050
+                  - ORDERER_GENERAL_GENESISMETHOD=file
+                  - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+                  - ORDERER_GENERAL_LOCALMSPID=digitalAuthorOrgMSP
+                  - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+                  - ORDERER_GENERAL_LEDGERTYPE=file
+                  - ORDERER_GENERAL_BATCHTIMEOUT=1s
+                  - ORDERER_GENERAL_MAXMESSAGECOUNT=10
+                  - ORDERER_GENERAL_MAXWINDOWSIZE=1000
+                    #- ORDERER_OPERATIONS_LISTENADDRESS=10.0.0.3:8443
+                  - ORDERER_GENERAL_TLS_ENABLED=false
+                  - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+                  - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+                  - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+                  - ORDERER_KAFKA_VERSION=1.0.0
+                  - ORDERER_KAFKA_VERBOSE=true
+          working_dir: /opt/gopath/src/github.com/hyperledger/fabric 
+          command: orderer start
+          expose:
+                  - '7050'
+                    #- '8443'
+          ports:
+                  - "7050:7050"
+                    #- "8443:8443"
+          extra_hosts:
+                  - "peer0.copyrightAssociateOrg:10.0.0.3"
+                  - "orderer0-copyorg:10.0.0.3"
+                  - "kafka0:10.0.0.7"
+                  - "kafka1:10.0.0.7"
+                  - "kafka2:10.0.0.8"
+                  - "kafka3:10.0.0.8"
+          volumes:
+                  - ./ordererchannel004-genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+                  - ./crypto-config/peerOrganizations/digitalAuthorOrg/users/Admin@digitalAuthorOrg/msp:/var/hyperledger/orderer/msp
+                  - ./crypto-config/peerOrganizations/digitalAuthorOrg/orderers/orderer0.digitalAuthorOrg/tls:/var/hyperledger/orderer/tls
+                  - ./ledger:/var/hyperledger/production/orderer
+

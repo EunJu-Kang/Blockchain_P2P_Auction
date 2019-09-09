@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+    zookeeper0:
+        extends:
+            file: kafka-zookeeper-base.yaml
+            service: zookeeper-base
+        container_name: zookeeper0
+        hostname: zookeeper0
+        environment:
+            - ZOO_MY_ID=1
+            - ZOO_SERVERS=server.1=zookeeper0:2888:3888 server.2=zookeeper1:2888:3888 server.3=zookeeper2:2888:3888
+        extra_hosts:
+            - "zookeeper2:10.0.0.8"
+            - "kafka2:10.0.0.8"
+            - "kafka3:10.0.0.8"
+        ports:
+            - "2181:2181"
+            - "2888:2888"
+            - "3888:3888"
+
+    zookeeper1:
+        extends:
+            file: kafka-zookeeper-base.yaml
+            service: zookeeper-base
+        container_name: zookeeper1
+        hostname: zookeeper1
+        environment:
+            - ZOO_MY_ID=2
+            - ZOO_SERVERS=server.1=zookeeper0:2888:3888 server.2=zookeeper1:2888:3888 server.3=zookeeper2:2888:3888
+        extra_hosts:
+            - "zookeeper2:10.0.0.8"
+            - "kafka2:10.0.0.8"
+            - "kafka3:10.0.0.8"
+        ports:
+            - "3181:2181"
+            - "2988:2888"
+            - "3988:3888"
