@@ -68,7 +68,6 @@ public class DigitalWorkController
 			logger.error("NOT FOUND WORK ID: ", work.getId());
 			throw new NotFoundException(work.getId() + " 작품 정보를 찾을 수 없습니다.");
 		}
-
 		return 수정된작품;
 	}
 
