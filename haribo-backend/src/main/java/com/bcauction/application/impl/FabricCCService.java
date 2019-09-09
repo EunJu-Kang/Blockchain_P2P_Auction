@@ -127,7 +127,7 @@ public class FabricCCService implements IFabricCCService {
 	 */
 	@Override
 	public FabricAsset registerOwnership(final long 소유자, final long 작품id) {
-		if (this.channel == null)
+		if (this.channel == null || this.hfClient == null)
 			loadChannel();
 		boolean res = registerAsset(작품id, 소유자);
 		if (!res)
@@ -200,9 +200,6 @@ public class FabricCCService implements IFabricCCService {
 	 */
 	private boolean registerAsset(final long 작품id, final long 소유자) {
 		// TODO
-		if (this.hfClient == null)
-			loadChannel();
-
 		String[] args = { 작품id + "", 소유자 + "" };
 
 		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
@@ -233,9 +230,6 @@ public class FabricCCService implements IFabricCCService {
 	 */
 	private boolean confirmTimestamp(final long 작품id) {
 	      // TODO
-	      if (this.hfClient == null)
-	            loadChannel();
-	   
 	      String[] args = { 작품id + ""};
 
 	      QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
