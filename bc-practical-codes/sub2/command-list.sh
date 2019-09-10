@@ -145,3 +145,9 @@ docker exec -e "CORE_PEER_LOCALMSPID=digitalAuthorOrgMSP" -e "CORE_PEER_MSPCONFI
 # nodejs chaincode upgrade
 # 체인코드 수정 후 설치된 버전으로 업그레이드를 수행하는 명령어
 docker exec -e "CORE_PEER_LOCALMSPID=digitalAuthorOrgMSP" -e "CORE_PEER_MSPCONFIGPATH=/var/hyperledger/users/msp" peer0.digitalAuthorOrg peer chaincode upgrade -o orderer001:7050 -C auctionchannel001 -n asset -v 0.4 -c '{"Args":["init"]}' -P "OR('copyrightAssociateOrgMSP.member','digitalAuthorOrgMSP.member')"
+
+#바로 위 4개의 줄을 한번에 작성한것
+docker exec -e "CORE_PEER_LOCALMSPID=digitalAuthorOrgMSP" -e "CORE_PEER_MSPCONFIGPATH=/var/hyperledger/users/msp" peer0.digitalAuthorOrg peer chaincode package /var/hyperledger/chaincode/ccpack.out -n asset -v 0.4 -l node -p /var/hyperledger/chaincode/node
+docker exec -e "CORE_PEER_LOCALMSPID=copyrightAssociateOrgMSP" -e "CORE_PEER_MSPCONFIGPATH=/var/hyperledger/users/msp" peer0.copyrightOrg peer chaincode install /var/hyperledger/chaincode/ccpack.out -p /var/hyperledger/chaincode/node
+docker exec -e "CORE_PEER_LOCALMSPID=digitalAuthorOrgMSP" -e "CORE_PEER_MSPCONFIGPATH=/var/hyperledger/users/msp" peer0.digitalAuthorOrg peer chaincode install /var/hyperledger/chaincode/ccpack.out -p /var/hyperledger/chaincode/node
+docker exec -e "CORE_PEER_LOCALMSPID=digitalAuthorOrgMSP" -e "CORE_PEER_MSPCONFIGPATH=/var/hyperledger/users/msp" peer0.digitalAuthorOrg peer chaincode upgrade -o orderer001:7050 -C auctionchannel001 -n asset -v 0.4 -c '{"Args":["init"]}' -P "OR('copyrightAssociateOrgMSP.member','digitalAuthorOrgMSP.member')"
