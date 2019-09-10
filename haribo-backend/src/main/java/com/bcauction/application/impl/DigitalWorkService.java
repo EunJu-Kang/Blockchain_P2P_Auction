@@ -96,6 +96,7 @@ public class DigitalWorkService implements IDigitalWorkService {
 			작품.set회원id(workStored.get회원id());
 
 		int affected = this.digitalWorkRepository.수정(작품);
+		
 		if (affected == 0)
 			throw new ApplicationException("작품정보수정 처리가 반영되지 않았습니다.");
 
