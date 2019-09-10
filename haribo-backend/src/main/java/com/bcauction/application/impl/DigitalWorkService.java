@@ -52,8 +52,8 @@ public class DigitalWorkService implements IDigitalWorkService {
 	public DigitalWork 작품등록(final DigitalWork 작품) {
 		// TODO
 
-		long id = this.digitalWorkRepository.추가(작품);
-		Ownership 소유권 = this.fabricService.소유권등록(작품.get회원id(), id);
+		long 작품id = this.digitalWorkRepository.추가(작품);
+		Ownership 소유권 = this.fabricService.소유권등록(작품.get회원id(), 작품id);
 
 		return 작품;
 	}

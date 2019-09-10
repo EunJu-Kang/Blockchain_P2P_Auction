@@ -1,38 +1,38 @@
 package com.bcauction.application.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
+
+import javax.json.JsonObject;
+
+import org.hyperledger.fabric.sdk.ChaincodeID;
+import org.hyperledger.fabric.sdk.Channel;
+import org.hyperledger.fabric.sdk.Enrollment;
+import org.hyperledger.fabric.sdk.HFClient;
+import org.hyperledger.fabric.sdk.Orderer;
+import org.hyperledger.fabric.sdk.Peer;
+import org.hyperledger.fabric.sdk.ProposalResponse;
+import org.hyperledger.fabric.sdk.QueryByChaincodeRequest;
+import org.hyperledger.fabric.sdk.TransactionProposalRequest;
+import org.hyperledger.fabric.sdk.exception.ProposalException;
+import org.hyperledger.fabric.sdk.security.CryptoSuite;
+import org.hyperledger.fabric_ca.sdk.HFCAClient;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+
 import com.bcauction.application.IFabricCCService;
 import com.bcauction.domain.CommonUtil;
 import com.bcauction.domain.FabricAsset;
 import com.bcauction.domain.FabricUser;
-import com.bcauction.domain.exception.ApplicationException;
-import com.google.protobuf.ByteString;
-import org.hyperledger.fabric.sdk.*;
-import org.hyperledger.fabric.sdk.exception.CryptoException;
-import org.hyperledger.fabric.sdk.exception.ProposalException;
-import org.hyperledger.fabric.sdk.exception.TransactionException;
-import org.hyperledger.fabric.sdk.security.CryptoSuite;
-import org.hyperledger.fabric_ca.sdk.HFCAClient;
-import org.hyperledger.fabric_ca.sdk.RegistrationRequest;
-import org.hyperledger.fabric_ca.sdk.exception.EnrollmentException;
-import org.hyperledger.fabric_ca.sdk.exception.InvalidArgumentException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import java.io.ByteArrayInputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 @Service
 public class FabricCCService implements IFabricCCService {
@@ -132,10 +132,19 @@ public class FabricCCService implements IFabricCCService {
 		boolean res = registerAsset(작품id, 소유자);
 		if (!res)
 			return null;
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		res = confirmTimestamp(작품id);
 		if (!res)
 			return null;
-
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return query(작품id);
 	}
 
@@ -215,10 +224,8 @@ public class FabricCCService implements IFabricCCService {
 			res = this.channel.queryByChaincode(qpr);
 			this.channel.sendTransaction(res);
 		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ProposalException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -232,28 +239,26 @@ public class FabricCCService implements IFabricCCService {
 	 * @return
 	 */
 	private boolean confirmTimestamp(final long 작품id) {
-	      // TODO
-	      if (this.hfClient == null)
-	            loadChannel();
-	   
-	      String[] args = { 작품id + ""};
+		// TODO
+		String[] args = { 작품id + "" };
 
-	      QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
-	      ChaincodeID fabricCCId = ChaincodeID.newBuilder().setName("asset").build();
-	      qpr.setChaincodeID(fabricCCId);
-	      qpr.setFcn("confirmTimestamp");
-	      qpr.setArgs(args);
-	      Collection<ProposalResponse> res;
-	      try {
-	         res = this.channel.queryByChaincode(qpr);
-	         this.channel.sendTransaction(res);
-	      } catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
-	         e.printStackTrace();
-	      } catch (ProposalException e) {
-	         e.printStackTrace();
-	      }
-	   return true;
-	   }
+		TransactionProposalRequest tpr = this.hfClient.newTransactionProposalRequest();
+		ChaincodeID fabricCCId = ChaincodeID.newBuilder().setName("asset").build();
+		tpr.setChaincodeID(fabricCCId);
+		tpr.setFcn("confirmTimestamp");
+		tpr.setArgs(args);
+
+		Collection<ProposalResponse> res;
+		try {
+			res = this.channel.sendTransactionProposal(tpr, this.channel.getPeers());
+			channel.sendTransaction(res);
+		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
+			e.printStackTrace();
+		} catch (ProposalException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
 
 	/**
 	 * 체인코드 expireAssetOwnership를 호출하는 메소드
@@ -299,11 +304,41 @@ public class FabricCCService implements IFabricCCService {
 	 * @param 작품id
 	 * @return
 	 */
-	@Override
-	public FabricAsset query(final long 작품id) {
-		return null;
-	}
+	   @Override
+	   public FabricAsset query(final long 작품id) {
+	      if (this.hfClient == null || this.channel == null)
+	         loadChannel();
+	      FabricAsset asset = new FabricAsset();
+	      String stringasset =null;
+	      
+	      String[] args = { 작품id + ""};
 
+	      QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
+	      ChaincodeID fabBoardCCId = ChaincodeID.newBuilder().setName("asset").build();
+	      qpr.setChaincodeID(fabBoardCCId);
+	      qpr.setFcn("query");
+	      qpr.setArgs(args);
+	      
+	      try {
+	         Collection<ProposalResponse> res = this.channel.queryByChaincode(qpr);
+	         for(ProposalResponse pres: res) {
+	            stringasset =new String(pres.getChaincodeActionResponsePayload());
+	            JSONParser parser = new JSONParser();
+	            Object obj = parser.parse( stringasset );
+	            JSONObject jsonObj = (JSONObject) obj;
+	            asset.setAssetId((String)jsonObj.get("assetID"));
+	            asset.setOwner((String) jsonObj.get("owner"));
+	            asset.setCreatedAt((String) jsonObj.get("createdAt"));
+	            asset.setExpiredAt((String)jsonObj.get("expiredAt"));
+	            
+	         }
+	      } catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException | ProposalException e) {
+	         e.printStackTrace();
+	      } catch (ParseException e) {
+	         e.printStackTrace();
+	      }
+	      return asset;
+	   }
 	private static FabricAsset getAssetRecord(final JsonObject rec) {
 		FabricAsset asset = new FabricAsset();
 
