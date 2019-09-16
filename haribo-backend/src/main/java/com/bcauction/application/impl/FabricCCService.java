@@ -192,7 +192,7 @@ public class FabricCCService implements IFabricCCService {
 	public FabricAsset expireOwnership(final long 작품id, final long 소유자id) {
 		if (this.channel == null)
 			loadChannel();
-
+		System.out.println("작품id: "+작품id+" 소유자id: "+소유자id );
 		boolean res = this.expireAssetOwnership(작품id, 소유자id);
 		if (!res)
 			return null;

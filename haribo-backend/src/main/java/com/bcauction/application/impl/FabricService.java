@@ -125,6 +125,7 @@ public class FabricService implements IFabricService
 	public Ownership 소유권소멸(final long 소유자id, final long 작품id)
 	{
 		FabricAsset asset = this.fabricCCService.expireOwnership(작품id, 소유자id);
+		System.out.println("asset: "+asset.toString());
 		if(asset == null) return null;
 
 		Ownership 소멸소유권 = this.ownershipRepository.조회(소유자id, 작품id);
