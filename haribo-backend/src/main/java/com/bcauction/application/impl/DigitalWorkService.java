@@ -72,7 +72,7 @@ public class DigitalWorkService implements IDigitalWorkService {
 			this.digitalWorkRepository.삭제(id);
 			this.fabricService.소유권소멸(deleteDigita.get회원id(), deleteDigita.getId());
 		}
-		return null;
+		return deleteDigita;
 	}
 
 	@Override

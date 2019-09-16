@@ -259,15 +259,38 @@ public class FabricCCService implements IFabricCCService {
 
 	/**
 	 * 체인코드 expireAssetOwnership를 호출하는 메소드
-	 *
+	 * 만료 된 자산 소유권 
 	 * @param 작품id
 	 * @param 소유자
 	 * @return
 	 */
 	private boolean expireAssetOwnership(final long 작품id, final long 소유자) {
 		// TODO
-		return false;
+		if (this.hfClient == null)
+			loadChannel();
+
+		String[] args = { 작품id + "", 소유자 + "" };
+
+		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
+		ChaincodeID fabricCCId = ChaincodeID.newBuilder().setName("asset").build();
+		qpr.setChaincodeID(fabricCCId);
+		qpr.setFcn("expireAssetOwnership");
+		qpr.setArgs(args);
+
+		Collection<ProposalResponse> res;
+		try {
+			res = this.channel.queryByChaincode(qpr);
+			this.channel.sendTransaction(res);
+		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ProposalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
+
 
 	/**
 	 * 체인코드 updateAssetOwnership를 호출하는 메소드
@@ -336,6 +359,7 @@ public class FabricCCService implements IFabricCCService {
 	      }
 	      return asset;
 	   }
+	   
 	private static FabricAsset getAssetRecord(final JsonObject rec) {
 		FabricAsset asset = new FabricAsset();
 
