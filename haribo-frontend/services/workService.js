@@ -14,6 +14,7 @@ var workService = {
             callback(data);
         });
     },
+    // 내일함
     findHistoryById: function(workId, callback){
         $.get(API_BASE_URL + "/api/works/history/" + workId, function(data){
             var result = [];

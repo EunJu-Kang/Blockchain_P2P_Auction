@@ -167,8 +167,11 @@ public class FabricService implements IFabricService
 	public List<Ownership> 소유자별조회(final long id)
 	{
 		// TODO
-
-		return null;
+		List<Ownership> 소유자별조회 = this.ownershipRepository.소유자별목록조회(id);
+		if(소유자별조회 == null)
+			return null;
+		
+		return 소유자별조회;
 	}
 
 
