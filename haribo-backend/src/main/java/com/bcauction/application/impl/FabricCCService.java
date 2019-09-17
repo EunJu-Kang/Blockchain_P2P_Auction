@@ -83,7 +83,7 @@ public class FabricCCService implements IFabricCCService {
 		// TODO
 		try {
 			CryptoSuite cryptoSuite = CryptoSuite.Factory.getCryptoSuite(); // 디지털 서명, 암호화 / 암호 해독 및 보안 해싱을 수행하기 위해 사용하는
-																			// 추상 클래스입니다
+			// 추상 클래스입니다
 			Properties properties = getPropertiesWith(CA_SERVER_PEM_FILE);
 
 			HFCAClient caClient = HFCAClient.createNewInstance(CA_SERVER_URL, properties);
@@ -192,11 +192,22 @@ public class FabricCCService implements IFabricCCService {
 	public FabricAsset expireOwnership(final long 작품id, final long 소유자id) {
 		if (this.channel == null)
 			loadChannel();
-
 		boolean res = this.expireAssetOwnership(작품id, 소유자id);
 		if (!res)
 			return null;
-
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		res = confirmTimestamp(작품id);
+		if (!res)
+			return null;
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return query(작품id);
 	}
 
@@ -266,9 +277,6 @@ public class FabricCCService implements IFabricCCService {
 	 */
 	private boolean expireAssetOwnership(final long 작품id, final long 소유자) {
 		// TODO
-		if (this.hfClient == null)
-			loadChannel();
-
 		String[] args = { 작품id + "", 소유자 + "" };
 
 		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
@@ -324,42 +332,42 @@ public class FabricCCService implements IFabricCCService {
 	 * @param 작품id
 	 * @return
 	 */
-	   @Override
-	   public FabricAsset query(final long 작품id) {
-	      if (this.hfClient == null || this.channel == null)
-	         loadChannel();
-	      FabricAsset asset = new FabricAsset();
-	      String stringasset =null;
-	      
-	      String[] args = { 작품id + ""};
+	@Override
+	public FabricAsset query(final long 작품id) {
+		if (this.hfClient == null || this.channel == null)
+			loadChannel();
+		FabricAsset asset = new FabricAsset();
+		String stringasset =null;
 
-	      QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
-	      ChaincodeID fabBoardCCId = ChaincodeID.newBuilder().setName("asset").build();
-	      qpr.setChaincodeID(fabBoardCCId);
-	      qpr.setFcn("query");
-	      qpr.setArgs(args);
-	      
-	      try {
-	         Collection<ProposalResponse> res = this.channel.queryByChaincode(qpr);
-	         for(ProposalResponse pres: res) {
-	            stringasset =new String(pres.getChaincodeActionResponsePayload());
-	            JSONParser parser = new JSONParser();
-	            Object obj = parser.parse( stringasset );
-	            JSONObject jsonObj = (JSONObject) obj;
-	            asset.setAssetId((String)jsonObj.get("assetID"));
-	            asset.setOwner((String) jsonObj.get("owner"));
-	            asset.setCreatedAt((String) jsonObj.get("createdAt"));
-	            asset.setExpiredAt((String)jsonObj.get("expiredAt"));
-	            
-	         }
-	      } catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException | ProposalException e) {
-	         e.printStackTrace();
-	      } catch (ParseException e) {
-	         e.printStackTrace();
-	      }
-	      return asset;
-	   }
-	   
+		String[] args = { 작품id + ""};
+
+		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
+		ChaincodeID fabBoardCCId = ChaincodeID.newBuilder().setName("asset").build();
+		qpr.setChaincodeID(fabBoardCCId);
+		qpr.setFcn("query");
+		qpr.setArgs(args);
+
+		try {
+			Collection<ProposalResponse> res = this.channel.queryByChaincode(qpr);
+			for(ProposalResponse pres: res) {
+				stringasset =new String(pres.getChaincodeActionResponsePayload());
+				JSONParser parser = new JSONParser();
+				Object obj = parser.parse( stringasset );
+				JSONObject jsonObj = (JSONObject) obj;
+				asset.setAssetId((String)jsonObj.get("assetID"));
+				asset.setOwner((String) jsonObj.get("owner"));
+				asset.setCreatedAt((String) jsonObj.get("createdAt"));
+				asset.setExpiredAt((String)jsonObj.get("expiredAt"));
+
+			}
+		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException | ProposalException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return asset;
+	}
+
 	private static FabricAsset getAssetRecord(final JsonObject rec) {
 		FabricAsset asset = new FabricAsset();
 
