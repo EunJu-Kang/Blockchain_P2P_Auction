@@ -5,7 +5,7 @@ var workService = {
         });
     },
     findWorksByOwner: function(userId, callback){
-        $.get(API_BASE_URL + '/api/works/owner/' + userId, function(data){
+        $.get(API_BASE_URL + '/api/works/my/' + userId, function(data){
             callback(data);
         });
     },
