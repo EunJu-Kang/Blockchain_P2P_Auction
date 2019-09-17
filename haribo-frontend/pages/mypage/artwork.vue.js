@@ -89,10 +89,9 @@ var myArtworkView = Vue.component('MyArtworkView', {
          * 작품 마다 소유권 이력을 보여줄 수 있어야 합니다.
          */
          // 여기에 작성하 세요.
-         console.log(userId)
-         var a = $.get(API_BASE_URL + "/api/works/my/" + userId);
-         console.log(a)
-         scope.artworks = a
+         $.get(API_BASE_URL + "/api/works/my/" + userId).then(res =>{
+           scope.artworks = res
+         })
         /**
          * TODO 2. 회원의 경매 목록을 가져옵니다.
          * Backend와 API 연동합니다.
