@@ -67,7 +67,10 @@ var auctionView = Vue.component('AuctionView', {
                     });
                 }
             }
-            fetchData(0, result.length);
+
+            if(result != undefined){
+              fetchData(0, result.length);
+            }
         });
     }
 });

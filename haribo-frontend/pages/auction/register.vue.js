@@ -111,26 +111,25 @@ var auctionRegisterView = Vue.component('AuctionRegisterView', {
         register: function(){
            /**
              * 컨트랙트를 호출하여 경매를 생성하고
-             * 경매 정보 등록 API를 호출합니다. 
+             * 경매 정보 등록 API를 호출합니다.
              */
-            
+
             var scope = this;
             this.isCreatingContract = true;
 
             // 1. 내 지갑 주소를 가져옵니다.
             walletService.findAddressById(this.sharedStates.user.id, function(walletAddress){
-                
+
                 // 2. 경매 컨트랙트를 블록체인에 생성합니다.
                 // components/auctionFactory.js의 createAuction 함수를 호출합니다.
-                // TODO createAuction 함수의 내용을 완성합니다. 
+                // TODO createAuction 함수의 내용을 완성합니다.
                 createAuction({
                     workId: scope.before.selectedWork,
                     minValue: scope.before.input.minPrice,
                     startTime: new Date(scope.before.input.startDate).getTime(),
                     endTime: new Date(scope.before.input.untilDate).getTime()
                 }, walletAddress, scope.before.input.privateKey, function(log){
-                    console.log(log);
-                    var contractAddress = log.newAuction;
+                    var contractAddress = log[log.length -1];
                     var data = {
                         "경매생성자id": scope.sharedStates.user.id,
                         "경매작품id": scope.before.selectedWork,
@@ -144,7 +143,7 @@ var auctionRegisterView = Vue.component('AuctionRegisterView', {
                     workService.findById(scope.before.selectedWork, function(result){
                         scope.after.work = result;
                     });
-                    
+
                     // 4. 생성한 경매를 등록 요청 합니다.
                     auctionService.register(data, function(result){
                         alert("경매가 등록되었습니다.");
@@ -153,7 +152,7 @@ var auctionRegisterView = Vue.component('AuctionRegisterView', {
                     });
 
                     this.isCreatingContract = false;
-                }); 
+                });
             });
         }
     },
