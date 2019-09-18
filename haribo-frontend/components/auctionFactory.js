@@ -1,5 +1,3 @@
-var solc = require('solc');
-
 // Web3 Object 생성
 function createWeb3(){
     var web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
@@ -23,33 +21,29 @@ function createAuctionContract(web3, contractAddress){
  * AuctionFactory의 createAuction 함수를 호출하여 경매를 생성합니다.
  * 경매 생성 시, (작품id, 최소입찰가, 경매시작시간, 경매종료시간)을 반드시 지정해야합니다.
  *  */
-function createAuction(options, walletAddress, privateKey, onConfirm){
-    var web3 = createWeb3();
-    var contract = createFactoryContract(web3);
-    var createAuctionCall; // 함수 호출 Object 초기화
-    var encodedABI = createAuctionCall.encodeABI();
+ function createAuction(options, walletAddress, privateKey, onConfirm){
+   var web3 = createWeb3();
+   var contract = createFactoryContract(web3);
+   var auctionContract = contract.methods.createAuction(options.workId, options.minValue, options.startTime, options.endTime)
+   var encodedABI = auctionContract.encodeABI();
 
-    /**
-     * 트랜잭션 생성
-     */
-     var tx = {
-       from: walletAddress,
-       to: AUCTION_CONTRACT_ADDRESS,
-       gas: 2000000,
-       data: encodedABI
-     }
+   var tx = {
+     from: walletAddress,
+     to: AUCTION_CONTRACT_ADDRESS,
+     gas: 2000000,
+     data: encodedABI
+   }
 
-     /**
-      * 트랜잭션 전자 서명 후 트랜잭션 전송/처리
-      */
-      const txObject = new Tx(tx);
-      tx.sign(privateKey);
-
-      const serializedTx = tx.serialize();
-      const raw = '0x' + serializedTx.toString('hex');
-
-      web3.eth.sendSignedTransaction(raw).on('receipt', console.log);
-}
+   web3.eth.accounts.signTransaction(tx, privateKey).then(res => {
+     web3.eth.sendSignedTransaction(res.rawTransaction).on('receipt', onConfirm).then(r => {
+       contract.methods.allAuctions().call().then(response => {
+         onConfirm(response);
+       })
+     }).catch(error => {
+       console.log(error);
+     })
+   })
+ }
 
 /**
  * TODO [입찰]
