@@ -51,7 +51,26 @@ function createAuctionContract(web3, contractAddress){
  * 경매 컨트랙트 주소: options.contractAddress
  *  */
 function auction_bid(options, onConfirm){
+  var web3 = createWeb3();
+  var contract = createAuctionContract(web3, options.contractAddress);
+  var auctionContract = contract.methods.bid();
+  var encodedABI = auctionContract.encodeABI();
 
+  var tx = {
+    from: options.walletAddress,
+    to: AUCTION_CONTRACT_ADDRESS,
+    gas: 2000000,
+    data: encodedABI
+  }
+  web3.eth.accounts.signTransaction(tx, privateKey).then(res => {
+    web3.eth.sendSignedTransaction(res.rawTransaction).on('receipt', onConfirm).then(r => {
+      contract.methods.allAuctions().call().then(response => {
+        onConfirm(response);
+      })
+    }).catch(error => {
+      console.log(error);
+    })
+  })
 }
 
 /**
