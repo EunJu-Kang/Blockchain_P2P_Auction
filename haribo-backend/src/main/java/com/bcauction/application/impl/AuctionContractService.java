@@ -68,6 +68,9 @@ public class AuctionContractService implements IAuctionContractService {
 	public AuctionInfo 경매정보조회(final String 컨트랙트주소)
 	{
 		// TODO
+		System.out.println(컨트랙트주소);
+		//AuctionContract class 호출 시 minimum >0 조건주기
+		
 		return null;
 	}
 

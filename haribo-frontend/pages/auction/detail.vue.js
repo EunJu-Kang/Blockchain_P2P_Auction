@@ -95,22 +95,22 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
         closeAuction: function(){
             /**
              * 컨트랙트를 호출하여 경매를 종료하고
-             * 경매 상태 업데이트를 위해 API를 호출합니다. 
+             * 경매 상태 업데이트를 위해 API를 호출합니다.
              */
             var scope = this;
             var privateKey = window.prompt("경매를 종료하시려면 지갑 비밀키를 입력해주세요.","");
-            
-            // register.vue.js, bid.vue.js를 참조하여 완성해 봅니다. 
+
+            // register.vue.js, bid.vue.js를 참조하여 완성해 봅니다.
         },
         cancelAuction: function(){
             /**
              * 컨트랙트를 호출하여 경매를 취소하고
-             * 경매 상태 업데이트를 위해 API를 호출합니다. 
+             * 경매 상태 업데이트를 위해 API를 호출합니다.
              */
             var scope = this;
             var privateKey = window.prompt("경매를 취소하시려면 지갑 비밀키를 입력해주세요.","");
-            
-            // register.vue.js, bid.vue.js를 참조하여 완성해 봅니다. 
+
+            // register.vue.js, bid.vue.js를 참조하여 완성해 봅니다.
         }
     },
     mounted: async function(){
@@ -120,6 +120,7 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
 
         // 경매 정보 조회
         auctionService.findById(auctionId, function(auction){
+          console.log(auction);
             var amount = Number(auction['최소금액']).toLocaleString().split(",").join("")
             auction['최소금액'] = web3.utils.fromWei(amount, 'ether');
 
