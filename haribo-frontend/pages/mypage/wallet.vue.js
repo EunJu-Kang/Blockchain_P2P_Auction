@@ -57,6 +57,11 @@ var walletCreateView = Vue.component('WalletCreateView', {
             this.step = 1;
             this.privateKey = wallet.privateKey;
             this.walletAddress = wallet.address;
+
+            // web3.eth.accounts.wallet.add({
+            //   privateKey: wallet.privateKey,
+            //   address: wallet.address
+            // });
         },
         saveWallet: function(){
             var scope = this;

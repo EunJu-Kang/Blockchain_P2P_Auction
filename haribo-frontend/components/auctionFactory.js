@@ -24,7 +24,7 @@ function createAuctionContract(web3, contractAddress){
  function createAuction(options, walletAddress, privateKey, onConfirm){
    var web3 = createWeb3();
    var contract = createFactoryContract(web3);
-   var auctionContract = contract.methods.createAuction(options.workId, options.minValue, options.startTime, options.endTime)
+   var auctionContract = contract.methods.createAuction(options.workId, options.minValue, options.startTime, options.endTime);
    var encodedABI = auctionContract.encodeABI();
 
    var tx = {
@@ -35,7 +35,7 @@ function createAuctionContract(web3, contractAddress){
    }
 
    web3.eth.accounts.signTransaction(tx, privateKey).then(res => {
-     web3.eth.sendSignedTransaction(res.rawTransaction).on('receipt', onConfirm).then(r => {
+     web3.eth.sendSignedTransaction(res.rawTransaction).then(r => {
        contract.methods.allAuctions().call().then(response => {
          onConfirm(response);
        })
