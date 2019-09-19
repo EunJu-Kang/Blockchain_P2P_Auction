@@ -17,3 +17,7 @@ Docker mysql이미지로 컨테이너 띄워 놓기 <br>
 Ethereum 주소 : 54.180.162.22 <br>
 Fabric 주소 : 13.125.102.243 <br>
 DB/Front/Bank 주소 : 13.125.178.26 <br>
+
+<hr>
+
+web3j를 이용 sol-> java Wrapper class 생성 
