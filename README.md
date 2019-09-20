@@ -21,3 +21,4 @@ DB/Front/Bank 주소 : 13.125.178.26 <br>
 <hr>
 
 web3j를 이용 sol-> java Wrapper class 생성 
+smartContract 연결
