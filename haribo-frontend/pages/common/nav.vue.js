@@ -26,7 +26,7 @@ var navVue = Vue.component("v-nav", {
                             <router-link class="nav-link" to="/register">회원가입</router-link>
                         </li>
                         <li class="nav-item" v-if="sharedState.isSigned">
-                            <router-link class="nav-link" to="/logout">로그아웃</router-link>
+                            <button v-on:click="logout">로그아웃</button>
                         </li>
                     </ul>
                 </div>
@@ -37,5 +37,35 @@ var navVue = Vue.component("v-nav", {
         return {
             sharedState: store.state
         }
+    },
+    methods: {
+      loginCheck: function() {
+        console.log(sessionStorage.getItem("userID"))
+        var userid = sessionStorage.getItem("userID")
+          userService.findById(
+              userid,
+              function(){
+                  store.state.isSigned = true;
+                  store.state.user.id = userid;
+                  walletService.findById(userid, function(response){
+                      if(response) {
+                        store.state.user.hasWallet = true;
+                      } else{
+                        store.state.user.hasWallet = false;
+                      }
+                  });
+              }
+          );
+      },
+      logout : function(){
+          store.state.isSigned = false
+          store.state.user.id = ""
+          store.state.hasWallet = false
+          sessionStorage.removeItem("userID")
+        }
+    },
+    mounted: function(){
+      this.loginCheck()
     }
+
 })
