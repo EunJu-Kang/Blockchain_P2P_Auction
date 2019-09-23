@@ -1,4 +1,5 @@
 var homeView = Vue.component("Home", {
+    props: ["isSigned"],
     template: `
         <div>
             <v-nav></v-nav>
@@ -7,10 +8,15 @@ var homeView = Vue.component("Home", {
                     <div class="col-md-12">
                         <h1>DIGITAL CONTENTS<br>AUCTION</h1>
                         <h4>블록체인 기반 미술품 경매를 시작해보세요.</h4>
-                        <router-link :to="{ name: 'register' }" class="btn btn-lg btn-primary">회원가입</router-link>
+                        <router-link :to="{ name: 'register' }" class="btn btn-lg btn-primary" v-if="!sharedState.isSigned">회원가입</router-link>
                     </div>
                 </div>
             </div>
         </div>
-    `
+    `,
+    data() {
+        return {
+            sharedState: store.state
+        }
+    }
 })

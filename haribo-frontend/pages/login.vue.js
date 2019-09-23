@@ -11,7 +11,7 @@ var loginView = Vue.component('LoginView', {
                         </div>
                         <div class="form-group">
                             <label for="password">비밀번호</label>
-                            <input type="password" class="form-control" id="password" v-model="user.password" placeholder="비밀번호">
+                            <input type="password" @keyup.enter="login" class="form-control" id="password" v-model="user.password" placeholder="비밀번호">
                         </div>
                         <button type="submit" class="btn btn-primary" v-on:click="login">로그인</button>
                     </div>
@@ -37,12 +37,13 @@ var loginView = Vue.component('LoginView', {
                 function(data){
                     store.state.isSigned = true;
                     store.state.user.id = data.id;
+                    sessionStorage.setItem("userID", data.id)
                     walletService.findById(store.state.user.id, function(response){
                         if(response) {
                           store.state.user.hasWallet = true;
                         } else{
                           store.state.user.hasWallet = false;
-                        } 
+                        }
                     });
 
                     scope.$router.push('/');
