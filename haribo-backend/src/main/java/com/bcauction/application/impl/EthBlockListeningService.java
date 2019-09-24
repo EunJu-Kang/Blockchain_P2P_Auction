@@ -52,6 +52,13 @@ public class EthBlockListeningService
 	public void listen()
 	{
 		// TODO
+        EthBlock ethBlock =
+                web3j.ethGetBlockByNumber(DefaultBlockParameterName.LATEST, false).send();
+        BigInteger latestBlockNumber = ethBlock.getBlock().getNumber();
+        run(
+                web3j.replayPastAndFutureBlocksFlowable(
+                        new DefaultBlockParameterNumber(latestBlockNumber.subtract(BigInteger.ONE)),
+                        false));
 		log.info("New Block Subscribed Here");
 	}
 }
