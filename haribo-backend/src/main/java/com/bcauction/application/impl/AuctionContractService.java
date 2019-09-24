@@ -107,9 +107,6 @@ public class AuctionContractService implements IAuctionContractService {
 			credentials = WalletUtils.loadCredentials(PASSWORD, WALLET_RESOURCE);
 			auctionFactoryContract = AuctionFactoryContract.load(AUCTION_FACTORY_CONTRACT, web3j, credentials, contractGasProvider);
 			auctionContract = AuctionContract.load(컨트랙트주소, web3j, credentials, contractGasProvider);
-			System.out.println("컨트랙트 주소 : " + 컨트랙트주소);
-			System.out.println(auctionFactoryContract.isValid());
-			System.out.println(auctionContract.isValid());
 			
 			highestBid = this.현재최고가(컨트랙트주소);
 			highestBidder = this.현재최고입찰자주소(컨트랙트주소);
