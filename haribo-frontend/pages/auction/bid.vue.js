@@ -103,7 +103,6 @@ var auctionBidView = Vue.component('AuctionBidView', {
         var auctionId = this.$route.params.id;
         auctionService.findById(auctionId, function(auction){
             auction['최소금액'] = Number(auction['최소금액']) / (10**18);
-            console.log(auction)
             scope.auction = auction;
             var workId = auction['작품id'];
 
