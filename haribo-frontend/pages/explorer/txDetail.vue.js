@@ -24,12 +24,12 @@ var explorerTxDetailView = Vue.component('ExplorerTxDetailView', {
                                         <td>{{ tx.timestamp }}</td>
                                     </tr>
                                     <tr>
-                                        <th>송신자 주소</th>
-                                        <td><router-link :to="{ name: 'address', params: { address: tx.from }}">{{ tx.from }}</router-link></td>
+                                    <th>송신자 주소</th>
+                                    <td><router-link :to="{ name: 'explorer.address.detail', params: { address: tx.from }}">{{ tx.from }}</router-link></td>
                                     </tr>
                                     <tr>
-                                        <th>수신자 주소</th>
-                                        <td><router-link :to="{ name: 'address', params: { address: tx.to }}">{{ tx.to }}</router-link></td>
+                                    <th>수신자 주소</th>
+                                    <td><router-link :to="{ name: 'explorer.address.detail', params: { address: tx.to }}">{{ tx.to }}</router-link></td>
                                     </tr>
                                     <tr>
                                         <th>전송한 이더</th>
