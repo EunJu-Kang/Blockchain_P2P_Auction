@@ -67,6 +67,9 @@ public class AuctionController
 		if(경매정보 == null){
 			throw new NotFoundException(id + " 해당 경매 컨트랙트를 찾을 수 없습니다.");
 		}
+		경매정보.set경매컨트랙트주소(경매.get컨트랙트주소());
+		경매정보.set작품id(경매.get경매작품id());
+		경매정보.set최소금액(경매.get최저가());
 		경매정보.set경매시작시간(경매.get시작일시());
 		경매정보.set경매종료시간(경매.get종료일시());
 

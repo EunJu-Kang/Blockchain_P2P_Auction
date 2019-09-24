@@ -37,7 +37,7 @@ import org.web3j.tx.gas.ContractGasProvider;
  *
  * <p>Generated with web3j version 4.2.0.
  */
-public class AuctionContract extends Contract {
+public class Auction extends Contract {
     private static final String BINARY = "{\r\n"
             + "\t\"linkReferences\": {},\r\n"
             + "\t\"object\": \"608060405234801561001057600080fd5b5060405160a080610e8f833981018060405281019080805190602001909291908051906020019092919080519060200190929190805190602001909291908051906020019092919050505060008311151561006a57600080fd5b83600481905550670de0b6b3a76400008302600381905550846000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555081600181905550806002819055505050505050610dab806100e46000396000f3006080604052600436106100db576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806312fa6feb146100e05780631998aeef1461010f5780633ccfd60b146101195780634b449cba146101485780635b90dbc4146101735780636ba35e70146101ca5780638da5cb5b146101f55780638fa8b7901461024c57806391f9015714610263578063963e63c7146102ba578063c7e284b8146102e5578063d57bde7914610310578063d94a35051461033b578063eb54f9ec146103c0578063fe67a54b146103eb575b600080fd5b3480156100ec57600080fd5b506100f5610402565b604051808215151515815260200191505060405180910390f35b610117610415565b005b34801561012557600080fd5b5061012e610653565b604051808215151515815260200191505060405180910390f35b34801561015457600080fd5b5061015d6107bd565b6040518082815260200191505060405180910390f35b34801561017f57600080fd5b506101b4600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506107c3565b6040518082815260200191505060405180910390f35b3480156101d657600080fd5b506101df61080c565b6040518082815260200191505060405180910390f35b34801561020157600080fd5b5061020a610812565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561025857600080fd5b50610261610837565b005b34801561026f57600080fd5b506102786108cf565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156102c657600080fd5b506102cf6108f5565b6040518082815260200191505060405180910390f35b3480156102f157600080fd5b506102fa6108fb565b6040518082815260200191505060405180910390f35b34801561031c57600080fd5b50610325610907565b6040518082815260200191505060405180910390f35b34801561034757600080fd5b5061035061090d565b604051808881526020018781526020018681526020018581526020018473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018381526020018215151515815260200197505050505050505060405180910390f35b3480156103cc57600080fd5b506103d5610971565b6040518082815260200191505060405180910390f35b3480156103f757600080fd5b50610400610977565b005b600960009054906101000a900460ff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415151561047157600080fd5b6002544210801561048f5750600960009054906101000a900460ff16155b151561049a57600080fd5b60035434101515156104ab57600080fd5b600654341115156104bb57600080fd5b600060065411156105385760065460076000600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825401925050819055505b3460068190555033600560006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060083390806001815401808255809150509060018203906000526020600020016000909192909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550507f9a7ee7c473e470da200bb28a0e3ee1fe516d900eaade5825f7960323b9d777403334604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a1565b6000806000600760003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054141515156106a557600080fd5b600760003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205490503373ffffffffffffffffffffffffffffffffffffffff166108fc829081150290604051600060405180830381858888f19350505050151561076f5780600760003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550600091506107b9565b6000600760003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550600191505b5090565b60025481565b6000600760008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60045481565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561089257600080fd5b600254421080156108b05750600960009054906101000a900460ff16155b15156108bb57600080fd5b6108c3610b08565b6108cd6001610b25565b565b600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60035481565b60004260025403905090565b60065481565b6000806000806000806000600154600254600354600454600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16600654600960009054906101000a900460ff16965096509650965096509650965090919293949596565b60015481565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156109d257600080fd5b600254421080156109f05750600960009054906101000a900460ff16155b15156109fb57600080fd5b610a03610b08565b610a0d6000610b25565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc6006549081150290604051600060405180830381858888f19350505050158015610a76573d6000803e3d6000fd5b507fdaec4582d5d9595688c8c98545fdd1c696d41c6aeaeb636737e84ed2f5c00eda600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16600654604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a1565b6001600960006101000a81548160ff021916908315150217905550565b60008060008315610b9d5760065460076000600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054019250610c02565b60076000600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205492505b600091505b600880549050821015610d7957600882815481101515610c2357fe5b9060005260206000200160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16141515610d2b578073ffffffffffffffffffffffffffffffffffffffff166108fc600760008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549081150290604051600060405180830381858888f193505050501515610d2657600080fd5b610d6c565b8073ffffffffffffffffffffffffffffffffffffffff166108fc849081150290604051600060405180830381858888f193505050501515610d6b57600080fd5b5b8180600101925050610c07565b505050505600a165627a7a72305820dd9786b3607d3c9df3f4c05697324fa02683361327bb431dae9ff9cb59635acd0029\",\r\n"
@@ -84,20 +84,20 @@ public class AuctionContract extends Contract {
     ;
 
     @Deprecated
-    protected AuctionContract(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
+    protected Auction(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
         super(BINARY, contractAddress, web3j, credentials, gasPrice, gasLimit);
     }
 
-    protected AuctionContract(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    protected Auction(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
     }
 
     @Deprecated
-    protected AuctionContract(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
+    protected Auction(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
         super(BINARY, contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 
-    protected AuctionContract(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    protected Auction(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
@@ -291,59 +291,59 @@ public class AuctionContract extends Contract {
     }
 
     @Deprecated
-    public static AuctionContract load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return new AuctionContract(contractAddress, web3j, credentials, gasPrice, gasLimit);
+    public static Auction load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
+        return new Auction(contractAddress, web3j, credentials, gasPrice, gasLimit);
     }
 
     @Deprecated
-    public static AuctionContract load(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return new AuctionContract(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
+    public static Auction load(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
+        return new Auction(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 
-    public static AuctionContract load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
-        return new AuctionContract(contractAddress, web3j, credentials, contractGasProvider);
+    public static Auction load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+        return new Auction(contractAddress, web3j, credentials, contractGasProvider);
     }
 
-    public static AuctionContract load(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
-        return new AuctionContract(contractAddress, web3j, transactionManager, contractGasProvider);
+    public static Auction load(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+        return new Auction(contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    public static RemoteCall<AuctionContract> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider, String _owner, BigInteger workId, BigInteger minimum, BigInteger startTime, BigInteger endTime) {
+    public static RemoteCall<Auction> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider, String _owner, BigInteger workId, BigInteger minimum, BigInteger startTime, BigInteger endTime) {
         String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(_owner), 
                 new org.web3j.abi.datatypes.generated.Uint256(workId), 
                 new org.web3j.abi.datatypes.generated.Uint256(minimum), 
                 new org.web3j.abi.datatypes.generated.Uint256(startTime), 
                 new org.web3j.abi.datatypes.generated.Uint256(endTime)));
-        return deployRemoteCall(AuctionContract.class, web3j, credentials, contractGasProvider, BINARY, encodedConstructor);
+        return deployRemoteCall(Auction.class, web3j, credentials, contractGasProvider, BINARY, encodedConstructor);
     }
 
-    public static RemoteCall<AuctionContract> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider, String _owner, BigInteger workId, BigInteger minimum, BigInteger startTime, BigInteger endTime) {
+    public static RemoteCall<Auction> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider, String _owner, BigInteger workId, BigInteger minimum, BigInteger startTime, BigInteger endTime) {
         String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(_owner), 
                 new org.web3j.abi.datatypes.generated.Uint256(workId), 
                 new org.web3j.abi.datatypes.generated.Uint256(minimum), 
                 new org.web3j.abi.datatypes.generated.Uint256(startTime), 
                 new org.web3j.abi.datatypes.generated.Uint256(endTime)));
-        return deployRemoteCall(AuctionContract.class, web3j, transactionManager, contractGasProvider, BINARY, encodedConstructor);
+        return deployRemoteCall(Auction.class, web3j, transactionManager, contractGasProvider, BINARY, encodedConstructor);
     }
 
     @Deprecated
-    public static RemoteCall<AuctionContract> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit, String _owner, BigInteger workId, BigInteger minimum, BigInteger startTime, BigInteger endTime) {
+    public static RemoteCall<Auction> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit, String _owner, BigInteger workId, BigInteger minimum, BigInteger startTime, BigInteger endTime) {
         String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(_owner), 
                 new org.web3j.abi.datatypes.generated.Uint256(workId), 
                 new org.web3j.abi.datatypes.generated.Uint256(minimum), 
                 new org.web3j.abi.datatypes.generated.Uint256(startTime), 
                 new org.web3j.abi.datatypes.generated.Uint256(endTime)));
-        return deployRemoteCall(AuctionContract.class, web3j, credentials, gasPrice, gasLimit, BINARY, encodedConstructor);
+        return deployRemoteCall(Auction.class, web3j, credentials, gasPrice, gasLimit, BINARY, encodedConstructor);
     }
 
     @Deprecated
-    public static RemoteCall<AuctionContract> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit, String _owner, BigInteger workId, BigInteger minimum, BigInteger startTime, BigInteger endTime) {
+    public static RemoteCall<Auction> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit, String _owner, BigInteger workId, BigInteger minimum, BigInteger startTime, BigInteger endTime) {
         String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(_owner), 
                 new org.web3j.abi.datatypes.generated.Uint256(workId), 
                 new org.web3j.abi.datatypes.generated.Uint256(minimum), 
                 new org.web3j.abi.datatypes.generated.Uint256(startTime), 
                 new org.web3j.abi.datatypes.generated.Uint256(endTime)));
-        return deployRemoteCall(AuctionContract.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, encodedConstructor);
+        return deployRemoteCall(Auction.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, encodedConstructor);
     }
 
     public static class HighestBidIncereasedEventResponse {
