@@ -8,7 +8,7 @@ var exploreraddressDetailView = Vue.component('ExploreraddressDetailView', {
         <div class="row">
             <div class="col-md-12">
             <div class="card shadow-sm">
-                <div class="card-header">Address <strong># </strong></div>
+                <div class="card-header">Address <strong> #{{this.address}}</strong></div>
                 <table class="table">
                     <tbody>
                         <tr>
@@ -32,7 +32,7 @@ var exploreraddressDetailView = Vue.component('ExploreraddressDetailView', {
                         <tbody>
                             <tr>
                                 <th width="300">트랜잭션 해시</th>
-                                <td></td>
+                                <td>{{tx.txHash}}</td>
                             </tr>
                             <tr>
                                 <th>블록 넘버</th>
@@ -58,7 +58,6 @@ var exploreraddressDetailView = Vue.component('ExploreraddressDetailView', {
                                 <th>Gas Price</th>
                                 <td> bytes</td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -67,4 +66,40 @@ var exploreraddressDetailView = Vue.component('ExploreraddressDetailView', {
         </div>
     </div>
     `
+,
+data(){
+    return {
+        address: "",
+        isValid: true,
+        balance: "",
+        txCount: "",
+        tx: {
+          txhash: "",
+          blockId: "",
+          timestamp: "",
+          from: "",
+          to: "",
+          amount: "",
+          accepted: "",
+          ststus: "",
+          gas: "",
+          gasPrice: ""
+        }
+    }
+},
+mounted: function(){
+  this.address=this.$route.params.address;
+  console.log("address", this.address)
+  var scope = this;
+        if(this.address) {
+          console.log("mounted 확인");
+          etheriumService.findTranByAddress(this.address,function(response){
+console.log("mounted 확인2");
+            scope.tx = respons
+
+          })
+        } else {
+        this.isValid = false;
+    }
+}
 })
