@@ -38,6 +38,7 @@ var loginView = Vue.component('LoginView', {
                     store.state.isSigned = true;
                     store.state.user.id = data.id;
                     sessionStorage.setItem("userID", data.id)
+                    sessionStorage.setItem("sign", true)
                     walletService.findById(store.state.user.id, function(response){
                         if(response) {
                           store.state.user.hasWallet = true;
