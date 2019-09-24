@@ -44,21 +44,21 @@ public class EthBlockListeningService
 		this.ethInfoRepository = ethInfoRepository;
 		this.transactionRepository = transactionRepository;
 	}
-
+}
 	/**
 	 * 구축한 이더리움 네트워크로부터 신규 생성된 블록을 동기화한다.
 	 */
-	@PostConstruct
-	public void listen()
-	{
-		// TODO
-        EthBlock ethBlock =
-                web3j.ethGetBlockByNumber(DefaultBlockParameterName.LATEST, false).send();
-        BigInteger latestBlockNumber = ethBlock.getBlock().getNumber();
-        run(
-                web3j.replayPastAndFutureBlocksFlowable(
-                        new DefaultBlockParameterNumber(latestBlockNumber.subtract(BigInteger.ONE)),
-                        false));
-		log.info("New Block Subscribed Here");
-	}
-}
+//	@PostConstruct
+//	public void listen()
+//	{
+//		 TODO
+//        EthBlock ethBlock =
+//                web3j.ethGetBlockByNumber(DefaultBlockParameterName.LATEST, false).send();
+//        BigInteger latestBlockNumber = ethBlock.getBlock().getNumber();
+//        run(
+//                web3j.replayPastAndFutureBlocksFlowable(
+//                        new DefaultBlockParameterNumber(latestBlockNumber.subtract(BigInteger.ONE)),
+//                        false));
+//		log.info("New Block Subscribed Here");
+//	}
+//}
