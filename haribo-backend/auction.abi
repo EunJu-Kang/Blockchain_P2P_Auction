@@ -1,25 +1,25 @@
 [
 	{
+		"constant": true,
+		"inputs": [],
+		"name": "ended",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": false,
 		"inputs": [],
 		"name": "bid",
 		"outputs": [],
 		"payable": true,
 		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "beneficiary",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -70,12 +70,17 @@
 		"type": "function"
 	},
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
+		"name": "digitalWorkId",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -86,20 +91,6 @@
 			{
 				"name": "",
 				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "isOwner",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bool"
 			}
 		],
 		"payable": false,
@@ -172,17 +163,55 @@
 		"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [
+		"constant": true,
+		"inputs": [],
+		"name": "getAuctionInfo",
+		"outputs": [
 			{
-				"name": "newOwner",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
 				"type": "address"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "bool"
 			}
 		],
-		"name": "transferOwnership",
-		"outputs": [],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "auctionStartTime",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -197,16 +226,28 @@
 	{
 		"inputs": [
 			{
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"name": "workId",
+				"type": "uint256"
+			},
+			{
 				"name": "minimum",
 				"type": "uint256"
 			},
 			{
-				"name": "hoursAfter",
+				"name": "startTime",
+				"type": "uint256"
+			},
+			{
+				"name": "endTime",
 				"type": "uint256"
 			}
 		],
-		"payable": true,
-		"stateMutability": "payable",
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
 	{
@@ -241,23 +282,6 @@
 			}
 		],
 		"name": "AuctionEnded",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
 		"type": "event"
 	}
 ]
