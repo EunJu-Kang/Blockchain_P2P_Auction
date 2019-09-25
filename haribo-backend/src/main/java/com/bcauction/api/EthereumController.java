@@ -87,7 +87,7 @@ public class EthereumController {
 
         if(주소 == null)
             throw new NotFoundException(addr + " 주소 정보를 찾을 수 없습니다.");
-
+        System.out.println("주소검색들어왔다"+주소.toString());
         return 주소;
     }
 
