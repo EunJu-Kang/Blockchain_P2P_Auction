@@ -86,8 +86,9 @@ public class AuctionController
 		return this.auctionService.경매종료(aid, mid);
 	}
 
-	@RequestMapping(value = "/auctions/bid", method = RequestMethod.PUT)
+	@RequestMapping(value = "/auctions/bid", method = 	RequestMethod.PUT)
 	public Bid 입찰(@RequestBody Bid bid) {
+		System.out.println(bid.toString());
 		return auctionService.입찰(bid);
 	}
 

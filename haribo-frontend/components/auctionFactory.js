@@ -24,9 +24,8 @@ function createAuctionContract(web3, contractAddress){
  function createAuction(options, walletAddress, privateKey, onConfirm){
    var web3 = createWeb3();
    var contract = createFactoryContract(web3);
-   var auctionContract = contract.methods.createAuction(options.workId, options.minValue, options.startTime, options.endTime);
+   var auctionContract = contract.methods.createAuction(options.workId, options.minValue, options.startTime/1000, options.endTime/1000);
    var encodedABI = auctionContract.encodeABI();
-
    var tx = {
      from: walletAddress,
      to: AUCTION_CONTRACT_ADDRESS,
@@ -56,31 +55,48 @@ function auction_bid(options, onConfirm){
   var auctionContract = contract.methods.bid();
   var encodedABI = auctionContract.encodeABI();
 
+  const etherValue = Web3.utils.toWei(options.amount, 'ether');
   var tx = {
     from: options.walletAddress,
-    to: AUCTION_CONTRACT_ADDRESS,
-    gas: 2000000,
+    to: options.contractAddress,
+    gas: 3000000,
+    value:etherValue,
     data: encodedABI
   }
-  web3.eth.accounts.signTransaction(tx, privateKey).then(res => {
-    web3.eth.sendSignedTransaction(res.rawTransaction).on('receipt', onConfirm).then(r => {
-      contract.methods.allAuctions().call().then(response => {
-        onConfirm(response);
-      })
-    }).catch(error => {
-      console.log(error);
+
+  web3.eth.accounts.signTransaction(tx, options.privateKey).then(res => {
+    web3.eth.sendSignedTransaction(res.rawTransaction).then(r => {
+      onConfirm(r)
     })
   })
 }
-
 /**
  * TODO [경매 종료]
  * 해당 컨트랙트 주소의 endAuction함수를 호출하여 경매를 종료합니다.
  * 경매 컨트랙트 주소: options.contractAddress
  *  */
-function auction_close(options, onConfirm){
+ function auction_close(options, onConfirm){
+   var web3 = createWeb3();
+   var contract = createAuctionContract(web3, options.contractAddress);
+   var auctionContract = contract.methods.endAuction();
+   var encodedABI = auctionContract.encodeABI();
 
-}
+   var tx = {
+     from: options.walletAddress,
+     to: AUCTION_CONTRACT_ADDRESS,
+     gas: 2000000,
+     data: encodedABI
+   }
+
+   web3.eth.accounts.signTransaction(tx, options.privateKey).then(res => {
+     console.log(res);
+     web3.eth.sendSignedTransaction(res.rawTransaction).then(r => {
+       console.log(r);
+     }).catch(error => {
+       console.log(error);
+     })
+   })
+ }
 
 /**
  * TODO [경매 취소]
