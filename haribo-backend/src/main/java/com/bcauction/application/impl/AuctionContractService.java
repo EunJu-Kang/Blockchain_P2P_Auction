@@ -107,12 +107,12 @@ public class AuctionContractService implements IAuctionContractService {
 			credentials = WalletUtils.loadCredentials(PASSWORD, WALLET_RESOURCE);
 			auctionFactoryContract = AuctionFactoryContract.load(AUCTION_FACTORY_CONTRACT, web3j, credentials, contractGasProvider);
 			auctionContract = AuctionContract.load(컨트랙트주소, web3j, credentials, contractGasProvider);
-			
+
 			highestBid = this.현재최고가(컨트랙트주소);
 			highestBidder = this.현재최고입찰자주소(컨트랙트주소);
 			wallet = this.walletRepository.조회(highestBidder);
 			if(wallet == null) {
-				highestBidderId = (long) -1;
+				highestBidderId = (long) 0;
 			} else {
 				highestBidderId = wallet.get소유자id();
 			}
@@ -143,10 +143,8 @@ public class AuctionContractService implements IAuctionContractService {
 			auctionContract = AuctionContract.load(컨트랙트주소, web3j, credentials, contractGasProvider);
 			highestBid = auctionContract.highestBid().send();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return highestBid;
 	   }
 
