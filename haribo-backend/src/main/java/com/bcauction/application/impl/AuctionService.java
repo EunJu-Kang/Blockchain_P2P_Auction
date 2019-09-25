@@ -101,6 +101,7 @@ public class AuctionService implements IAuctionService
 	public Auction 경매종료(final long 경매id, final long 회원id)
 	{
 		// TODO
+		System.out.println("경매종료: "+경매id+" "+회원id);
 		return null;
 	}
 
@@ -118,6 +119,7 @@ public class AuctionService implements IAuctionService
 	public Auction 경매취소(final long 경매id, final long 회원id)
 	{
 		// TODO
+		System.out.println("경매취소: "+ 경매id+" "+회원id);
 		return null;
 	}
 }

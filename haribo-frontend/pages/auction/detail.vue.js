@@ -101,6 +101,20 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
             var privateKey = window.prompt("경매를 종료하시려면 지갑 비밀키를 입력해주세요.","");
 
             // register.vue.js, bid.vue.js를 참조하여 완성해 봅니다.
+            var options = {
+                contractAddress: this.auction['경매컨트랙트주소'],
+                privateKey: privateKey
+            };
+            auction_close(options, function(receipt){
+              this.auction['종료'] = true;
+
+              var auctionId = scope.$route.params.id;
+              var bidderId = scope.sharedStates.user.id;
+
+              auctionService.cancel(auctionId, bidderId, function(success){
+
+              })
+            });
         },
         cancelAuction: function(){
             /**
@@ -111,6 +125,20 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
             var privateKey = window.prompt("경매를 취소하시려면 지갑 비밀키를 입력해주세요.","");
 
             // register.vue.js, bid.vue.js를 참조하여 완성해 봅니다.
+            var options = {
+                contractAddress: this.auction['경매컨트랙트주소'],
+                privateKey: privateKey
+            };
+            auction_cancel(options, function(receipt){
+              this.auction['종료'] = true;
+
+              var auctionId = scope.$route.params.id;
+              var bidderId = scope.sharedStates.user.id;
+
+              auctionService.close(auctionId, bidderId, function(success){
+
+              })
+            });
         }
     },
     mounted: async function(){
@@ -120,7 +148,6 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
 
         // 경매 정보 조회
         auctionService.findById(auctionId, function(auction){
-          console.log(auction);
             var amount = Number(auction['최소금액']).toLocaleString().split(",").join("")
             auction['최소금액'] = web3.utils.fromWei(amount, 'ether');
 
