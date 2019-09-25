@@ -11,7 +11,7 @@ var loginView = Vue.component('LoginView', {
                         </div>
                         <div class="form-group">
                             <label for="password">비밀번호</label>
-                            <input type="password" @keyup.enter="login" class="form-control" id="password" v-model="user.password" placeholder="비밀번호">
+                            <input type="password" @keyup.enter="login" class="form-control" id="pw" v-model="user.password" placeholder="비밀번호">
                         </div>
                         <button type="submit" class="btn btn-primary" v-on:click="login">로그인</button>
                     </div>
@@ -30,10 +30,10 @@ var loginView = Vue.component('LoginView', {
     methods: {
         login: function() {
             var scope = this;
-
+            var shaPW = CryptoJS.SHA256($('#pw').val()).toString();
             userService.login(
                 this.user.email,
-                this.user.password,
+                shaPW,
                 function(data){
                     store.state.isSigned = true;
                     store.state.user.id = data.id;
