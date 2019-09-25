@@ -242,7 +242,10 @@ public class EthereumService implements IEthereumService {
 	@Override
 	public Address 주소검색(String 주소) {
 		// TODO Auto-generated method stub
-		return null;
+		Address address=null;
+		transactionRepository.조회By주소(주소);
+		
+		return address;
 	}
 
 }

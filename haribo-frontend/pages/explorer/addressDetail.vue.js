@@ -4,11 +4,11 @@ var exploreraddressDetailView = Vue.component('ExploreraddressDetailView', {
         <v-nav></v-nav>
         <v-breadcrumb title="Address Explorer" description="검색한 주소의 결과를 보여줍니다."></v-breadcrumb>
         <div class="container">
-        <br><br>
-        <div class="row">
+            <explorer-nav></explorer-nav>
+            <div class="row">
             <div class="col-md-12">
             <div class="card shadow-sm">
-                <div class="card-header">Address <strong># </strong></div>
+                <div class="card-header">Address <strong> #{{this.address}}</strong></div>
                 <table class="table">
                     <tbody>
                         <tr>
@@ -26,45 +26,74 @@ var exploreraddressDetailView = Vue.component('ExploreraddressDetailView', {
         </div><br><br>
             <div class="row">
                 <div class="col-md-12">
-                <div class="card shadow-sm">
-                    <div class="card-header"><strong> Transactions </strong></div>
-                    <table class="table">
-                        <tbody>
+                    <table class="table table-bordered table-striped">
+                        <thead>
                             <tr>
-                                <th width="300">트랜잭션 해시</th>
-                                <td></td>
-                            </tr>
-                            <tr>
+                                <th>트랜잭션 해시</th>
                                 <th>블록 넘버</th>
-                                <td></td>
-                            </tr>
-                            <tr>
                                 <th>날짜</th>
-                                <td></td>
-                            </tr>
-                            <tr>
                                 <th>송신자 주소</th>
-                                <td></td>
-                            </tr>
-                            <tr>
                                 <th>전송한 이더</th>
-                                <td></td>
-                            </tr>
-                            <tr>
                                 <th>Gas</th>
-                                <td></td>
-                            </tr>
-                            <tr>
                                 <th>Gas Price</th>
-                                <td> bytes</td>
+                                <th>전송한 이더</th>
                             </tr>
-
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in contracts">
+                                <td><router-link :to="{ name: 'explorer.auction.detail', params: { contractAddress: item } }">{{ item | truncate(15) }}</router-link></td>
+                                <td>
+                                    <span class="badge badge-primary" v-if="items[index] && !items[index].ended">Processing</span>
+                                    <span class="badge badge-danger" v-if="items[index] && items[index].ended">Ended</span>
+                                </td>
+                                <td>{{ items[index] && items[index].higestBid }} ETH</td>
+                                <td>
+                                    <span v-if="items[index] && items[index].higestBid != 0">{{ items[index] && items[index].higestBidder | truncate(15) }}</span>
+                                    <span v-if="items[index] && items[index].higestBid == 0">-</span>
+                                </td>
+                                <td>{{ items[index] && items[index].endTime.toLocaleString() }}</td>
+                            </tr>
                         </tbody>
                     </table>
-                </div>
                 </div>
             </div>
         </div>
     </div>
     `
+,
+data(){
+    return {
+        address: "",
+        isValid: true,
+        balance: "",
+        txCount: "",
+        tx: {
+          txhash: "",
+          blockId: "",
+          timestamp: "",
+          from: "",
+          to: "",
+          amount: "",
+          accepted: "",
+          ststus: "",
+          gas: "",
+          gasPrice: ""
+        }
+    }
+},
+mounted: function(){
+  this.address=this.$route.params.address;
+  console.log("address", this.address)
+  var scope = this;
+        if(this.address) {
+          console.log("mounted 확인");
+          etheriumService.findTranByAddress(this.address,function(response){
+console.log("mounted 확인2");
+            scope.tx = respons
+
+          })
+        } else {
+        this.isValid = false;
+    }
+}
 })
