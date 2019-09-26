@@ -129,7 +129,6 @@ var auctionRegisterView = Vue.component('AuctionRegisterView', {
                     startTime: new Date(scope.before.input.startDate).getTime(),
                     endTime: new Date(scope.before.input.untilDate).getTime()
                 }, walletAddress, scope.before.input.privateKey, function(log){
-                    console.log(log)
                     var contractAddress = log[log.length -1];
                     var data = {
                         "경매생성자id": scope.sharedStates.user.id,

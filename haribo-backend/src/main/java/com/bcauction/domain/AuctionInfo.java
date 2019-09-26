@@ -94,4 +94,12 @@ public class AuctionInfo
 	{
 		this.작품id = 작품id;
 	}
+
+	@Override
+	public String toString() {
+		return "AuctionInfo [경매컨트랙트주소=" + 경매컨트랙트주소 + ", 최고입찰액=" + 최고입찰액 + ", 작품id=" + 작품id + ", 최고입찰자id=" + 최고입찰자id
+				+ ", 경매시작시간=" + 경매시작시간 + ", 경매종료시간=" + 경매종료시간 + ", 최소금액=" + 최소금액 + ", 종료=" + 종료 + "]";
+	}
+	
+	
 }

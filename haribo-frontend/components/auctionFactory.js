@@ -58,7 +58,7 @@ function createAuctionContract(web3, contractAddress){
    const etherValue = Web3.utils.toWei(options.amount, 'ether');
    var tx = {
      from: options.walletAddress,
-     to:  options.contractAddress,
+     to: options.contractAddress,
      gas: 3000000,
      value:etherValue,
      data: encodedABI
@@ -85,17 +85,17 @@ function auction_close(options, onConfirm){
   var tx = {
     from: options.walletAddress,
     to: options.contractAddress,
-    gas: 3000000,
+    gas: 2000000,
     data: encodedABI
   }
 
   web3.eth.accounts.signTransaction(tx, options.privateKey).then(res => {
     web3.eth.sendSignedTransaction(res.rawTransaction).then(r => {
+      console.log(r);
       onConfirm(r)
     })
   })
 }
-
 
 /**
  * TODO [경매 취소]
