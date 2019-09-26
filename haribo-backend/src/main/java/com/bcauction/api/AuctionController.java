@@ -78,7 +78,8 @@ public class AuctionController
 
 	@RequestMapping(value = "/auctions/{aid}/by/{mid}", method = RequestMethod.DELETE)
 	public Auction 경매취소(@PathVariable long aid, @PathVariable long mid) {
-		return auctionService.경매취소(aid, mid);
+		System.out.println(aid + "//////" + mid);
+		return this.auctionService.경매취소(aid, mid);
 	}
 
 	@RequestMapping(value = "/auctions/{aid}/by/{mid}", method = RequestMethod.PUT)

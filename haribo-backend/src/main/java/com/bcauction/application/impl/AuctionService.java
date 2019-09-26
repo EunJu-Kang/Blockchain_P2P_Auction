@@ -4,6 +4,7 @@ import com.bcauction.application.IAuctionContractService;
 import com.bcauction.application.IAuctionService;
 import com.bcauction.application.IFabricService;
 import com.bcauction.domain.Auction;
+import com.bcauction.domain.AuctionInfo;
 import com.bcauction.domain.Bid;
 import com.bcauction.domain.Ownership;
 import com.bcauction.domain.exception.ApplicationException;
@@ -27,6 +28,8 @@ public class AuctionService implements IAuctionService {
 	private IFabricService fabricService;
 	private IAuctionRepository auctionRepository;
 	private IBidRepository bidRepository;
+	private IAuctionService auctionService;
+
 
 	@Autowired
 	public AuctionService(IAuctionContractService auctionContractService, IFabricService fabricService,
@@ -101,14 +104,12 @@ public class AuctionService implements IAuctionService {
 	public Auction 경매종료(final long 경매id, final long 회원id) {
 		// TODO
 		Auction 경매 = this.auctionRepository.조회(경매id);
-		
-		if (경매 == null) {
-			logger.error("NOT FOUND AUCTION: ", 경매id);
-			throw new NotFoundException(경매id + " 해당 경매를 찾을 수 없습니다.");
-		}
-		경매.set상태("E");
-		
-		
+	      
+	      if (경매 == null) {
+	         logger.error("NOT FOUND AUCTION: ", 경매id);
+	         throw new NotFoundException(경매id + " 해당 경매를 찾을 수 없습니다.");
+	      }
+	      경매.set상태("E");
 		return null;
 	}
 

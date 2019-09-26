@@ -125,20 +125,20 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
              */
             var scope = this;
             var privateKey = window.prompt("경매를 취소하시려면 지갑 비밀키를 입력해주세요.","");
-
             // register.vue.js, bid.vue.js를 참조하여 완성해 봅니다.
             var options = {
                 contractAddress: this.auction['경매컨트랙트주소'],
                 privateKey: privateKey
             };
             auction_cancel(options, function(receipt){
-              this.auction['종료'] = true;
-
+              console.log(receipt);
               var auctionId = scope.$route.params.id;
               var bidderId = scope.sharedStates.user.id;
-
+              console.log("auctionId:" + auctionId);
+              console.log("bidderId:"  + bidderId);
               auctionService.cancel(auctionId, bidderId, function(success){
-
+                alert("경매가 취소되었습니다.");
+                scope.auction['종료'] = true;
               })
             });
         }

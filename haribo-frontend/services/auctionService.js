@@ -39,7 +39,7 @@ var auctionService = {
         })
     },
     // 경매 취소
-    cancel: function(auctionId, bidderId, callback){
+    cancel: function(auctionId, bidderId, callback, whenError){
       console.log("cancel");
         $.ajax({
             type: "DELETE",
