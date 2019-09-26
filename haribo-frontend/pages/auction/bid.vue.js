@@ -74,12 +74,11 @@ var auctionBidView = Vue.component('AuctionBidView', {
              */
             var scope = this;
             var options = {
-                amount: this.input.price,
-                contractAddress: this.auction['경매컨트랙트주소'],
-                walletAddress: this.wallet['주소'],
-                privateKey: this.input.privateKey
-            };
-            console.log(options);
+                amount: scope.input.price,
+                contractAddress: scope.auction['경매컨트랙트주소'],
+                walletAddress: scope.wallet['주소'],
+                privateKey: scope.input.privateKey
+            }
             this.bidding = true;
 
             // 컨트랙트 bid 함수를 호출합니다.
@@ -88,8 +87,8 @@ var auctionBidView = Vue.component('AuctionBidView', {
             auction_bid(options, function(receipt){
                 var bidder = scope.sharedStates.user.id;
                 var auctionId = scope.$route.params.id;
-
                 // 입찰 정보 등록 요청 API를 호출합니다.
+                console.log("여기");
                 auctionService.saveBid(bidder, auctionId, options.amount, function(result){
                     alert("입찰이 완료되었습니다.");
                     scope.bidding = false;
@@ -103,6 +102,8 @@ var auctionBidView = Vue.component('AuctionBidView', {
         var auctionId = this.$route.params.id;
         auctionService.findById(auctionId, function(auction){
             auction['최소금액'] = Number(auction['최소금액']) / (10**18);
+            // auction이 늦게 처리되어 돌아오기 때문에 그전에 입찰을 진행하게 되면 경매컨트랙트주소가 넘어오지 않은채 진행이 된다.
+            console.log(auction)
             scope.auction = auction;
             var workId = auction['작품id'];
 
