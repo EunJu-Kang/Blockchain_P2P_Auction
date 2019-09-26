@@ -99,6 +99,8 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
              */
             var scope = this;
             var privateKey = window.prompt("경매를 종료하시려면 지갑 비밀키를 입력해주세요.","");
+            console.log(this.auction);
+            console.log(this.auction['종료']);
 
             // register.vue.js, bid.vue.js를 참조하여 완성해 봅니다.
             var options = {
@@ -106,15 +108,15 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
                 privateKey: privateKey
             };
             auction_close(options, function(receipt){
-              this.auction['종료'] = true;
-
+              console.log(receipt);
               var auctionId = scope.$route.params.id;
               var bidderId = scope.sharedStates.user.id;
 
-              auctionService.cancel(auctionId, bidderId, function(success){
+              auctionService.close(auctionId, bidderId, function(success){
 
               })
             });
+            this.auction['종료'] = true;
         },
         cancelAuction: function(){
             /**
@@ -135,7 +137,7 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
               var auctionId = scope.$route.params.id;
               var bidderId = scope.sharedStates.user.id;
 
-              auctionService.close(auctionId, bidderId, function(success){
+              auctionService.cancel(auctionId, bidderId, function(success){
 
               })
             });
