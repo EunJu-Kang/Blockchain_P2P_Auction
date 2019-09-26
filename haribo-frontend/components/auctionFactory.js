@@ -35,7 +35,6 @@ function createAuctionContract(web3, contractAddress){
 
    web3.eth.accounts.signTransaction(tx, privateKey).then(res => {
      web3.eth.sendSignedTransaction(res.rawTransaction).then(r => {
-       console.log(r);
        contract.methods.allAuctions().call().then(response => {
          onConfirm(response);
        })
@@ -55,21 +54,18 @@ function createAuctionContract(web3, contractAddress){
    var contract = createAuctionContract(web3, options.contractAddress);
    var auctionContract = contract.methods.bid();
    var encodedABI = auctionContract.encodeABI();
-   console.log(auctionContract)
-   console.log(options)
-   console.log(contract)
+
    const etherValue = Web3.utils.toWei(options.amount, 'ether');
    var tx = {
      from: options.walletAddress,
-     to: AUCTION_CONTRACT_ADDRESS,
+     to:  options.contractAddress,
      gas: 3000000,
      value:etherValue,
      data: encodedABI
    }
 
    web3.eth.accounts.signTransaction(tx, options.privateKey).then(res => {
-     web3.eth.sendSignedTransaction(res.rawTransaction).on('receipt', onConfirm).then(r => {
-       console.log(r);
+     web3.eth.sendSignedTransaction(res.rawTransaction).then(r => {
        onConfirm(r)
      })
    })
@@ -84,16 +80,12 @@ function auction_close(options, onConfirm){
   var web3 = createWeb3();
   var contract = createAuctionContract(web3, options.contractAddress);
   var auctionContract = contract.methods.endAuction();
-  console.log(auctionContract);
   var encodedABI = auctionContract.encodeABI();
-  console.log(encodedABI);
 
-  const etherValue = Web3.utils.toWei(options.amount, 'ether');
   var tx = {
     from: options.walletAddress,
     to: options.contractAddress,
     gas: 3000000,
-    value:etherValue,
     data: encodedABI
   }
 
@@ -103,33 +95,7 @@ function auction_close(options, onConfirm){
     })
   })
 }
-/**
- * TODO [경매 종료]
- * 해당 컨트랙트 주소의 endAuction함수를 호출하여 경매를 종료합니다.
- * 경매 컨트랙트 주소: options.contractAddress
- *  */
- function auction_close(options, onConfirm){
-   var web3 = createWeb3();
-   var contract = createAuctionContract(web3, options.contractAddress);
-   var auctionContract = contract.methods.endAuction();
-   var encodedABI = auctionContract.encodeABI();
 
-   var tx = {
-     from: options.walletAddress,
-     to: AUCTION_CONTRACT_ADDRESS,
-     gas: 2000000,
-     data: encodedABI
-   }
-
-   web3.eth.accounts.signTransaction(tx, options.privateKey).then(res => {
-     console.log(res);
-     web3.eth.sendSignedTransaction(res.rawTransaction).then(r => {
-       console.log(r);
-     }).catch(error => {
-       console.log(error);
-     })
-   })
- }
 
 /**
  * TODO [경매 취소]
@@ -150,9 +116,8 @@ function auction_cancel(options, onConfirm){
   }
 
   web3.eth.accounts.signTransaction(tx, options.privateKey).then(res => {
-    web3.eth.sendSignedTransaction(res.rawTransaction).on('receipt', onConfirm).then(r => {
-      console.log(r);
-      console.log(tx);
+    web3.eth.sendSignedTransaction(res.rawTransaction).then(r => {
+      onConfirm(r)
     }).catch(error => {
       console.log(error);
     })
