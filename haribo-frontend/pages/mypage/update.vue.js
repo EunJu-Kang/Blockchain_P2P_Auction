@@ -20,7 +20,7 @@ var myUpdateView = Vue.component('MyUpdateView', {
                                 </div>
                                 <div class="form-group">
                                     <label id="password">비밀번호 확인</label>
-                                    <input id="password" type="password" class="form-control" placeholder="비밀번호 확인" v-model="input.password">
+                                    <input id="pw" type="password" class="form-control" placeholder="비밀번호 확인" v-model="input.password">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -55,7 +55,8 @@ var myUpdateView = Vue.component('MyUpdateView', {
     methods: {
         update: function(){
             // 비밀번호가 회원의 비밀번호와 일치하는지 비교한다.
-            if(this.user.password !== this.input.password){
+            var shaPW = CryptoJS.SHA256($('#pw').val()).toString();
+            if(this.user.password !== shaPW){
                 alert("입력하신 비밀번호가 일치하지 않습니다.");
                 return;
             }
@@ -69,10 +70,10 @@ var myUpdateView = Vue.component('MyUpdateView', {
             userService.update({
                 "이메일": this.user.email,
                 "이름": this.input.name, // 신규 이름
-                "비밀번호": this.user.password
+                "비밀번호": shaPW
             }, function(data){
                 alert("이름이 변경되었습니다.");
-                this.$router.go(-1);
+                router.push('/');
             });
         },
         goBack: function(){
@@ -81,7 +82,7 @@ var myUpdateView = Vue.component('MyUpdateView', {
     },
     mounted: function(){
         var scope = this;
-        
+
         userService.findById(this.sharedStates.user.id, function(data){
             scope.user.id = data["id"];
             scope.user.email = data["이메일"];

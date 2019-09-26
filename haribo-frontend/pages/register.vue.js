@@ -15,11 +15,11 @@ var registerView = Vue.component('RegisterView', {
                         </div>
                         <div class="form-group">
                             <label for="password">비밀번호</label>
-                            <input type="password" class="form-control" id="password" v-model="user.password" placeholder="비밀번호">
+                            <input type="password" class="form-control" id="pw" v-model="user.password" placeholder="비밀번호">
                         </div>
                         <div class="form-group">
                             <label for="password-confirm">비밀번호 확인</label>
-                            <input type="password" class="form-control" id="password-confirm" v-model="user.passwordConfirm" placeholder="비밀번호 확인">
+                            <input type="password" class="form-control" id="pwConfirm" v-model="user.passwordConfirm" placeholder="비밀번호 확인">
                         </div>
                         <button type="submit" class="btn btn-primary" v-on:click="register">회원가입</button>
                     </div>
@@ -40,12 +40,13 @@ var registerView = Vue.component('RegisterView', {
     methods: {
         register: function() {
             var scope = this;
-
+            var shaPW = CryptoJS.SHA256($('#pw').val()).toString();
+            var shaPWC = CryptoJS.SHA256($('#pwConfirm').val()).toString();
             if(this.user.password === this.user.passwordConfirm) {
                 userService.signUp(
                     this.user.email,
                     this.user.name,
-                    this.user.password,
+                    shaPW,
                     function(response){
                         alert("회원가입이 완료되었습니다.");
                         scope.$router.push('/');
