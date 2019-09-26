@@ -24,8 +24,10 @@ function createAuctionContract(web3, contractAddress){
  function createAuction(options, walletAddress, privateKey, onConfirm){
    var web3 = createWeb3();
    var contract = createFactoryContract(web3);
-   var auctionContract = contract.methods.createAuction(options.workId, options.minValue, options.startTime, options.endTime);
+   var auctionContract = contract.methods.createAuction(options.workId, options.minValue, options.startTime/1000, options.endTime/1000);
    var encodedABI = auctionContract.encodeABI();
+   console.log(contract);
+   console.log(auctionContract);
 
    var tx = {
      from: walletAddress,
