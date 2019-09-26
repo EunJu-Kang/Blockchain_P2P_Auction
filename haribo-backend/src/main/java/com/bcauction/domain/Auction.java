@@ -109,12 +109,5 @@ public class Auction
 	public void set컨트랙트주소(final String 컨트랙트주소)
 	{
 		this.컨트랙트주소 = 컨트랙트주소;
-	}
-
-	@Override
-	public String toString() {
-		return "Auction [id=" + id + ", 경매생성자id=" + 경매생성자id + ", 경매작품id=" + 경매작품id + ", 생성일시=" + 생성일시 + ", 상태=" + 상태
-				+ ", 시작일시=" + 시작일시 + ", 종료일시=" + 종료일시 + ", 최저가=" + 최저가 + ", 컨트랙트주소=" + 컨트랙트주소 + "]";
-	}
-	
+	}	
 }
