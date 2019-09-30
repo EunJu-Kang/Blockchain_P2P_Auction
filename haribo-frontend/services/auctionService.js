@@ -24,6 +24,7 @@ var auctionService = {
     },
     // 경매 내역 저장
     saveBid: function(bidder, auctionId, bidPrice, callback){
+      console.log("ㅡㅡ");
         var data = {
             "경매참여자id": bidder,
             "경매id": auctionId,

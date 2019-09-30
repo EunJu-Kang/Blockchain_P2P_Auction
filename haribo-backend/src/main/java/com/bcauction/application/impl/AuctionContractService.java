@@ -98,7 +98,6 @@ public class AuctionContractService implements IAuctionContractService {
 		String highestBidder = null;
 		Wallet wallet = new Wallet();
 		Long highestBidderId = null;
-		System.out.println(컨트랙트주소+"넘어온 주소");
 		try {
 			web3j = Web3j.build(new HttpService("http://54.180.162.22:8545"));
 			credentials = WalletUtils.loadCredentials(PASSWORD, WALLET_RESOURCE);
@@ -114,19 +113,9 @@ public class AuctionContractService implements IAuctionContractService {
 			} else {
 				highestBidderId = wallet.get소유자id();
 			}
-			
-			Auction auction = auctionRepository.조회(컨트랙트주소);
-			System.out.println(auction+"조회한 ㅇㅎ늄");
-			if ( auction != null) {
-				auctionInfo.set경매시작시간(auction.get시작일시());
-				auctionInfo.set경매종료시간(auction.get종료일시());
-				auctionInfo.set경매컨트랙트주소(컨트랙트주소);
-				auctionInfo.set작품id(auction.get경매작품id());
-				auctionInfo.set최소금액(auction.get최저가());
-				auctionInfo.set최고입찰액(highestBid);
-				auctionInfo.set최고입찰자id(highestBidderId);
-			} else
-				return null;
+	
+			auctionInfo.set최고입찰액(highestBid);
+			auctionInfo.set최고입찰자id(highestBidderId);
 
 		} catch (Exception e) {
 			e.printStackTrace();
