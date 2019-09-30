@@ -30,7 +30,6 @@ public class AuctionService implements IAuctionService {
 	private IBidRepository bidRepository;
 	private IAuctionService auctionService;
 
-
 	@Autowired
 	public AuctionService(IAuctionContractService auctionContractService, IFabricService fabricService,
 			IAuctionRepository auctionRepository, IBidRepository bidRepository) {
@@ -104,13 +103,19 @@ public class AuctionService implements IAuctionService {
 	public Auction 경매종료(final long 경매id, final long 회원id) {
 		// TODO
 		Auction 경매 = this.auctionRepository.조회(경매id);
-	      
-	      if (경매 == null) {
-	         logger.error("NOT FOUND AUCTION: ", 경매id);
-	         throw new NotFoundException(경매id + " 해당 경매를 찾을 수 없습니다.");
-	      }
-	      경매.set상태("E");
-		return null;
+
+		if (경매 == null) {
+			logger.error("NOT FOUND AUCTION: ", 경매id);
+			throw new NotFoundException(경매id + " 해당 경매를 찾을 수 없습니다.");
+		}
+		경매.set상태("E");
+		LocalDateTime currentDateTime = LocalDateTime.now();
+		경매.set종료일시(currentDateTime);
+		this.auctionRepository.수정(경매);
+		
+		Ownership os = fabricService.소유권이전(경매.get경매생성자id(), 회원id, 경매.get경매작품id());
+		
+		return 경매;
 	}
 
 	/**
@@ -132,7 +137,6 @@ public class AuctionService implements IAuctionService {
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		경매.set종료일시(currentDateTime);
 		this.auctionRepository.수정(경매);
-		System.out.println(경매.toString());
 		return 경매;
 	}
 }

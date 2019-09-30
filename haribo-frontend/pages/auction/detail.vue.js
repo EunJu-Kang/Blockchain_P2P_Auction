@@ -108,9 +108,8 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
                 privateKey: privateKey
             };
             auction_close(options, function(receipt){
-              console.log(receipt);
               var auctionId = scope.$route.params.id;
-              var bidderId = scope.sharedStates.user.id;
+              var bidderId = scope.bidder.id;
 
               auctionService.close(auctionId, bidderId, function(success){
 

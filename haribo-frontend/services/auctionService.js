@@ -24,7 +24,6 @@ var auctionService = {
     },
     // 경매 내역 저장
     saveBid: function(bidder, auctionId, bidPrice, callback){
-      console.log("ㅡㅡ");
         var data = {
             "경매참여자id": bidder,
             "경매id": auctionId,
@@ -44,7 +43,7 @@ var auctionService = {
         $.ajax({
             type: "DELETE",
             url: API_BASE_URL + "/api/auctions/" + auctionId + "/by/" + bidderId,
-            success: callback,
+            success: callback
         });
     },
     // 경매 종료
@@ -52,8 +51,7 @@ var auctionService = {
         $.ajax({
             type: "PUT",
             url: API_BASE_URL + "/api/auctions/" + auctionId + "/by/" + bidderId,
-            success: callback,
-            error: alert("실패")
+            success: callback
         });
     }
 }

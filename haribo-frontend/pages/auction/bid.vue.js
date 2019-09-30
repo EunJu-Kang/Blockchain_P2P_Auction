@@ -88,7 +88,6 @@ var auctionBidView = Vue.component('AuctionBidView', {
                 var bidder = scope.sharedStates.user.id;
                 var auctionId = scope.$route.params.id;
                 // 입찰 정보 등록 요청 API를 호출합니다.
-                console.log("여기");
                 auctionService.saveBid(bidder, auctionId, options.amount, function(result){
                     alert("입찰이 완료되었습니다.");
                     scope.bidding = false;

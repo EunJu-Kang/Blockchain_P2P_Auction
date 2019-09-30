@@ -269,8 +269,8 @@ public class FabricCCService implements IFabricCCService {
 	}
 
 	/**
-	 * 체인코드 expireAssetOwnership를 호출하는 메소드
-	 * 만료 된 자산 소유권 
+	 * 체인코드 expireAssetOwnership를 호출하는 메소드 만료 된 자산 소유권
+	 * 
 	 * @param 작품id
 	 * @param 소유자
 	 * @return
@@ -299,7 +299,6 @@ public class FabricCCService implements IFabricCCService {
 		return true;
 	}
 
-
 	/**
 	 * 체인코드 updateAssetOwnership를 호출하는 메소드
 	 *
@@ -309,7 +308,26 @@ public class FabricCCService implements IFabricCCService {
 	 */
 	private boolean updateAssetOwnership(final long 작품id, final long to) {
 		// TODO
-		return false;
+		String[] args = { 작품id + "", to + "" };
+		
+		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
+		ChaincodeID fabricCCId = ChaincodeID.newBuilder().setName("asset").build();
+		qpr.setChaincodeID(fabricCCId);
+		qpr.setFcn("updateAssetOwnership");
+		qpr.setArgs(args);
+
+		Collection<ProposalResponse> res;
+		try {
+			res = this.channel.queryByChaincode(qpr);
+			this.channel.sendTransaction(res);
+		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ProposalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	/**
@@ -337,9 +355,9 @@ public class FabricCCService implements IFabricCCService {
 		if (this.hfClient == null || this.channel == null)
 			loadChannel();
 		FabricAsset asset = new FabricAsset();
-		String stringasset =null;
+		String stringasset = null;
 
-		String[] args = { 작품id + ""};
+		String[] args = { 작품id + "" };
 
 		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
 		ChaincodeID fabBoardCCId = ChaincodeID.newBuilder().setName("asset").build();
@@ -349,15 +367,15 @@ public class FabricCCService implements IFabricCCService {
 
 		try {
 			Collection<ProposalResponse> res = this.channel.queryByChaincode(qpr);
-			for(ProposalResponse pres: res) {
-				stringasset =new String(pres.getChaincodeActionResponsePayload());
+			for (ProposalResponse pres : res) {
+				stringasset = new String(pres.getChaincodeActionResponsePayload());
 				JSONParser parser = new JSONParser();
-				Object obj = parser.parse( stringasset );
+				Object obj = parser.parse(stringasset);
 				JSONObject jsonObj = (JSONObject) obj;
-				asset.setAssetId((String)jsonObj.get("assetID"));
+				asset.setAssetId((String) jsonObj.get("assetID"));
 				asset.setOwner((String) jsonObj.get("owner"));
 				asset.setCreatedAt((String) jsonObj.get("createdAt"));
-				asset.setExpiredAt((String)jsonObj.get("expiredAt"));
+				asset.setExpiredAt((String) jsonObj.get("expiredAt"));
 
 			}
 		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException | ProposalException e) {
