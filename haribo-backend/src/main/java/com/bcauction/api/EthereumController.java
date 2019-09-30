@@ -87,28 +87,23 @@ public class EthereumController {
 
 	@GetMapping("/auctions")
 	public List<AuctionInfo> 경매목록조회() {
-		List<String> 경매목록 = this.auctionContractService.경매컨트랙트주소리스트();
-		if (경매목록 == null || 경매목록.isEmpty())
-			throw new EmptyListException("NO DATA");
-
-		List<AuctionInfo> 경매정보목록 = new ArrayList<>();
-//        경매목록.forEach(경매 -> {
-//            AuctionInfo 경매정보 = this.auctionContractService.경매정보조회(경매.toString());
-//            경매정보목록.add(경매정보);
-//        });
-		System.out.println(경매목록.size());
-		System.out.println(경매목록);
-		int cnt=1;
-		for (String 경매 : 경매목록) {
-			System.out.println(cnt++);
-			AuctionInfo 경매정보 = this.auctionContractService.경매정보조회(경매);
-			System.out.println(경매정보);
-			if (경매정보 != null)
-				경매정보목록.add(경매정보);
-		}
-		System.out.println(this.auctionContractService.경매정보조회("0x2fFa3C3ac99f1dE1aDE6bA6eCdeFefc290214f12"));
-		System.out.println(경매정보목록);
-		return 경매정보목록;
+//		List<String> 경매목록 = this.auctionContractService.경매컨트랙트주소리스트();
+//		if (경매목록 == null || 경매목록.isEmpty())
+//			throw new EmptyListException("NO DATA");
+//
+//		List<AuctionInfo> 경매정보목록 = new ArrayList<>();
+////        경매목록.forEach(경매 -> {
+////            AuctionInfo 경매정보 = this.auctionContractService.경매정보조회(경매.toString());
+////            경매정보목록.add(경매정보);
+////        });
+//		int cnt=1;
+//		for (String 경매 : 경매목록) {
+//			AuctionInfo 경매정보 = this.auctionContractService.경매정보조회(경매);
+//			if (경매정보 != null)
+//				경매정보목록.add(경매정보);
+//		}
+//		return 경매정보목록;
+		return null;
 	}
 
 	@GetMapping("/auctions/{addr}")

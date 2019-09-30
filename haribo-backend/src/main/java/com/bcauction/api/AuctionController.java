@@ -78,7 +78,6 @@ public class AuctionController
 
 	@RequestMapping(value = "/auctions/{aid}/by/{mid}", method = RequestMethod.DELETE)
 	public Auction 경매취소(@PathVariable long aid, @PathVariable long mid) {
-		System.out.println(aid + "//////" + mid);
 		return this.auctionService.경매취소(aid, mid);
 	}
 
@@ -89,7 +88,6 @@ public class AuctionController
 
 	@RequestMapping(value = "/auctions/bid", method = 	RequestMethod.PUT)
 	public Bid 입찰(@RequestBody Bid bid) {
-		System.out.println(bid.toString());
 		return auctionService.입찰(bid);
 	}
 
