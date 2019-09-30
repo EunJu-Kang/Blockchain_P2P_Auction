@@ -100,7 +100,7 @@ var auctionBidView = Vue.component('AuctionBidView', {
         var scope = this;
         var auctionId = this.$route.params.id;
         auctionService.findById(auctionId, function(auction){
-            auction['최소금액'] = Number(auction['최소금액']) / (10**18);
+            auction['최소금액'] = Number(auction['최소금액']);
             // auction이 늦게 처리되어 돌아오기 때문에 그전에 입찰을 진행하게 되면 경매컨트랙트주소가 넘어오지 않은채 진행이 된다.
             console.log(auction)
             scope.auction = auction;
@@ -113,7 +113,7 @@ var auctionBidView = Vue.component('AuctionBidView', {
 
         // 내 지갑 정보 조회
         walletService.findById(scope.sharedStates.user.id, function(wallet){
-            wallet['잔액'] = Number(wallet['잔액']) / (10 ** 18);
+            wallet['잔액'] = Number(wallet['잔액']) ;
             scope.wallet = wallet;
         });
     }

@@ -146,8 +146,9 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
 
         // 경매 정보 조회
         auctionService.findById(auctionId, function(auction){
+            console.log(auction);
             var amount = Number(auction['최소금액']).toLocaleString().split(",").join("")
-            auction['최소금액'] = web3.utils.fromWei(amount, 'ether');
+            // auction['최소금액'] = web3.utils.fromWei(amount, 'ether');
 
             var workId = auction['작품id'];
 
