@@ -131,11 +131,8 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
                 privateKey: privateKey
             };
             auction_cancel(options, function(receipt){
-              console.log(receipt);
               var auctionId = scope.$route.params.id;
               var bidderId = scope.sharedStates.user.id;
-              console.log("auctionId:" + auctionId);
-              console.log("bidderId:"  + bidderId);
               auctionService.cancel(auctionId, bidderId, function(success){
                 alert("경매가 취소되었습니다.");
                 scope.auction['종료'] = true;

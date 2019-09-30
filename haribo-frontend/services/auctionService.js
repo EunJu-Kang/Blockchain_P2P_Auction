@@ -40,13 +40,11 @@ var auctionService = {
         })
     },
     // 경매 취소
-    cancel: function(auctionId, bidderId, callback, whenError){
-      console.log("cancel");
+    cancel: function(auctionId, bidderId, callback){
         $.ajax({
             type: "DELETE",
             url: API_BASE_URL + "/api/auctions/" + auctionId + "/by/" + bidderId,
             success: callback,
-            error: alert("실패")
         });
     },
     // 경매 종료

@@ -132,7 +132,7 @@ public class AuctionService implements IAuctionService {
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		경매.set종료일시(currentDateTime);
 		this.auctionRepository.수정(경매);
-		System.err.println(경매.toString());
+		System.out.println(경매.toString());
 		return 경매;
 	}
 }
