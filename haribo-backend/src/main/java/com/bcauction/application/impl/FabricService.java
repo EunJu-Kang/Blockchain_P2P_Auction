@@ -88,6 +88,8 @@ public class FabricService implements IFabricService
 		if(소멸소유권 == null) return null;
 
 		소멸소유권.set소유종료일자(assets.get(0).getExpiredAt());
+		System.out.println(from + " " + to);
+		System.out.println(소멸소유권.toString());
 		long result = this.ownershipRepository.수정(소멸소유권);
 		if(result == 0)
 			return null;
@@ -110,7 +112,8 @@ public class FabricService implements IFabricService
 		if(result == 0)
 			return null;
 
-		return this.ownershipRepository.조회(to, 작품id);
+		Ownership os = this.ownershipRepository.조회(to, 작품id);
+		return os;
 	}
 
 	/**

@@ -76,7 +76,6 @@ var explorerAuctionView = Vue.component('ExplorerView', {
          etheriumService.findAuction(function(data){
            scope.contracts = data;
            scope.items = data;
-           console.log(data);
          })
     }
 })

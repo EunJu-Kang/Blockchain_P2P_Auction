@@ -101,7 +101,7 @@ public class OwnershipRepository implements IOwnershipRepository
 
 	@Override
 	public long 생성(final Ownership 소유권) {
-//		StringBuilder sbSql = new StringBuilder("INSERT INTO 작품소유(소유자id,작품id,소유시작일자,소유종료일자) VALUES(?,?,?,?)");
+		StringBuilder sbSql = new StringBuilder("INSERT INTO 작품소유(소유자id,작품id,소유시작일자,소유종료일자) VALUES(?,?,?,?)");
 		try {
 			Map<String, Object> paramMap = new HashMap<>();
 			paramMap.put("소유자id", 소유권.get소유자id());
