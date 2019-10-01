@@ -1,12 +1,15 @@
 package com.bcauction.application.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
+import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.stream.JsonParser;
 
 import org.hyperledger.fabric.sdk.ChaincodeID;
 import org.hyperledger.fabric.sdk.Channel;
@@ -26,7 +29,6 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.bcauction.application.IFabricCCService;
@@ -309,7 +311,7 @@ public class FabricCCService implements IFabricCCService {
 	private boolean updateAssetOwnership(final long 작품id, final long to) {
 		// TODO
 		String[] args = { 작품id + "", to + "" };
-		
+
 		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
 		ChaincodeID fabricCCId = ChaincodeID.newBuilder().setName("asset").build();
 		qpr.setChaincodeID(fabricCCId);
@@ -340,6 +342,48 @@ public class FabricCCService implements IFabricCCService {
 	public List<FabricAsset> queryHistory(final long 작품id) {
 		if (this.hfClient == null || this.channel == null)
 			loadChannel();
+		List<FabricAsset> history = new ArrayList<>();
+		String[] args = { 작품id + "" };
+		String stringResponse = "";
+
+		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
+		ChaincodeID fabricCCId = ChaincodeID.newBuilder().setName("asset").build();
+		qpr.setChaincodeID(fabricCCId);
+		qpr.setFcn("getAssetHistory");
+		qpr.setArgs(args);
+
+		Collection<ProposalResponse> res;
+		try {
+			res = this.channel.queryByChaincode(qpr);
+			for (ProposalResponse pres : res) {
+				stringResponse = new String(pres.getChaincodeActionResponsePayload());
+				System.out.println("여기여기:"+stringResponse);
+				
+				
+				//bytearrayinputstream -> Reader써서 jsonArray로 바꾼다음에 -> JsonObject로 바꾸기
+				//import 형식은 전부 javax.json~ 이런거임
+				
+				
+				
+//				JsonParser jsonParser = new JsonParser();
+//				JsonArray jsonArray = (JsonArray) jsonParser.parse(str);
+//
+//				for (int i = 0; i < jsonArray.size(); i++) {
+//					System.out.println(i);
+//					System.out.println(jsonArray.get(i));
+//					JsonObject object = jsonArray.get(i).getAsJsonObject();
+//					System.out.println("zzz");
+//					FabricAsset fa = this.getAssetRecord(object);
+//					System.out.println(fa.toString());
+//				}
+			}
+		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ProposalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return null;
 	}

@@ -103,6 +103,7 @@ public class DigitalWorkController
 	 * mission. 3
 	 * Req. 1-2
 	 */
+	@RequestMapping(value = "/works/history/{id}", method = RequestMethod.GET)
 	public List<FabricAsset> 작품이력조회(@PathVariable int id){
 		List<FabricAsset> history = this.fabricService.작품이력조회(id);
 		if(history == null || history.isEmpty())
