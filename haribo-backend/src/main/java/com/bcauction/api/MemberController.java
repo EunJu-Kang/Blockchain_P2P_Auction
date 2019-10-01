@@ -59,6 +59,9 @@ public class MemberController {
 
     @RequestMapping(value = "/members", method = RequestMethod.POST)
     public Member 추가(@RequestBody Member member) {
+    	if(memberService.조회(member.get이메일())!= null) {
+    		throw new DomainException("아이디가 중복입니다.");
+    	}
         return memberService.추가(member);
     }
 
