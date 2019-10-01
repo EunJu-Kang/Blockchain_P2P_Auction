@@ -40,7 +40,9 @@ var navVue = Vue.component("v-nav", {
     },
     methods: {
       loginCheck: function() {
+        var scope = this
         var userid = sessionStorage.getItem("userID")
+        if(userid != null){
           userService.findById(
               userid,
               function(){
@@ -48,13 +50,14 @@ var navVue = Vue.component("v-nav", {
                   store.state.user.id = userid;
                   walletService.findById(userid, function(response){
                       if(response) {
-                        store.state.user.hasWallet = true;
+                        scope.sharedState.user.hasWallet = true;
                       } else{
-                        store.state.user.hasWallet = false;
+                        scope.sharedState.user.hasWallet = false;
                       }
                   });
               }
           );
+        }
       },
       logout : function(){
           store.state.isSigned = false
