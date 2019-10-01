@@ -1,0 +1,9 @@
+
+1¹ø 
+geth --networkid 15150 --datadir ~/Ethereum1/dev/eth_localdata --port 3333 --rpc --rpcport 8545 --rpcaddr 0.0.0.0 --rpccorsdomain "*" --rpcapi "admin,net,miner,eth,rpc,web3,txpool,debug,db,personal" --allow-insecure-unlock console 2>> ~/Ethereum1/dev/eth_localdata/geth.log
+
+2¹ø
+nohup geth --networkid 15150 --maxpeers 3  --port 3334 --datadir ~/Ethereum2/dev/eth_localdata/ --mine -minerthreads 1 --etherbase "0x34731f88a25c5f21922233d86372f91ae3539ca2" & console 2>> ~/Ethereum2/dev/eth_localdata/geth.log
+
+3¹ø
+nohup geth --networkid 15150 --maxpeers 3  --port 3335 --datadir ~/Ethereum3/dev/eth_localdata/ --mine -minerthreads 1 --etherbase "0x34731f88a25c5f21922233d86372f91ae3539ca2" & console 2>> ~/Ethereum3/dev/eth_localdata/geth.log
