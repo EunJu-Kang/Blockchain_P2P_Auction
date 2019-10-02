@@ -51,31 +51,26 @@ var explorerAuctionView = Vue.component('ExplorerView', {
          * 2. 각 컨트랙트 주소로부터 경매의 상태(state) 정보를 가져옵니다.
          * */
 
-         // var scope = this;
-         // auctionService.findAll(function(data){
-         //     var result = data;
-         //
-         //     console.log(data)
-         //     // 각 경매별 작품 정보를 불러온다.
-         //     function fetchData(start, end){
-         //         if(start == end) {
-         //             scope.contracts = result;
-         //             console.log(scope.contracts)
-         //         } else {
-         //            result[start]['contractAddress'] = data[start].컨트랙트주소
-         //            fetchData(start+1, end);
-         //         }
-         //     }
-         //
-         //     if(result != undefined){
-         //       fetchData(0, result.length);
-         //     }
-         // });
-
          var scope = this;
-         etheriumService.findAuction(function(data){
-           scope.contracts = data;
-           scope.items = data;
-         })
+         auctionService.findAll(function(data){
+             var result = data;
+             console.log(data)
+             // 각 경매별 작품 정보를 불러온다.
+             function fetchData(start, end){
+                 if(start == end) {
+                    scope.contracts = result;
+                 } else {
+                    result[start]['contractAddress'] = data[start].컨트랙트주소
+                    auction_info(data[start].컨트랙트주소, (bid, bidder, endtime, auctionEndTime) => {
+                      console.log(bid, bidder, endtime, auctionEndTime)
+                      console.log("---------");
+                    })
+                    fetchData(start+1, end);
+                 }
+             }
+             if(result != undefined){
+               fetchData(0, result.length);
+             }
+         });
     }
 })
