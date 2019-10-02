@@ -124,3 +124,22 @@ function auction_cancel(options, onConfirm){
     })
   })
 }
+
+function auction_info(contractAddress, onConfirm){
+  var web3 = createWeb3();
+  var contract = createAuctionContract(web3, contractAddress);
+  var highestbid = contract.methods.highestBid();
+  var highestbidder = contract.methods.highestBidder();
+  var endtime = contract.methods.ended();
+  var auctionEndTime = contract.methods.auctionEndTime();
+
+  highestbid.call().then(bid =>{
+    highestbidder.call().then(bidder =>{
+      endtime.call().then(endtime =>{
+        auctionEndTime.call().then(auctionEndTime =>{
+          onConfirm(bid, bidder, endtime, auctionEndTime)
+        })
+      })
+    })
+  })
+}
