@@ -42,6 +42,7 @@ var explorerBlockView = Vue.component("ExplorerBlockView", {
         etheriumService.recentBlock(function (response){
           for(let i=0; i<10; i++){
             response[i].timestamp = etheriumService.timeSince(response[i].timestamp)
+
             if(response[i].trans){
               response[i].txCount = response[i].trans.length
             } else {

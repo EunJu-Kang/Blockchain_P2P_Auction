@@ -29,27 +29,28 @@ var exploreraddressDetailView = Vue.component('ExploreraddressDetailView', {
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>트랜잭션 해시</th>
-                                <th>블록 넘버</th>
-                                <th>날짜</th>
-                                <th>송신자 주소</th>
-                                <th>전송한 이더</th>
-                                <th>Gas</th>
-                                <th>Gas Price</th>
-                                <th>전송한 이더</th>
+                                <th>Txn Hash</th>
+                                <th>Block</th>
+                                <th>Age</th>
+                                <th>From</th>
+                                <th> </th>
+                                <th>To</th>
+                                <th>Value</th>
+                                <th>[Txn Free]</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(item, index) in contracts">
                                 <td><router-link :to="{ name: 'explorer.auction.detail', params: { contractAddress: item } }">{{ item | truncate(15) }}</router-link></td>
                                 <td>
-                                    <span class="badge badge-primary" v-if="items[index] && !items[index].ended">Processing</span>
-                                    <span class="badge badge-danger" v-if="items[index] && items[index].ended">Ended</span>
+                                    <span class="badge badge-primary" v-if="items[index] && !items[index].ended">OUT</span>
+                                    <span class="badge badge-danger" v-if="items[index] && items[index].ended">IN</span>
                                 </td>
                                 <td>{{ items[index] && items[index].higestBid }} ETH</td>
                                 <td>
-                                    <span v-if="items[index] && items[index].higestBid != 0">{{ items[index] && items[index].higestBidder | truncate(15) }}</span>
-                                    <span v-if="items[index] && items[index].higestBid == 0">-</span>
+                                    // <span v-if="items[index] && items[index].higestBid != 0">{{ items[index] && items[index].higestBidder | truncate(15) }}</span>
+                                    // <span v-if="items[index] && items[index].higestBid == 0">-</span>
                                 </td>
                                 <td>{{ items[index] && items[index].endTime.toLocaleString() }}</td>
                             </tr>
@@ -88,9 +89,8 @@ mounted: function(){
         if(this.address) {
           console.log("mounted 확인");
           etheriumService.findTranByAddress(this.address,function(response){
-console.log("mounted 확인2");
+            console.log("mounted 확인2");
             scope.tx = respons
-
           })
         } else {
         this.isValid = false;

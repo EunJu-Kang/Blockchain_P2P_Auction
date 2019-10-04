@@ -11,7 +11,7 @@ import org.json.simple.JSONObject;
 
 public interface IEthereumService {
     List<Block> 최근블록조회();
-    List<EthereumTransaction> 최근트랜잭션조회();
+    List<com.bcauction.domain.Transaction> 최근트랜잭션조회();
 
     Block 블록검색(String 블록Id);
     EthereumTransaction 트랜잭션검색(String 트랜Id);
