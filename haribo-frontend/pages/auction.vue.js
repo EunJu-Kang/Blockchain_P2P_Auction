@@ -10,7 +10,7 @@ var auctionView = Vue.component('AuctionView', {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 auction" v-for="item in auctions">
+                    <div class="col-md-3 auction" v-for="item in pageAuction">
                         <div class="card">
                             <div class="card-body">
                                 <img src="./assets/images/artworks/artwork1.jpg">
@@ -21,12 +21,29 @@ var auctionView = Vue.component('AuctionView', {
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <nav class="bottom-pagination">
+                            <ul class="pagination">
+                                <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="movePage(1)">맨앞</a></li>
+                                <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="prevPage">prev</a></li>
+                                <li class="page-item" v-for="idx in pageCount"><a class="page-link" href="#" @click="movePage(idx)">{{idx}}</a></li>
+                                <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="nextPage">next</a></li>
+                                <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="movePage(pageCount)">맨뒤</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </div>
         </div>
     `,
     data() {
         return {
-            auctions: []
+            auctions: [],
+            pageAuction:[],
+            pageCount: 0,
+            perPage:8,
+            currentPage: 1
         }
     },
     methods: {
@@ -34,7 +51,6 @@ var auctionView = Vue.component('AuctionView', {
             var now = new Date();
             var endDate = new Date(date);
             var diff = endDate.getTime() - now.getTime();
-
             // 만약 종료일자가 지났다면 "경매 마감"을 표시한다.
             if(diff < 0) {
                 return "경매 마감";
@@ -47,6 +63,29 @@ var auctionView = Vue.component('AuctionView', {
 
                 return "남은시간: " + days + "일 " + hours + "시간 " + minutes + "분";
             }
+        },
+        nextPage(){
+          this.currentPage++;
+          this.movePage(this.currentPage);
+
+        },
+        prevPage(){
+          this.currentPage--;
+          this.movePage(this.currentPage);
+
+        },
+        movePage(p){
+          this.currentPage = p;
+          var start = (p-1)*this.perPage
+          var end = this.auctions.length;
+          if(end>start+this.perPage){
+            end = start+this.perPage
+          }
+          this.pageAuction = [];
+          for(var i = start; i<end; i++){
+            this.pageAuction.push(this.auctions[i])
+          }
+          console.log(start)
         }
     },
     mounted: function(){
@@ -59,6 +98,8 @@ var auctionView = Vue.component('AuctionView', {
             function fetchData(start, end){
                 if(start == end) {
                     scope.auctions = result;
+                    scope.pageCount = Math.ceil(result.length /scope.perPage);
+                    scope.movePage(1);
                 } else {
                     var id = result[start]['경매작품id'];
                     workService.findById(id, function(work){
