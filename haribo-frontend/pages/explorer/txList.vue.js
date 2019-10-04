@@ -18,7 +18,7 @@ var explorerTxListView = Vue.component('ExplorerTxListView', {
                                 <div class="row tx-info" v-for="item in transactions">
                                     <div class="col-md-2">Tx</div>
                                     <div class="col-md-4">
-                                        <router-link :to="{name: 'explorer.tx.detail', params: { hash: item.txHash }}" class="tx-number">{{ item.txHash | truncate(10) }}</router-link>
+                                        <router-link :to="{name: 'explorer.tx.detail', params: { hash: item.hash }}" class="tx-number">{{ item.hash | truncate(10) }}</router-link>
                                         <p class="tx-timestamp">{{ item.timestamp }}</p>
                                     </div>
                                     <div class="col-md-6">
@@ -47,7 +47,13 @@ var explorerTxListView = Vue.component('ExplorerTxListView', {
              var scope = this;
              etheriumService.recentTrans(function(response){
                if(response){
-                 for(let i=0; i<10; i++){
+                 var len = response.length;
+                 console.log("response", response);
+                 console.log("길이", len);
+                 let d = Date.parse(response[69].저장일시); // KST
+                 console.log("저장일시", d); // 86400000
+                 console.log(etheriumService.timeSince(d));
+                 for(let i=0; i<len; i++){
                    if(response[i]){
                      response[i].timestamp = etheriumService.timeSince(response[i].timestamp)
                    }

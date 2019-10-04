@@ -103,15 +103,12 @@ public class EthereumService implements IEthereumService {
 	/**
 	 * 최근 생성된 블록에 포함된 트랜잭션 조회 이더리움 트랜잭션을 EthereumTransaction으로 변환해야 한다.
 	 *
-	 * @return List<EthereumTransaction>
+	 * @return List<com.bcauction.domain.Transaction>
 	 */
 	@Override
-	public List<EthereumTransaction> 최근트랜잭션조회() {
-		List<EthereumTransaction> listTransaction = new ArrayList<>();
-		EthBlock.Block block = this.최근블록(true);
-		listTransaction = EthereumTransaction.getEthereumTransactionList(block.getTransactions(), block.getTimestamp(),
-				true);
-		return listTransaction;
+	public List<com.bcauction.domain.Transaction> 최근트랜잭션조회() {
+		List<com.bcauction.domain.Transaction> ListTran = transactionRepository.목록조회();
+		return ListTran;
 	}
 
 	/**
@@ -228,8 +225,11 @@ public class EthereumService implements IEthereumService {
 	public Address 주소검색(String 주소) {
 		// TODO Auto-generated method stub
 		Address address=null;
-		transactionRepository.조회By주소(주소);
-
+		
+		List<com.bcauction.domain.Transaction> Listtran=transactionRepository.조회By주소(주소);
+		for(int i=0; i<Listtran.size();i++) {
+			System.out.println(Listtran.get(i).getTo());
+		}
 		return address;
 	}
 
