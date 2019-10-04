@@ -43,6 +43,12 @@ public class AuctionService implements IAuctionService {
 	public List<Auction> 경매목록조회() {
 		return this.auctionRepository.목록조회();
 	}
+	
+	@Override
+	public List<Auction> 나의경매목록조회(int id) {
+		// TODO Auto-generated method stub
+		return this.auctionRepository.나의경매목록조회(id);
+	}
 
 	@Override
 	public Auction 조회(final long 경매id) {

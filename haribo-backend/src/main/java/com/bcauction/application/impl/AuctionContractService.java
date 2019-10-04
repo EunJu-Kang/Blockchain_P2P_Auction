@@ -49,6 +49,7 @@ import java.util.StringTokenizer;
 @Service
 public class AuctionContractService implements IAuctionContractService {
 	private static final Logger log = LoggerFactory.getLogger(AuctionContractService.class);
+	private String ad = "http://54.180.162.22:3336";
 
 	@Value("${eth.auction.factory.contract}")
 	private String AUCTION_FACTORY_CONTRACT;
@@ -99,7 +100,7 @@ public class AuctionContractService implements IAuctionContractService {
 		Wallet wallet = new Wallet();
 		Long highestBidderId = null;
 		try {
-			web3j = Web3j.build(new HttpService("http://54.180.162.22:8545"));
+			web3j = Web3j.build(new HttpService(ad));
 			credentials = WalletUtils.loadCredentials(PASSWORD, WALLET_RESOURCE);
 			auctionFactoryContract = AuctionFactoryContract.load(AUCTION_FACTORY_CONTRACT, web3j, credentials,
 					contractGasProvider);
@@ -135,7 +136,7 @@ public class AuctionContractService implements IAuctionContractService {
 		// TODO
 		BigInteger highestBid = BigInteger.ZERO;
 		try {
-			web3j = Web3j.build(new HttpService("http://54.180.162.22:8545"));
+			web3j = Web3j.build(new HttpService(ad));
 			credentials = WalletUtils.loadCredentials(PASSWORD, WALLET_RESOURCE);
 			auctionFactoryContract = AuctionFactoryContract.load(AUCTION_FACTORY_CONTRACT, web3j, credentials,
 					contractGasProvider);
@@ -158,7 +159,7 @@ public class AuctionContractService implements IAuctionContractService {
 		// TODO
 		String highestBidder = null;
 		try {
-			web3j = Web3j.build(new HttpService("http://54.180.162.22:8545"));
+			web3j = Web3j.build(new HttpService(ad));
 			credentials = WalletUtils.loadCredentials(PASSWORD, WALLET_RESOURCE);
 			auctionContract = AuctionContract.load(컨트랙트주소, web3j, credentials, contractGasProvider);
 			highestBidder = auctionContract.highestBidder().send();
@@ -179,7 +180,7 @@ public class AuctionContractService implements IAuctionContractService {
 		String str;
 		List<String> list = new ArrayList<>();
 		try {
-			web3j = Web3j.build(new HttpService("http://54.180.162.22:8545"));
+			web3j = Web3j.build(new HttpService(ad));
 			credentials = WalletUtils.loadCredentials(PASSWORD, WALLET_RESOURCE);
 			auctionFactoryContract = AuctionFactoryContract.load(AUCTION_FACTORY_CONTRACT, web3j, credentials,
 					contractGasProvider);

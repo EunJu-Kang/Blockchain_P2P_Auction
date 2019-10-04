@@ -48,6 +48,8 @@ var auctionService = {
     },
     // 경매 종료
     close: function(auctionId, bidderId, callback){
+      console.log(auctionId);
+      console.log(bidderId);
         $.ajax({
             type: "PUT",
             url: API_BASE_URL + "/api/auctions/" + auctionId + "/by/" + bidderId,

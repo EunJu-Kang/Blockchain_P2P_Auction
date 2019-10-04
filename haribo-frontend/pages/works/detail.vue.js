@@ -94,7 +94,7 @@ var worksDetailView = Vue.component("WorkDetailView", {
         deleteWork: function(){
             var scope = this;
             workService.delete(
-                this.$route.params.id, 
+                this.$route.params.id,
                 function(response){
                     alert("작품이 삭제되었습니다.");
                     scope.$router.push('/artworks');
@@ -127,6 +127,7 @@ var worksDetailView = Vue.component("WorkDetailView", {
 
         // 작품 이력 조회
         workService.findHistoryById(workId, function(data){
+          console.log(data);
             scope.history = data;
         });
     }
