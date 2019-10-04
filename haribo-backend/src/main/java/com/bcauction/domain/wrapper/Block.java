@@ -47,7 +47,7 @@ public class Block {
         this.blockNo = blockNo;
     }
 
-    public List<EthereumTransaction> getTrans() {
+    public List<EthereumTransaction> EthereumTransaction() {
         return trans;
     }
 
@@ -55,7 +55,11 @@ public class Block {
         this.trans = trans;
     }
 
-    public LocalDateTime getTimestamp() {
+    public List<EthereumTransaction> getTrans() {
+		return trans;
+	}
+
+	public LocalDateTime getTimestamp() {
         return timestamp;
     }
 

@@ -1,53 +1,37 @@
 package com.bcauction.application.impl;
 
-import com.bcauction.application.IEthereumService;
-import com.bcauction.domain.*;
-import com.bcauction.domain.exception.ApplicationException;
-import com.bcauction.domain.repository.ITransactionRepository;
-import com.bcauction.domain.repository.IWalletRepository;
-import com.bcauction.domain.wrapper.Block;
-import com.bcauction.domain.wrapper.EthereumTransaction;
-import com.bcauction.infrastructure.repository.WalletRepository;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.RawTransaction;
-import org.web3j.crypto.TransactionEncoder;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.admin.methods.response.PersonalUnlockAccount;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.DefaultBlockParameterNumber;
-import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.*;
-import org.web3j.protocol.core.methods.response.EthBlock.TransactionResult;
-import org.web3j.protocol.exceptions.TransactionException;
+import org.web3j.protocol.core.methods.response.EthBlock;
+import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
+import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
-import org.web3j.utils.Numeric;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import com.bcauction.application.IEthereumService;
+import com.bcauction.domain.Address;
+import com.bcauction.domain.Wallet;
+import com.bcauction.domain.exception.ApplicationException;
+import com.bcauction.domain.repository.ITransactionRepository;
+import com.bcauction.domain.repository.IWalletRepository;
+import com.bcauction.domain.wrapper.Block;
+import com.bcauction.domain.wrapper.EthereumTransaction;
 
 @Service
 public class EthereumService implements IEthereumService {
@@ -63,6 +47,7 @@ public class EthereumService implements IEthereumService {
 	private String PASSWORD;
 	@Value("${eth.admin.wallet.filename}")
 	private String ADMIN_WALLET_FILE;
+
 
 	private ITransactionRepository transactionRepository;
 	private IWalletRepository walletRepository;
@@ -244,8 +229,41 @@ public class EthereumService implements IEthereumService {
 		// TODO Auto-generated method stub
 		Address address=null;
 		transactionRepository.조회By주소(주소);
-		
+
 		return address;
+	}
+
+	public void changeTran(String BlockNumber) {
+		Block block= 블록검색(BlockNumber);
+		List<EthereumTransaction> ListTran= block.getTrans();
+		com.bcauction.domain.Transaction transaction = new com.bcauction.domain.Transaction();
+
+		if(ListTran.size()>0) {
+			for(int i=0; i<ListTran.size(); i++) {
+				EthereumTransaction tx = ListTran.get(i);
+				transaction.setId(0);
+				transaction.setHash(tx.getTxHash());
+				transaction.setNonce(null);
+				transaction.setBlockHash(null);
+				transaction.setBlockNumber(tx.getBlockId());
+				transaction.setTransactionIndex(null);
+				transaction.setFrom(tx.getFrom());
+				transaction.setTo(tx.getTo());
+				transaction.setValue(null);
+				transaction.setGasPrice(tx.getGasPriceRaw());
+				transaction.setGas(tx.getGasRaw());
+				transaction.setInput(tx.getInput());
+				transaction.setCreates(null);
+				transaction.setPublicKey(null);
+				transaction.setRaw(null);
+				transaction.setR(null);
+				transaction.setS(null);
+				transaction.setV(0);
+				transaction.set저장일시(tx.getTimestamp());
+
+				transactionRepository.추가(transaction);
+			}
+		}
 	}
 
 }
