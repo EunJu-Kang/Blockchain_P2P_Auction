@@ -99,8 +99,6 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
              */
             var scope = this;
             var privateKey = window.prompt("경매를 종료하시려면 지갑 비밀키를 입력해주세요.","");
-            console.log(this.auction);
-            console.log(this.auction['종료']);
 
             // register.vue.js, bid.vue.js를 참조하여 완성해 봅니다.
             var options = {
@@ -146,7 +144,6 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
 
         // 경매 정보 조회
         auctionService.findById(auctionId, function(auction){
-            console.log(auction);
             var amount = Number(auction['최소금액']).toLocaleString().split(",").join("")
             // auction['최소금액'] = web3.utils.fromWei(amount, 'ether');
 

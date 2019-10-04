@@ -38,7 +38,7 @@ var myArtworkView = Vue.component('MyArtworkView', {
                                     <div class="card-body">
                                         <img src="./assets/images/artworks/artwork1.jpg">
                                         <h4>{{ item['작품정보']['이름'] }}</h4>
-                                        <span class="badge badge-success">경매 진행중</span>
+                                        <span class="badge badge-success">{{calculateDate(item['종료일시'])}}</span>
                                         <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn btn-block btn-secondary mt-3">자세히보기</router-link>
                                     </div>
                                 </div>
@@ -81,23 +81,31 @@ var myArtworkView = Vue.component('MyArtworkView', {
     },
     mounted: function(){
         var scope = this;
-        var userId = this.sharedStates.user.id;
+        var userId = sessionStorage.getItem("userID");
 
-        /**
-         * TODO 1. 회원의 작품 목록을 가져옵니다.
-         * Backend와 API 연동합니다.
-         * 작품 마다 소유권 이력을 보여줄 수 있어야 합니다.
-         */
-         // 여기에 작성하 세요.
          $.get(API_BASE_URL + "/api/works/my/" + userId).then(res =>{
            scope.artworks = res
          })
-        /**
-         * TODO 2. 회원의 경매 목록을 가져옵니다.
-         * Backend와 API 연동합니다.
-         * 경매 중인 작품 마다 소유권 이력을 보여줄 수 있어야 합니다.
-         */
-         // 여기에 작성하세요.
 
+         auctionService.findAllByUser(sessionStorage.getItem("userID"), function(data) {
+           var result = data;
+
+           // 각 경매별 작품 정보를 불러온다.
+           function fetchData(start, end){
+               if(start == end) {
+                   scope.auctions = result;
+               } else {
+                   var id = result[start]['경매작품id'];
+                   workService.findById(id, function(work){
+                       result[start]['작품정보'] = work;
+                       fetchData(start+1, end);
+                   });
+               }
+           }
+
+           if(result != undefined){
+             fetchData(0, result.length);
+           }
+         });
     }
 })

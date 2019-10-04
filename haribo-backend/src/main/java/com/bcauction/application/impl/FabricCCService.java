@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -17,6 +19,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.stream.JsonParser;
 
+import org.hyperledger.fabric.sdk.BlockEvent.TransactionEvent;
 import org.hyperledger.fabric.sdk.ChaincodeID;
 import org.hyperledger.fabric.sdk.Channel;
 import org.hyperledger.fabric.sdk.Enrollment;
@@ -140,19 +143,9 @@ public class FabricCCService implements IFabricCCService {
 		boolean res = registerAsset(작품id, 소유자);
 		if (!res)
 			return null;
-		try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		res = confirmTimestamp(작품id);
 		if (!res)
 			return null;
-		try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		return query(작품id);
 	}
 
@@ -166,27 +159,27 @@ public class FabricCCService implements IFabricCCService {
 	 */
 	@Override
 	public List<FabricAsset> transferOwnership(final long from, final long to, final long 작품id) {
-		if (this.channel == null)
-			loadChannel();
+	      if (this.channel == null)
+	         loadChannel();
 
-		List<FabricAsset> assets = new ArrayList<>();
-		boolean res = this.expireAssetOwnership(작품id, from);
-		if (!res)
-			return null;
-		FabricAsset expired = query(작품id);
-		if (expired == null)
-			return null;
-		assets.add(expired);
+	      List<FabricAsset> assets = new ArrayList<>();
+	      boolean res = this.expireAssetOwnership(작품id, from);
+	      if (!res)
+	         return null;
+	      FabricAsset expired = query(작품id);
+	      if (expired == null)
+	         return null;
+	      assets.add(expired);
 
-		res = this.updateAssetOwnership(작품id, to);
-		if (!res)
-			return null;
-		FabricAsset transferred = query(작품id);
-		if (transferred == null)
-			return null;
-		assets.add(transferred);
+	      res = this.updateAssetOwnership(작품id, to);
+	      if (!res)
+	         return null;
+	      FabricAsset transferred = query(작품id);
+	      if (transferred == null)
+	         return null;
+	      assets.add(transferred);
 
-		return assets;
+	      return assets;
 	}
 
 	/**
@@ -203,19 +196,11 @@ public class FabricCCService implements IFabricCCService {
 		boolean res = this.expireAssetOwnership(작품id, 소유자id);
 		if (!res)
 			return null;
-		try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+
 		res = confirmTimestamp(작품id);
 		if (!res)
 			return null;
-		try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+
 		return query(작품id);
 	}
 
@@ -232,6 +217,7 @@ public class FabricCCService implements IFabricCCService {
 			loadChannel();
 
 		String[] args = { 작품id + "", 소유자 + "" };
+		boolean result = false;
 
 		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
 		ChaincodeID fabricCCId = ChaincodeID.newBuilder().setName("asset").build();
@@ -241,14 +227,21 @@ public class FabricCCService implements IFabricCCService {
 		Collection<ProposalResponse> res;
 		try {
 			res = this.channel.queryByChaincode(qpr);
-			this.channel.sendTransaction(res);
+			CompletableFuture<TransactionEvent> tmp = this.channel.sendTransaction(res);
+			result = tmp.get().isValid();
 		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
 			e.printStackTrace();
 		} catch (ProposalException e) {
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		return true;
+		return result;
 	}
 
 	/**
@@ -263,6 +256,7 @@ public class FabricCCService implements IFabricCCService {
 			loadChannel();
 
 		String[] args = { 작품id + "" };
+		boolean result = false;
 
 		TransactionProposalRequest tpr = this.hfClient.newTransactionProposalRequest();
 		ChaincodeID fabricCCId = ChaincodeID.newBuilder().setName("asset").build();
@@ -273,13 +267,20 @@ public class FabricCCService implements IFabricCCService {
 		Collection<ProposalResponse> res;
 		try {
 			res = this.channel.sendTransactionProposal(tpr, this.channel.getPeers());
-			channel.sendTransaction(res);
+			CompletableFuture<TransactionEvent> tmp = this.channel.sendTransaction(res);
+			result = tmp.get().isValid();
 		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
 			e.printStackTrace();
 		} catch (ProposalException e) {
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return true;
+		return result;
 	}
 
 	/**
@@ -295,6 +296,7 @@ public class FabricCCService implements IFabricCCService {
 			loadChannel();
 
 		String[] args = { 작품id + "", 소유자 + "" };
+		boolean result = false;
 
 		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
 		ChaincodeID fabricCCId = ChaincodeID.newBuilder().setName("asset").build();
@@ -305,15 +307,22 @@ public class FabricCCService implements IFabricCCService {
 		Collection<ProposalResponse> res;
 		try {
 			res = this.channel.queryByChaincode(qpr);
-			this.channel.sendTransaction(res);
+			CompletableFuture<TransactionEvent> tmp = this.channel.sendTransaction(res);
+			result = tmp.get().isValid();
 		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ProposalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return true;
+		return result;
 	}
 
 	/**
@@ -329,6 +338,7 @@ public class FabricCCService implements IFabricCCService {
 			loadChannel();
 
 		String[] args = { 작품id + "", to + "" };
+		boolean result = false;
 
 		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
 		ChaincodeID fabricCCId = ChaincodeID.newBuilder().setName("asset").build();
@@ -339,15 +349,22 @@ public class FabricCCService implements IFabricCCService {
 		Collection<ProposalResponse> res;
 		try {
 			res = this.channel.queryByChaincode(qpr);
-			this.channel.sendTransaction(res);
+			CompletableFuture<TransactionEvent> tmp = this.channel.sendTransaction(res);
+			result = tmp.get().isValid();
 		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ProposalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return true;
+		return result;
 	}
 
 	/**

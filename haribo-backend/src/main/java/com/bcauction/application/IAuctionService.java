@@ -10,6 +10,7 @@ import java.util.List;
 public interface IAuctionService
 {
 	List<Auction> 경매목록조회();
+	List<Auction> 나의경매목록조회(int id);
 	Auction 조회(long 경매id);
 	Auction 조회(String 컨트랙트주소);
 

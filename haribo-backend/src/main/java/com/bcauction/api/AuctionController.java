@@ -86,7 +86,7 @@ public class AuctionController
 		return this.auctionService.경매종료(aid, mid);
 	}
 
-	@RequestMapping(value = "/auctions/bid", method = 	RequestMethod.PUT)
+	@RequestMapping(value = "/auctions/bid", method = RequestMethod.PUT)
 	public Bid 입찰(@RequestBody Bid bid) {
 		return auctionService.입찰(bid);
 	}
@@ -101,7 +101,8 @@ public class AuctionController
 	@RequestMapping(value = "/auctions/owner/{id}", method = RequestMethod.GET)
 	public List<Auction> 사용자경매목록조회(@PathVariable int id){
 		// TODO
-		return null;
+		List<Auction> auctions = auctionService.나의경매목록조회(id);
+		return auctions;
 	}
 
 }

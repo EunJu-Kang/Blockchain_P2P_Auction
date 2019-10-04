@@ -78,14 +78,17 @@ public class FabricService implements IFabricService {
 		List<FabricAsset> assets = this.fabricCCService.transferOwnership(from, to, 작품id);
 		if (assets == null)
 			return null;
+		
+		System.out.println("소유권");
+		for(int i=0; i<assets.size(); i++) {
+			System.out.println(assets.get(i).toString());
+		}
 
 		Ownership 소멸소유권 = this.ownershipRepository.조회(from, 작품id);
 		if (소멸소유권 == null)
 			return null;
 
 		소멸소유권.set소유종료일자(assets.get(0).getExpiredAt());
-		System.out.println(from + " " + to);
-		System.out.println(소멸소유권.toString());
 		long result = this.ownershipRepository.수정(소멸소유권);
 		if (result == 0)
 			return null;
@@ -147,6 +150,11 @@ public class FabricService implements IFabricService {
 	@Override
 	public List<FabricAsset> 작품이력조회(final long id) {
 		List<FabricAsset> history = this.fabricCCService.queryHistory(id);
+		
+		System.out.println("여기야 여기");
+		for(int i=0; i<history.size(); i++) {
+			System.out.println(history.get(i).toString());			
+		}
 
 		return history;
 	}

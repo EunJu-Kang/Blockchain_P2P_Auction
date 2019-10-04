@@ -65,7 +65,7 @@ var walletInfoView = Vue.component('walletInfoView', {
               scope.wallet['주소'] = res[0]
             })
             var w = scope.wallet;
-            await walletService.findById(this.sharedState.user.id, function(data){
+            await walletService.findById(sessionStorage.getItem("userID"), function(data){
                 // TODO API 호출로 지갑 정보를 가져와 보여줍니다.
                 // web3를 사용하여 잔액을 조회해 보는 것도 포함해보도록 합니다.
                 w.id = data.id;
