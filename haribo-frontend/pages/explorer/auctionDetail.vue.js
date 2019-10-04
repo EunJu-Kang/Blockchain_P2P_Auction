@@ -14,7 +14,7 @@ var explorerAuctionDetailView = Vue.component('ExplorerDetailView', {
                         <thead>
                             <tr>
                                 <th colspan="2"># {{ contractAddress }}</th>
-                            </tr> 
+                            </tr>
                         </thead>
                         <tbody>
                             <tr>
@@ -34,11 +34,11 @@ var explorerAuctionDetailView = Vue.component('ExplorerDetailView', {
                             </tr>
                             <tr>
                                 <th>Start Time Time</th>
-                                <td>{{ contract && contract.startTime.toLocaleString() }}</td>
+                                <td>{{ contract && contract.startTime }}</td>
                             </tr>
                             <tr>
                                 <th>Expire Time</th>
-                                <td>{{ contract && contract.endTime.toLocaleString() }}</td>
+                                <td>{{ contract && contract.endTime}}</td>
                             </tr>
                             <tr>
                                 <th>Highest Bid</th>
@@ -69,7 +69,35 @@ var explorerAuctionDetailView = Vue.component('ExplorerDetailView', {
     },
     mounted: async function(){
         /**
-         * TODO 경매 컨트랙트로부터 경매 정보를 가져옵니다. 
+         * TODO 경매 컨트랙트로부터 경매 정보를 가져옵니다.
          */
+         var scope = this;
+         let temp =  this.$route.params.contractAddress;
+         scope.contractAddress = temp.컨트랙트주소;
+         auction_info(scope.contractAddress, (bid, bidder, endtime, auctionEndTime) => {
+           if(bid){
+             bid = web3.utils.fromWei(bid, 'ether');
+             var cnt = 0
+             for(var i=0; i<bidder.length; i++){
+               if(bidder[i] == "0"){
+                 cnt = cnt + 1
+               }
+             }
+             if(cnt >= 30){
+               bidder = "-"
+             }
+           }
+           let obj = {
+             "ended" : endtime,
+             "endTime" : temp.종료일시,
+             "highestBid" : bid,
+             "highestBidder" : bidder,
+             "startTime" : temp.시작일시,
+           }
+           scope.contract = obj
+         })
+         workService.findById(temp.작품id, function(data){
+           scope.work = data
+         })
     }
 })
