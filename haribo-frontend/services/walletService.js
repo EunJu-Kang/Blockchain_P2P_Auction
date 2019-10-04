@@ -12,6 +12,9 @@ var walletService = {
             dataType: "json",
             success: function(response){
                 callback(response);
+            },
+            error: function(){
+              // router.push('/')
             }
         });
     },
