@@ -11,10 +11,12 @@ import java.time.format.DateTimeFormatter;
  */
 public class FabricAsset
 {
+
+
 	@Override
 	public String toString() {
 		return "FabricAsset [assetId=" + assetId + ", owner=" + owner + ", createdAt=" + createdAt + ", expiredAt="
-				+ expiredAt + ", formatter=" + formatter + "]";
+				+ expiredAt + "]";
 	}
 
 	private static final Logger logger = LoggerFactory.getLogger(FabricAsset.class);
