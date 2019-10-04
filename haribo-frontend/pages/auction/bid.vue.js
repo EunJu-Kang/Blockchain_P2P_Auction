@@ -37,8 +37,8 @@ var auctionBidView = Vue.component('AuctionBidView', {
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <button class="btn btn-sm btn-primary" v-on:click="bid" v-bind:disabled="bidding">{{ bidding ? "입찰을 진행 하는 중입니다." : "입찰하기" }}</button>
+                                <div class="col-md-6" v-show="check">
+                                    <button class="btn btn-sm btn-primary" v-on:click="bid" :disabled="bidding">{{ bidding ? "입찰을 진행 하는 중입니다." : "입찰하기" }}</button>
                                 </div>
                                 <div class="col-md-6 text-right">
                                     <button class="btn btn-sm btn-outline-secondary" v-on:click="goBack">이전으로 돌아가기</button>
@@ -60,7 +60,8 @@ var auctionBidView = Vue.component('AuctionBidView', {
                 price: 0
             },
             sharedStates: store.state,
-            wallet: {}
+            wallet: {},
+            check: false
         }
     },
     methods: {
@@ -102,10 +103,11 @@ var auctionBidView = Vue.component('AuctionBidView', {
         auctionService.findById(auctionId, function(auction){
             auction['최소금액'] = Number(auction['최소금액']);
             // auction이 늦게 처리되어 돌아오기 때문에 그전에 입찰을 진행하게 되면 경매컨트랙트주소가 넘어오지 않은채 진행이 된다.
-            console.log(auction)
-            scope.auction = auction;
+            scope.auction = auction
+            if(auction != null ){
+              scope.check = true
+            }
             var workId = auction['작품id'];
-
             workService.findById(workId, function(work){
                 scope.work = work;
             });
