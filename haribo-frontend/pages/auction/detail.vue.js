@@ -69,7 +69,7 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
                                         <button type="button" class="btn btn-sm btn-primary" v-on:click="closeAuction" v-bind:disabled="isCanceling || isClosing">{{ isClosing ? "낙찰중" : "낙찰하기" }}</button>
                                         <button type="button" class="btn btn-sm btn-danger" v-on:click="cancelAuction" v-bind:disabled="isCanceling || isClosing">{{ isCanceling ? "취소하는 중" : "경매취소하기" }}</button>
                                     </div>
-                                    <div class="col-md-6 text-right" v-if="sharedStates.user.id != work['회원id'] && auction['종료'] != true">
+                                    <div class="col-md-6 text-right" v-if="sharedStates.user.id != work['회원id'] && auction['종료'] != true" v-show="check">
                                         <router-link :to="{ name: 'auction.bid', params: { id: this.$route.params.id } }" class="btn btn-sm btn-primary">입찰하기</router-link>
                                     </div>
                                 </div>
@@ -88,7 +88,8 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
             sharedStates: store.state,
             bidder: {},
             isCanceling: false,
-            isClosing: false
+            isClosing: false,
+            check:false
         }
     },
     methods: {
@@ -148,7 +149,9 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
             // auction['최소금액'] = web3.utils.fromWei(amount, 'ether');
 
             var workId = auction['작품id'];
-
+            if(auction != null ){
+              scope.check = true
+            }
             // 작품 정보 조회
             workService.findById(workId, function(work){
                 scope.work = work;
