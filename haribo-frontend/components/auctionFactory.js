@@ -141,5 +141,11 @@ function auction_info(contractAddress, onConfirm){
         })
       })
     })
+  }).catch(e =>{
+    bid = null
+    bidder = null
+    endtime = null
+    auctionEndTime = null
+    onConfirm(bid, bidder, endtime, auctionEndTime)
   })
 }
