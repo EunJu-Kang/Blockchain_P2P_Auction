@@ -16,6 +16,9 @@ var userService = {
             headers: { 'Content-Type': 'application/json' },
             success: function(response){
                 callback(response);
+            },
+            error: function(){
+              alert("아이디 중복됬으네~")
             }
         });
     },
