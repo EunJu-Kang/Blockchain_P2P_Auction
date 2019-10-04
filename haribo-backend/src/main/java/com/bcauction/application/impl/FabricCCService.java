@@ -1,5 +1,10 @@
 package com.bcauction.application.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +14,7 @@ import java.util.StringTokenizer;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.json.stream.JsonParser;
 
 import org.hyperledger.fabric.sdk.ChaincodeID;
@@ -222,6 +228,9 @@ public class FabricCCService implements IFabricCCService {
 	 */
 	private boolean registerAsset(final long 작품id, final long 소유자) {
 		// TODO
+		if (this.hfClient == null || this.channel == null)
+			loadChannel();
+
 		String[] args = { 작품id + "", 소유자 + "" };
 
 		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
@@ -250,6 +259,9 @@ public class FabricCCService implements IFabricCCService {
 	 */
 	private boolean confirmTimestamp(final long 작품id) {
 		// TODO
+		if (this.hfClient == null || this.channel == null)
+			loadChannel();
+
 		String[] args = { 작품id + "" };
 
 		TransactionProposalRequest tpr = this.hfClient.newTransactionProposalRequest();
@@ -279,6 +291,9 @@ public class FabricCCService implements IFabricCCService {
 	 */
 	private boolean expireAssetOwnership(final long 작품id, final long 소유자) {
 		// TODO
+		if (this.hfClient == null || this.channel == null)
+			loadChannel();
+
 		String[] args = { 작품id + "", 소유자 + "" };
 
 		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
@@ -310,6 +325,9 @@ public class FabricCCService implements IFabricCCService {
 	 */
 	private boolean updateAssetOwnership(final long 작품id, final long to) {
 		// TODO
+		if (this.hfClient == null || this.channel == null)
+			loadChannel();
+
 		String[] args = { 작품id + "", to + "" };
 
 		QueryByChaincodeRequest qpr = this.hfClient.newQueryProposalRequest();
@@ -342,6 +360,7 @@ public class FabricCCService implements IFabricCCService {
 	public List<FabricAsset> queryHistory(final long 작품id) {
 		if (this.hfClient == null || this.channel == null)
 			loadChannel();
+		
 		List<FabricAsset> history = new ArrayList<>();
 		String[] args = { 작품id + "" };
 		String stringResponse = "";
@@ -353,39 +372,29 @@ public class FabricCCService implements IFabricCCService {
 		qpr.setArgs(args);
 
 		Collection<ProposalResponse> res;
+		ByteArrayInputStream bais = null;
+
 		try {
 			res = this.channel.queryByChaincode(qpr);
 			for (ProposalResponse pres : res) {
 				stringResponse = new String(pres.getChaincodeActionResponsePayload());
-				System.out.println("여기여기:"+stringResponse);
-				
-				
-				//bytearrayinputstream -> Reader써서 jsonArray로 바꾼다음에 -> JsonObject로 바꾸기
-				//import 형식은 전부 javax.json~ 이런거임
-				
-				
-				
-//				JsonParser jsonParser = new JsonParser();
-//				JsonArray jsonArray = (JsonArray) jsonParser.parse(str);
-//
-//				for (int i = 0; i < jsonArray.size(); i++) {
-//					System.out.println(i);
-//					System.out.println(jsonArray.get(i));
-//					JsonObject object = jsonArray.get(i).getAsJsonObject();
-//					System.out.println("zzz");
-//					FabricAsset fa = this.getAssetRecord(object);
-//					System.out.println(fa.toString());
-//				}
+
+				JsonReader jsonReader = Json.createReader(new StringReader(stringResponse));
+				JsonArray ja = jsonReader.readArray();
+				jsonReader.close();
+
+				for (int i = 0; i < ja.size(); i++) {
+					JsonObject object = ja.get(i).asJsonObject();
+					FabricAsset fa = this.getAssetRecord(object);
+					history.add(fa);
+				}
+
 			}
-		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ProposalException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return null;
+		return history;
 	}
 
 	/**
