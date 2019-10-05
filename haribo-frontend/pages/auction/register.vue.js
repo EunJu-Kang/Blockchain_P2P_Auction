@@ -126,24 +126,26 @@ var auctionRegisterView = Vue.component('AuctionRegisterView', {
                 createAuction({
                     workId: scope.before.selectedWork,
                     minValue: scope.before.input.minPrice,
-                    startTime: new Date(scope.before.input.startDate).getTime(),
-                    endTime: new Date(scope.before.input.untilDate).getTime()
+                    startTime: new Date(scope.before.input.startDate).getTime()+32400000,
+                    endTime: new Date(scope.before.input.untilDate).getTime()+32400000
                 }, walletAddress, scope.before.input.privateKey, function(log){
                     var contractAddress = log[log.length -1];
+                    var startTimes = new Date(scope.before.input.startDate).getTime()+32400000;
+                    var endTimes = new Date(scope.before.input.untilDate).getTime()+32400000;
+                    startTimes = new Date(startTimes);
+                    endTimes = new Date(endTimes);
                     var data = {
                         "경매생성자id": scope.sharedStates.user.id,
                         "경매작품id": scope.before.selectedWork,
-                        "시작일시": new Date(scope.before.input.startDate),
-                        "종료일시": new Date(scope.before.input.untilDate),
+                        "시작일시": startTimes,
+                        "종료일시": endTimes,
                         "최저가": Number(scope.before.input.minPrice),
                         "컨트랙트주소": contractAddress,
                     }
-
                     // 3. 선택한 작업 정보를 가져옵니다.
                     workService.findById(scope.before.selectedWork, function(result){
                         scope.after.work = result;
                     });
-
                     // 4. 생성한 경매를 등록 요청 합니다.
                     auctionService.register(data, function(result){
                       if(result){
@@ -155,7 +157,6 @@ var auctionRegisterView = Vue.component('AuctionRegisterView', {
                         alert("등록이 실패되었습니다")
                       }
                     });
-
                     this.isCreatingContract = false;
                 });
             });
