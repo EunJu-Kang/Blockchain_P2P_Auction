@@ -78,9 +78,9 @@ public class FabricService implements IFabricService {
 		List<FabricAsset> assets = this.fabricCCService.transferOwnership(from, to, 작품id);
 		if (assets == null)
 			return null;
-		
+
 		System.out.println("소유권");
-		for(int i=0; i<assets.size(); i++) {
+		for (int i = 0; i < assets.size(); i++) {
 			System.out.println(assets.get(i).toString());
 		}
 
@@ -150,10 +150,14 @@ public class FabricService implements IFabricService {
 	@Override
 	public List<FabricAsset> 작품이력조회(final long id) {
 		List<FabricAsset> history = this.fabricCCService.queryHistory(id);
-		
-		System.out.println("여기야 여기");
-		for(int i=0; i<history.size(); i++) {
-			System.out.println(history.get(i).toString());			
+		if (history == null)
+			return null;
+
+		for (int i = 0; i < history.size(); i++) {
+			if (history.get(i).getCreatedAt() == null || history.get(i).getExpiredAt() != null) {
+				history.remove(i);
+				i--;
+			}
 		}
 
 		return history;

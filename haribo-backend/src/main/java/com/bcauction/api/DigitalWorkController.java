@@ -108,7 +108,7 @@ public class DigitalWorkController
 		List<FabricAsset> history = this.fabricService.작품이력조회(id);
 		if(history == null || history.isEmpty())
 			throw new EmptyListException("조회된 작품 이력이 없습니다.");
-
+		
 		return history;
 	}
 
