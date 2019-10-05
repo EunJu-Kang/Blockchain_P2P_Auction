@@ -14,7 +14,7 @@ var workService = {
             callback(data);
         });
     },
-    // 내일함
+ 
     findHistoryById: function(workId, callback){
         $.get(API_BASE_URL + "/api/works/history/" + workId, function(data){
             var result = [];
@@ -45,10 +45,8 @@ var workService = {
             url: API_BASE_URL + '/api/works',
             data: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' },
-            success:
-              success,
-            error:
-              whenError
+            success: success,
+            error: whenError
         })
     },
     update: function(body, success, whenError){

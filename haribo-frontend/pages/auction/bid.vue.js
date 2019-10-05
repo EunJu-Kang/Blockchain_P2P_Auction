@@ -82,18 +82,20 @@ var auctionBidView = Vue.component('AuctionBidView', {
             }
             this.bidding = true;
 
-            // 컨트랙트 bid 함수를 호출합니다.
-            // components/auctionFactory.js의 auction_bid 함수를 호출합니다.
-            // TODO auction_bid 함수의 내용을 완성합니다.
             auction_bid(options, function(receipt){
                 var bidder = scope.sharedStates.user.id;
                 var auctionId = scope.$route.params.id;
-                // 입찰 정보 등록 요청 API를 호출합니다.
+                
+                if(receipt.cumulativeGasUsed == 3000000){
+                    alert("입찰을 실패했습니다.")
+                    scope.bidding = false;
+                } else {
                 auctionService.saveBid(bidder, auctionId, options.amount, function(result){
                     alert("입찰이 완료되었습니다.");
                     scope.bidding = false;
                     scope.$router.go(-1);
                 });
+               }
             });
         }
     },
