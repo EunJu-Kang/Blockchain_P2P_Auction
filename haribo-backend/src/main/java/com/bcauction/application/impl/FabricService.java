@@ -79,11 +79,6 @@ public class FabricService implements IFabricService {
 		if (assets == null)
 			return null;
 
-		System.out.println("소유권");
-		for (int i = 0; i < assets.size(); i++) {
-			System.out.println(assets.get(i).toString());
-		}
-
 		Ownership 소멸소유권 = this.ownershipRepository.조회(from, 작품id);
 		if (소멸소유권 == null)
 			return null;

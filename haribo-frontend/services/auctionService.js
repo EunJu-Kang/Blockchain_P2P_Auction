@@ -39,21 +39,21 @@ var auctionService = {
         })
     },
     // 경매 취소
-    cancel: function(auctionId, bidderId, callback){
+    cancel: function(auctionId, bidderId, callback, whenError){
         $.ajax({
             type: "DELETE",
             url: API_BASE_URL + "/api/auctions/" + auctionId + "/by/" + bidderId,
-            success: callback
+            success: callback,
+            error: whenError
         });
     },
     // 경매 종료
-    close: function(auctionId, bidderId, callback){
-      console.log(auctionId);
-      console.log(bidderId);
+    close: function(auctionId, bidderId, callback, whenError){
         $.ajax({
             type: "PUT",
             url: API_BASE_URL + "/api/auctions/" + auctionId + "/by/" + bidderId,
-            success: callback
+            success: callback,
+            error: whenError
         });
     }
 }

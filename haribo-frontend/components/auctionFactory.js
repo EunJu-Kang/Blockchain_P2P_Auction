@@ -35,11 +35,9 @@ function createAuctionContract(web3, contractAddress){
 
    web3.eth.accounts.signTransaction(tx, privateKey).then(res => {
      web3.eth.sendSignedTransaction(res.rawTransaction).then(r => {
-       contract.methods.allAuctions().call().then(response => {
-         onConfirm(response);
-       })
-     }).catch(error => {
-       console.log(error);
+        contract.methods.allAuctions().call().then(response => {
+          onConfirm(response);
+        })
      })
    })
  }
@@ -67,7 +65,9 @@ function createAuctionContract(web3, contractAddress){
    web3.eth.accounts.signTransaction(tx, options.privateKey).then(res => {
      web3.eth.sendSignedTransaction(res.rawTransaction).then(r => {
        onConfirm(r)
-     })
+     }).catch(error => {
+      console.log(error);
+    })
    })
  }
 

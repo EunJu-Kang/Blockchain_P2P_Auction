@@ -85,7 +85,6 @@ var auctionView = Vue.component('AuctionView', {
           for(var i = start; i<end; i++){
             this.pageAuction.push(this.auctions[i])
           }
-          console.log(start)
         }
     },
     mounted: function(){
