@@ -224,12 +224,11 @@ public class EthereumService implements IEthereumService {
 	@Override
 	public Address 주소검색(String 주소) {
 		// TODO Auto-generated method stub
-		Address address=null;
+		Address address=new Address();
 		
-		List<com.bcauction.domain.Transaction> Listtran=transactionRepository.조회By주소(주소);
-		for(int i=0; i<Listtran.size();i++) {
-			System.out.println(Listtran.get(i).getTo());
-		}
+		List<com.bcauction.domain.Transaction> ListTran = transactionRepository.조회By주소(주소);
+		address.setTrans(ListTran);
+		System.out.println("이더리움서비스주소검색들어왔어");
 		return address;
 	}
 

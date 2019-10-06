@@ -28,7 +28,7 @@ public class TransactionRepository implements ITransactionRepository {
 
     @Override
     public List<Transaction> 목록조회() {
-        StringBuilder sbSql =  new StringBuilder("SELECT * FROM 트랜잭션 ");
+        StringBuilder sbSql =  new StringBuilder("SELECT * FROM 트랜잭션 order by id desc limit 10 ");
         try {
             return this.jdbcTemplate.query(sbSql.toString(),
                     new Object[]{}, (rs, rowNum) -> TransactionFactory.생성(rs));
@@ -53,7 +53,7 @@ public class TransactionRepository implements ITransactionRepository {
     @Override
     public List<Transaction> 조회By주소(final String 주소)
     {
-        StringBuilder sbSql =  new StringBuilder("SELECT * FROM 트랜잭션 WHERE from_hash=? OR to_hash=?");
+        StringBuilder sbSql =  new StringBuilder("SELECT * FROM 트랜잭션   WHERE from_hash=? OR to_hash=? order by id desc limit 10");
         try {
             return this.jdbcTemplate.query(sbSql.toString(),
                                            new Object[] { 주소, 주소 }, (rs, rowNum) -> TransactionFactory.생성(rs) );

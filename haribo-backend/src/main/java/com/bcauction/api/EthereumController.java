@@ -75,12 +75,14 @@ public class EthereumController {
 		return 트랜잭션;
 	}
 
-	@GetMapping("/address/{addr}")
-	public Address 주소검색(@PathVariable String addr) {
-		Address 주소 = this.explorerService.주소검색(addr);
+	@GetMapping("/tranaddress/{address}")
+	public Address 주소검색(@PathVariable String address) {
+		System.out.println("으아아아악");
+		Address 주소 = this.explorerService.주소검색(address);
 
 		if (주소 == null)
-			throw new NotFoundException(addr + " 주소 정보를 찾을 수 없습니다.");
+			throw new NotFoundException(address + " 주소 정보를 찾을 수 없습니다.");
+		
 		System.out.println("주소검색들어왔다" + 주소.toString());
 		return 주소;
 	}

@@ -9,7 +9,7 @@ public class Address {
     private String id;
     private BigInteger balance;
     private BigInteger txCount;
-    private List<EthereumTransaction> trans;
+    private List<com.bcauction.domain.Transaction> trans;
 
     public String getId() {
         return id;
@@ -27,11 +27,11 @@ public class Address {
         this.balance = balance;
     }
 
-    public List<EthereumTransaction> getTrans() {
+    public List<com.bcauction.domain.Transaction> getTrans() {
         return trans;
     }
 
-    public void setTrans(List<EthereumTransaction> trans) {
+    public void setTrans(List<com.bcauction.domain.Transaction> trans) {
         this.trans = trans;
     }
 

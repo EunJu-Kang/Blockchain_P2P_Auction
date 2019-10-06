@@ -44,8 +44,9 @@ var etheriumService = {
       callback(data)
     })
   },
+
   findTranByAddress :  function(address, callback){
-    $.get(API_BASE_URL + "api/eth/address/" +address, function(data){
+    $.get(API_BASE_URL + "/api/eth/tranaddress/" +address, function(data){
       console.log(data);
       callback(data)
     })

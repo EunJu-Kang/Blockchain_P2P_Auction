@@ -38,22 +38,36 @@ var registerView = Vue.component('RegisterView', {
         }
     },
     methods: {
-        register: function() {
+        register: function () {
             var scope = this;
+            var reg_email= this.user.email
+            if(!(this.CheckEmail(reg_email))){
+                alert("이메일 형식이 잘못되었습니다");
+                return;
+            }
             var shaPW = CryptoJS.SHA256($('#pw').val()).toString();
             var shaPWC = CryptoJS.SHA256($('#pwConfirm').val()).toString();
-            if(this.user.password === this.user.passwordConfirm) {
+            if (this.user.password === this.user.passwordConfirm) {
                 userService.signUp(
                     this.user.email,
                     this.user.name,
                     shaPW,
-                    function(response){
+                    function (response) {
                         alert("회원가입이 완료되었습니다.");
                         scope.$router.push('/');
                     }
                 );
             } else {
                 alert('비밀번호가 일치하지 않습니다.');
+            }
+        },
+        CheckEmail: function (str) {
+            var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+            if (!reg_email.test(str)) {
+                return false;
+            }
+            else {
+                return true;
             }
         }
     }
