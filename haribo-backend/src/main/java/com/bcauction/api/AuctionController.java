@@ -5,6 +5,7 @@ import com.bcauction.application.IAuctionService;
 import com.bcauction.domain.Auction;
 import com.bcauction.domain.AuctionInfo;
 import com.bcauction.domain.Bid;
+import com.bcauction.domain.DigitalWork;
 import com.bcauction.domain.exception.ApplicationException;
 import com.bcauction.domain.exception.EmptyListException;
 import com.bcauction.domain.exception.NotFoundException;
@@ -108,4 +109,9 @@ public class AuctionController
 		return auctions;
 	}
 
+	@RequestMapping(value = "/auctions/search", method = RequestMethod.GET)
+	public List<Auction> 경매검색조회(@RequestBody List<DigitalWork> data){
+		List<Auction> auctions = auctionService.경매검색조회(data);
+		return auctions;
+	}
 }

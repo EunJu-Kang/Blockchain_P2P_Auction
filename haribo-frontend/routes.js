@@ -23,6 +23,10 @@ const routes = [{
     path: '/auction',
     component: auctionView
 },{
+    name: "search",
+    path: '/search',
+    component: searchView
+},{
     name: "login",
     path: '/login',
     component: loginView

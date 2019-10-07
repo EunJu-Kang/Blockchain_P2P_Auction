@@ -1,24 +1,25 @@
 package com.bcauction.application.impl;
 
-import com.bcauction.application.IAuctionContractService;
-import com.bcauction.application.IAuctionService;
-import com.bcauction.application.IFabricService;
-import com.bcauction.domain.Auction;
-import com.bcauction.domain.AuctionInfo;
-import com.bcauction.domain.Bid;
-import com.bcauction.domain.Ownership;
-import com.bcauction.domain.exception.ApplicationException;
-import com.bcauction.domain.exception.NotFoundException;
-import com.bcauction.domain.repository.IAuctionRepository;
-import com.bcauction.domain.repository.IBidRepository;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.util.List;
+import com.bcauction.application.IAuctionContractService;
+import com.bcauction.application.IAuctionService;
+import com.bcauction.application.IFabricService;
+import com.bcauction.domain.Auction;
+import com.bcauction.domain.Bid;
+import com.bcauction.domain.DigitalWork;
+import com.bcauction.domain.Ownership;
+import com.bcauction.domain.exception.NotFoundException;
+import com.bcauction.domain.repository.IAuctionRepository;
+import com.bcauction.domain.repository.IBidRepository;
 
 @Service
 public class AuctionService implements IAuctionService {
@@ -43,7 +44,7 @@ public class AuctionService implements IAuctionService {
 	public List<Auction> 경매목록조회() {
 		return this.auctionRepository.목록조회();
 	}
-	
+
 	@Override
 	public List<Auction> 나의경매목록조회(int id) {
 		// TODO Auto-generated method stub
@@ -118,9 +119,9 @@ public class AuctionService implements IAuctionService {
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		경매.set종료일시(currentDateTime);
 		this.auctionRepository.수정(경매);
-		
+
 		Ownership os = fabricService.소유권이전(경매.get경매생성자id(), 회원id, 경매.get경매작품id());
-		
+
 		return 경매;
 	}
 
@@ -144,5 +145,22 @@ public class AuctionService implements IAuctionService {
 		경매.set종료일시(currentDateTime);
 		this.auctionRepository.수정(경매);
 		return 경매;
+	}
+
+	@Override
+	public List<Auction> 경매검색조회(List<DigitalWork> data) {
+		List<Auction> allAuction = this.경매목록조회();
+		List<Auction> searched = new ArrayList<>();
+
+		for (int i = 0; i < allAuction.size(); i++) {
+			for (int j = 0; j < data.size(); j++) {
+				if(allAuction.get(i).get경매작품id() == data.get(j).getId()) {
+					searched.add(allAuction.get(i));
+					break;
+				}
+			}
+		}
+
+		return searched;
 	}
 }
