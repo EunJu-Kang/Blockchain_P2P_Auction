@@ -1,11 +1,38 @@
 body {
     margin: 0;
     padding: 0;
-    color: #293046;
+    color: #ffffff;
+    background-image: url("../images/back.jpg");
+    background-size: cover;
 }
 
 a {
     text-decoration: none;
+}
+
+/* navbar 스타일 시트 */
+.nav-fontColor {
+  color: #ffffff !important;
+  font-family: 'Revalia', cursive;
+  font-size: 22px;
+  margin-right: 10px;
+}
+
+.nav-height {
+  height: 70px;
+}
+
+/* 홈 스타일 시트 */
+.backGif {
+  height: 100%;
+  width: 100%;
+  margin-top: 40px;
+  margin-left: 20px;
+}
+
+.pixelFont {
+  font-family: 'Press Start 2P', cursive;
+  margin-top: 40px;
 }
 
 /* 메인 소개글 스타일 시트 */
