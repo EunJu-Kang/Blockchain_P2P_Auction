@@ -77,13 +77,11 @@ public class EthereumController {
 
 	@GetMapping("/tranaddress/{address}")
 	public Address 주소검색(@PathVariable String address) {
-		System.out.println("으아아아악");
 		Address 주소 = this.explorerService.주소검색(address);
 
 		if (주소 == null)
 			throw new NotFoundException(address + " 주소 정보를 찾을 수 없습니다.");
 		
-		System.out.println("주소검색들어왔다" + 주소.toString());
 		return 주소;
 	}
 

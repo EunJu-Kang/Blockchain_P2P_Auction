@@ -19,6 +19,7 @@ import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.protocol.http.HttpService;
@@ -225,10 +226,20 @@ public class EthereumService implements IEthereumService {
 	public Address 주소검색(String 주소) {
 		// TODO Auto-generated method stub
 		Address address=new Address();
-		
+
 		List<com.bcauction.domain.Transaction> ListTran = transactionRepository.조회By주소(주소);
-		address.setTrans(ListTran);
-		System.out.println("이더리움서비스주소검색들어왔어");
+		EthGetBalance ethGetBalance;
+		EthGetTransactionCount txCount;
+		try {
+			ethGetBalance = web3j.ethGetBalance(주소, DefaultBlockParameterName.LATEST).sendAsync().get();
+			txCount= web3j.ethGetTransactionCount(주소, DefaultBlockParameterName.LATEST).sendAsync().get();
+			address.setBalance(ethGetBalance.getBalance());
+			address.setTxCount(txCount.getTransactionCount());
+			address.setTrans(ListTran);
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return address;
 	}
 

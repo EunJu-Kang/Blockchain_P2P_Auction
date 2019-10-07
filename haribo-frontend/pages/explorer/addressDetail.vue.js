@@ -12,12 +12,12 @@ var exploreraddressDetailView = Vue.component('ExploreraddressDetailView', {
                 <table class="table">
                     <tbody>
                         <tr>
-                            <th width="300">Balance</th>
-                            <td></td>
+                            <th width="100">Balance</th>
+                            <td>{{balance | truncate(5)}}</td>
                         </tr>
                         <tr>
-                            <th>Texs</th>
-                            <td></td>
+                            <th>Tx Count</th>
+                            <td>{{txCount}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -33,7 +33,7 @@ var exploreraddressDetailView = Vue.component('ExploreraddressDetailView', {
                                 <th>Block</th>
                                 <th>Age</th>
                                 <th>From</th>
-                                <th> </th>
+                                <th>Status</th>
                                 <th>To</th>
                                 <th>Value</th>
                                 <th>[Txn Free]</th>
@@ -45,11 +45,19 @@ var exploreraddressDetailView = Vue.component('ExploreraddressDetailView', {
                               <td><router-link :to="{name: 'explorer.tx.detail', params: { hash: item.hash }}" >{{ item.hash | truncate(10) }}</router-link></td>
                               <td>{{ item.blockNumber}}</td>
                               <td>{{ item.저장일시}}</td>
-                              <td><router-link :to="{ name: 'explorer.address.detail', params: { address: item.from }}">{{ item.from | truncate(10) }}</router-link></td>
-                              <td></td>
-                              <td><router-link :to="{ name: 'explorer.address.detail', params: { address: item.to }}">{{ item.to | truncate(10) }}</router-link></td>
-                              <td></td>
-                              <td>{{ item.gasPrice}}</td>
+                              <td>
+                              <span v-if= "address === item.from ">{{ item.from | truncate(10) }} </span>
+                              <span v-else> <router-link :to="{ name: 'explorer.address.detail', params: { address: item.from }}">{{ item.from | truncate(10) }}</router-link>  </span></td>
+                              <td>
+                              <span class="badge badge-primary" v-if="address === item.from ">OUT </span>
+                              <span class="badge badge-danger" v-else>IN </span>
+                              </td>
+                              <td>
+                              <span v-if= "address === item.to "> {{ item.to | truncate(10) }}</span>
+                              <span v-else> <router-link :to="{ name: 'explorer.address.detail', params: { address: item.to }}">{{ item.to | truncate(10) }}</router-link> </span></td>
+                              </td>
+                              <td>{{item.gasPrice}} Ether</td>
+                              <td>{{ item.gas}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -71,23 +79,31 @@ var exploreraddressDetailView = Vue.component('ExploreraddressDetailView', {
     methods: {
         fetchTxes: function () {
             var scope = this;
-
-            
-            console.log("parms데이터", this.address)
             etheriumService.findTranByAddress(this.address, function (response) {
-                console.log("check", response.trans.length)
+
                 for (let i = 0; i < response.trans.length; i++) {
                     etheriumService.findBlockById(response.trans[i].blockNumber, function (blcokdata) {
                         response.trans[i].저장일시 = etheriumService.timeSince(blcokdata.timestamp);
                     })
+
+                    web3.eth.getTransaction(response.trans[i].hash).then(tranhash => {
+                      var EtherValue = (tranhash.value/Math.pow(10, 18)).toFixed(3);
+
+                      if(EtherValue.substring([EtherValue.length-3], [EtherValue.length]) === "000"){
+                        response.trans[i].gasPrice = (tranhash.value/Math.pow(10, 18));
+                      }else{
+                        response.trans[i].gasPrice = EtherValue;
+                      }
+                    response.trans[i].gas = (tranhash.gasPrice)
+                    });
                 }
-                console.log("데이터가져오나...", response)
-                console.log("데이터가져오나..2.", response.trans)
                 scope.tx = response.trans
+                scope.balance = response.balance;
+                scope.txCount = response.txCount;
             })
 
         }
-    },
+ },
     mounted: function () {
         this.address = this.$route.params.address;
         this.fetchTxes();

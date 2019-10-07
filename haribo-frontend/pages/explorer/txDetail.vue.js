@@ -33,7 +33,7 @@ var explorerTxDetailView = Vue.component('ExplorerTxDetailView', {
                                     </tr>
                                     <tr>
                                         <th>전송한 이더</th>
-                                        <td>{{ tx.value }} Ether</td>
+                                        <td>{{ tx.amount }} Ether</td>
                                     </tr>
                                     <tr>
                                         <th>Gas</th>
@@ -80,6 +80,7 @@ var explorerTxDetailView = Vue.component('ExplorerTxDetailView', {
                 response.gas = parseInt(Number(response.gasRaw), 16)
                 response.gasPrice = parseInt(Number(response.gasPriceRaw), 16)
                 response.timestamp = Date(response.timestamp).toString()
+                response.amount = response.amount/Math.pow(10, 18);
                 scope.tx = response
               })
             } else {

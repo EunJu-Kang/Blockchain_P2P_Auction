@@ -75,7 +75,7 @@
     <body class="bg-light">
         <div id="app" v-cloak>
             <!-- URL에 따라 화면이 바뀌는 부분 -->
-            <router-view></router-view>
+            <router-view :key="$route.fullPath"/></router-view>
         </div>
         <!-- Router 세팅 -->
         <script type="text/javascript" src="./routes.js"></script>
@@ -84,6 +84,7 @@
 
             let router = new VueRouter({
                 routes: routes
+
             });
 
             router.beforeEach((to, from, next) => {
@@ -102,6 +103,7 @@
             const app = new Vue({
                 router,
             }).$mount('#app');
+
         </script>
     </body>
 </html>
