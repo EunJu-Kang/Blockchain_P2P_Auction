@@ -1,9 +1,9 @@
 var registerView = Vue.component('RegisterView', {
     template: `
-        <div class="container">
+        <div class="container bg-style">
             <div class="row">
-                <div id="register-form" class="col-md-6 mx-auto bg-white">
-                    <router-link to="/">Auction | HARIBO</router-link>
+                <div id="register-form" class="col-md-6 mx-auto form-style">
+                    <router-link class="link-style" to="/">Auction | HARIBO</router-link>
                     <div class="mt-4">
                         <div class="form-group">
                             <label for="email">이메일</label>
@@ -21,7 +21,7 @@ var registerView = Vue.component('RegisterView', {
                             <label for="password-confirm">비밀번호 확인</label>
                             <input type="password" class="form-control" id="pwConfirm" v-model="user.passwordConfirm" placeholder="비밀번호 확인">
                         </div>
-                        <button type="submit" class="btn btn-primary" v-on:click="register">회원가입</button>
+                        <button type="submit" class="btn form-style" style="background-color:#2A3247; color:white;" v-on:click="register">회원가입</button>
                     </div>
                 </div>
             </div>
