@@ -1,9 +1,9 @@
 var loginView = Vue.component('LoginView', {
     template: `
-        <div class="container">
+        <div class="container bg-style">
             <div class="row">
-                <div id="login-form" class="col-md-6 mx-auto bg-white">
-                    <router-link to="/">Auction | HARIBO</router-link>
+                <div id="login-form" class="col-md-6 mx-auto form-style">
+                    <router-link class="link-style" to="/">Auction | HARIBO</router-link>
                     <div class="mt-4">
                         <div class="form-group">
                             <label for="email">이메일</label>
@@ -13,7 +13,7 @@ var loginView = Vue.component('LoginView', {
                             <label for="password">비밀번호</label>
                             <input type="password" @keyup.enter="login" class="form-control" id="pw" v-model="user.password" placeholder="비밀번호">
                         </div>
-                        <button type="submit" class="btn btn-primary" v-on:click="login">로그인</button>
+                        <button type="submit" class="btn form-style btn-style" style="background-color:#2A3247; color:white;" v-on:click="login">로그인</button>
                     </div>
                 </div>
             </div>
