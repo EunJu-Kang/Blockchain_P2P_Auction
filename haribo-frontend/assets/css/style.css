@@ -1,8 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    color: #ffffff;
-    background-image: url("../images/back.jpg");
+    color: #000000;
     background-size: cover;
 }
 
@@ -12,7 +11,7 @@ a {
 
 /* navbar 스타일 시트 */
 .nav-fontColor {
-  color: #ffffff !important;
+  color: #000000 !important;
   font-family: 'Revalia', cursive;
   font-size: 22px;
   margin-right: 10px;
