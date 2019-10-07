@@ -10,6 +10,7 @@ var etheriumService = {
     })
   },
   timeSince : function(date) {
+    console.log(date);
     var seconds = Math.floor((new Date() - Date.parse(date)) / 1000);
     var interval = Math.floor(seconds / 31536000);
     if (interval > 1) {
