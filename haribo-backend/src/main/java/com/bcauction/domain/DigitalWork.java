@@ -8,6 +8,16 @@ public class DigitalWork
 	private String 공개여부 = "Y";
 	private String 상태 = "Y";
 	private long 회원id;
+	private String 작품이미지;
+	
+
+	public String get작품이미지() {
+		return 작품이미지;
+	}
+
+	public void set작품이미지(String 작품이미지) {
+		this.작품이미지 = 작품이미지;
+	}
 
 	public long getId()
 	{

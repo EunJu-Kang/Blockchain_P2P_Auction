@@ -13,7 +13,7 @@ var artworksView = Vue.component('artworksView', {
                     <div class="col-md-3 artwork" v-for="item in pageArtwork">
                         <div class="card">
                             <div class="card-body">
-                                <img src="./assets/images/artworks/artwork1.jpg">
+                                <img :src="item['작품이미지']">
                                 <h4>{{ item['이름'] }}</h4>
                                 <p v-if="item['설명'] != null">{{ item["설명"] }}</p>
                                 <p v-if="item['설명'] == null">-</p>
@@ -42,7 +42,8 @@ var artworksView = Vue.component('artworksView', {
         return {
             artworks: [{
                 "이름": "",
-                "설명": ""
+                "설명": "",
+                "작품이미지": ""
             }],
             pageArtwork:[],
             pageCount: 0,
@@ -79,6 +80,7 @@ var artworksView = Vue.component('artworksView', {
         workService.findAll(function(data){
             scope.artworks = data;
             scope.pageCount = Math.ceil(data.length /scope.perPage);
+            console.log(data)
             scope.movePage(1)
         });
     }
