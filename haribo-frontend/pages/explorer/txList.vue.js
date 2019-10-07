@@ -22,8 +22,8 @@ var explorerTxListView = Vue.component('ExplorerTxListView', {
                                         <p class="tx-timestamp">{{ item.저장일시 }}</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p><label class="text-secondary">From</label> {{ item.from | truncate(10) }}</p>
-                                        <p><label class="text-secondary">To</label> {{ item.to | truncate(10) }}</p>
+                                        <p><label class="text-secondary">From</label> <router-link :to="{ name: 'explorer.address.detail', params: { address: item.from }}">{{ item.from | truncate(10) }}</router-link></p>
+                                        <p><label class="text-secondary">To</label><router-link :to="{ name: 'explorer.address.detail', params: { address: item.to }}">{{ item.to | truncate(10) }}</router-link></p>
                                     </div>
                                 </div>
                             </div>
