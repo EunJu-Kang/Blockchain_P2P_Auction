@@ -1,7 +1,7 @@
 var navVue = Vue.component("v-nav", {
     props: ["isSigned"],
     template: `
-        <nav class="navbar navbar-expand-lg fixed-top navbar-dark nav-height">
+        <nav class="navbar navbar-expand-lg fixed-top navbar-dark nav-height bg-#2A3247">
             <div class="container">
                 <router-link class="navbar-brand nav-fontColor" to="/">Chain Villain</router-link>
                 <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">

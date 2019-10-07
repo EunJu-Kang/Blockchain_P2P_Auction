@@ -14,9 +14,9 @@ var artworksView = Vue.component('artworksView', {
                         <div class="card">
                             <div class="card-body">
                                 <img :src="item['작품이미지']">
-                                <h4>{{ item['이름'] }}</h4>
-                                <p v-if="item['설명'] != null">{{ item["설명"] }}</p>
-                                <p v-if="item['설명'] == null">-</p>
+                                <h5 class="card-title">{{ item['이름']  | truncate(10) }}</h5>
+                                <p class="card-text" v-if="item['설명'] != null">{{ item["설명"] }}</p>
+                                <p class="card-text" v-if="item['설명'] == null">-</p>
                                 <router-link :to="{ name: 'work.detail', params: { id: item['id'] } }" class="btn btn-block btn-secondary">이력보기</router-link>
                             </div>
                         </div>
@@ -26,11 +26,11 @@ var artworksView = Vue.component('artworksView', {
                     <div class="col-md-12 text-center">
                         <nav class="bottom-pagination">
                             <ul class="pagination">
-                                <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="movePage(1)">맨앞</a></li>
-                                <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="prevPage">prev</a></li>
+                                <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="movePage(1)">◀</a></li>
+                                <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="prevPage"><</a></li>
                                 <li class="page-item" v-for="idx in pageCount"><a class="page-link" href="#" @click="movePage(idx)">{{idx}}</a></li>
-                                <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="nextPage">next</a></li>
-                                <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="movePage(pageCount)">맨뒤</a></li>
+                                <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="nextPage">></a></li>
+                                <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="movePage(pageCount)">▶</a></li>
                             </ul>
                         </nav>
                     </div>

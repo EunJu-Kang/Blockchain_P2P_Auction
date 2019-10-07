@@ -11,13 +11,14 @@ a {
 
 /* navbar 스타일 시트 */
 .nav-fontColor {
-  color: #000000 !important;
+  color: #ffffff !important;
   font-family: 'Revalia', cursive;
   font-size: 22px;
   margin-right: 10px;
 }
 
 .nav-height {
+    background: #2A3247;
   height: 70px;
 }
 
@@ -89,6 +90,23 @@ a {
     padding-top: 10px;
 }
 
+img {
+    vertical-align: middle;
+    border-style: none;
+    height: 260px;
+
+
+/* 작품 등록 스타일 시트 */
+.form-control {
+    height: calc(1.5em + 1.2rem + 2px);
+}
+
+.btn-warning {
+    color: #212529;
+    background-color: #6c757d61;
+    border-color: #6c757d61;
+}
+
 /* 로그인 & 회원가입 스타일 시트 */
 #register-form,
 #login-form {
@@ -104,8 +122,8 @@ a {
 }
 
 .sub-nav .nav-item.nav-link.active {
-    background: #007bff;
-    border: 1px solid #007bff;
+    background: #F4A900;
+    border: 1px solid #F4A900;
 }
 
 /* 마이페이지 > 내 작품 스타일 시트 */
@@ -165,3 +183,4 @@ nav.bottom-pagination {
     padding: 0;
     margin: 0;
 }
+
