@@ -50,18 +50,37 @@ var auctionView = Vue.component('AuctionView', {
         calculateDate(date) {
             var now = new Date();
             var endDate = new Date(date);
-            var diff = endDate.getTime() - now.getTime();
+            var diff = Math.floor((Date.parse(endDate) - now) / 1000);
             // 만약 종료일자가 지났다면 "경매 마감"을 표시한다.
             if(diff < 0) {
                 return "경매 마감";
             } else {
-                // UNIX Timestamp를 자바스크립트 Date객체로 변환한다.
-                var d = new Date(diff);
-                var days = d.getDate();
-                var hours = d.getHours();
-                var minutes = d.getMinutes();
-
-                return "남은시간: " + days + "일 " + hours + "시간 " + minutes + "분";
+                var year = 0
+                var month = 0
+                var day = 0
+                var hour = 0
+                var minute = 0
+                if(Math.floor(diff / 31536000) > 1){
+                  year = Math.floor(diff / 31536000)
+                  diff = Math.floor(diff % 31536000)
+                }
+                if(Math.floor(diff / 2592000) > 1){
+                  month = Math.floor(diff / 2592000)
+                  diff = Math.floor(diff % 2592000)
+                }
+                if(Math.floor(diff / 86400) > 1){
+                  day = Math.floor(diff / 86400)
+                  diff = Math.floor(diff % 86400)
+                }
+                if(Math.floor(diff / 3600) > 1){
+                  hour = Math.floor(diff / 3600)
+                  diff = Math.floor(diff % 3600)
+                }
+                if( Math.floor(diff / 60) > 1){
+                  minute =  Math.floor(diff / 60);
+                  diff =  Math.floor(diff % 60);
+                }
+                return  "마감까지 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분 " + diff + "초 남았습니다.";
             }
         },
         nextPage(){
