@@ -41,23 +41,9 @@ public class DigitalWorkService implements IDigitalWorkService {
 	public List<DigitalWork> 목록조회() {
 		List<DigitalWork> list = this.digitalWorkRepository.목록조회();
 		for(int i = 0 ; i<list.size(); i++) {
-			File f = new File("artImage/"+list.get(i).get이름()+".jpg");
-			FileInputStream fis;
-			try {
-				fis = new FileInputStream(f);
-				byte byteArray[] = new byte[(int)f.length()];
-				fis.read(byteArray);
-				Encoder encoder = Base64.getEncoder();
-				String imageString = encoder.encodeToString(byteArray);
-				System.out.println(imageString);
-				list.get(i).set작품이미지("data:image/jpg;base64,"+imageString);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}	
+			String imageString = encodeBase64(list.get(i));
+			list.get(i).set작품이미지(imageString);	
 		}
-		
-		
 		return list;
 	}
 
@@ -65,45 +51,23 @@ public class DigitalWorkService implements IDigitalWorkService {
 	public List<DigitalWork> 사용자작품목록조회(final long id) {
 		List<DigitalWork> list = this.digitalWorkRepository.사용자작품목록조회(id);
 		for(int i = 0 ; i<list.size(); i++) {
-			File f = new File("artImage/"+list.get(i).get이름()+".jpg");
-			FileInputStream fis;
-			try {
-				fis = new FileInputStream(f);
-				byte byteArray[] = new byte[(int)f.length()];
-				fis.read(byteArray);
-				Encoder encoder = Base64.getEncoder();
-				String imageString = encoder.encodeToString(byteArray);
-				System.out.println(imageString);
-				list.get(i).set작품이미지("data:image/jpg;base64,"+imageString);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}	
+			String imageString = encodeBase64(list.get(i));
+			list.get(i).set작품이미지(imageString);
 		}
-		
-		
 		return list;
 	}
 
 	@Override
 	public DigitalWork 조회(final long id) {
 		DigitalWork select = this.digitalWorkRepository.조회(id);
-		
-		File f = new File("artImage/"+select.get이름()+".jpg");
-		FileInputStream fis;
-		try {
-			fis = new FileInputStream(f);
-			byte byteArray[] = new byte[(int)f.length()];
-			fis.read(byteArray);
-			Encoder encoder = Base64.getEncoder();
-			String imageString = encoder.encodeToString(byteArray);
-			System.out.println(imageString);
-			select.set작품이미지("data:image/jpg;base64,"+imageString);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}		
+		String imageString = encodeBase64(select);
+		select.set작품이미지(imageString);
 		return select;
+	}
+	
+	@Override
+	public DigitalWork 조회(String name) {
+		return this.digitalWorkRepository.조회(name);
 	}
 
 	/**
@@ -179,6 +143,25 @@ public class DigitalWorkService implements IDigitalWorkService {
 			throw new ApplicationException("작품정보수정 처리가 반영되지 않았습니다.");
 
 		return 작품;
+	}
+	
+	public String encodeBase64(DigitalWork artWork) {
+		
+		String imageString = "data:image/jpg;base64,";
+		File f = new File("artImage/"+artWork.get이름()+".jpg");
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(f);
+			byte byteArray[] = new byte[(int)f.length()];
+			fis.read(byteArray);
+			Encoder encoder = Base64.getEncoder();
+			imageString += encoder.encodeToString(byteArray);
+			fis.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return imageString;
 	}
 
 }
