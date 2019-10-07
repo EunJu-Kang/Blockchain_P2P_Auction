@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -51,6 +52,8 @@ public class AuctionController
 
 		if (목록 == null || 목록.isEmpty() )
 			throw new EmptyListException("NO DATA");
+		
+		Collections.reverse(목록);
 
 		return 목록;
 	}
