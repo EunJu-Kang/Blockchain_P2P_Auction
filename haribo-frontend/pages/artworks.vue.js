@@ -12,14 +12,13 @@ var artworksView = Vue.component('artworksView', {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 artwork" v-for="item in pageArtwork">
-                        <div class="card">
+                <div class="col-md-3 artwork" v-for="item in pageArtwork">
+                        <div class="card" id="auctionlistcss">
                             <div class="card-body">
-                                <img :src="item['작품이미지']">
+                              <router-link :to="{ name: 'work.detail', params: { id: item['id'] } }" class="btn btn-block">  <img :src="item['작품이미지']"> </router-link>
                                 <h5 class="card-title">{{ item['이름']  | truncate(10) }}</h5>
-                                <p class="card-text" v-if="item['설명'] != null">{{ item["설명"] }}</p>
+                                <p class="card-text" v-if="item['설명'] != null">{{ item["설명"] | truncate(10)}}</p>
                                 <p class="card-text" v-if="item['설명'] == null">-</p>
-                                <router-link :to="{ name: 'work.detail', params: { id: item['id'] } }" class="btn btn-block btn-secondary">이력보기</router-link>
                             </div>
                         </div>
                     </div>
