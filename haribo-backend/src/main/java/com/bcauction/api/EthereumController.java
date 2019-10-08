@@ -90,7 +90,7 @@ public class EthereumController {
 		List<String> 경매목록 = this.auctionContractService.경매컨트랙트주소리스트();
 		if (경매목록 == null || 경매목록.isEmpty())
 			throw new EmptyListException("NO DATA");
-
+		
 		List<AuctionInfo> 경매정보목록 = new ArrayList<>();
         경매목록.forEach(경매 -> {
             AuctionInfo 경매정보 = this.auctionContractService.경매정보조회(경매.toString());

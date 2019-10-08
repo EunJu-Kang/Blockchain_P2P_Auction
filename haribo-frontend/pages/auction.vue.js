@@ -10,13 +10,13 @@ var auctionView = Vue.component('AuctionView', {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 auction" v-for="item in pageAuction">
-                        <div class="card">
+                <div class="col-md-3 auction" v-for="item in pageAuction">
+                        <div class="card card-event" style="width: 18rem;">
                             <div class="card-body">
-                                <img :src="item['작품정보']['작품이미지']">
-                                <h4>{{ item['작품정보']['이름'] }}</h4>
-                                <p>{{ calculateDate(item['종료일시']) }}</p>
-                                <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn btn-block btn-secondary">자세히보기</router-link>
+                              <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn btn-block">  <img  :src="item['작품정보']['작품이미지']"  ></router-link>
+                                <h5 class="card-title">{{ item['작품정보']['이름'] | truncate(10) }}</h5>
+                                <span class="badge badge-navy" v-if="calculateDate(item['종료일시']) == '경매 마감'">{{calculateDate(item['종료일시'])}}</span>
+                                <span class="badge badge-orange" v-if="calculateDate(item['종료일시']) != '경매 마감'">{{calculateDate(item['종료일시'])}}</span>
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@ var auctionView = Vue.component('AuctionView', {
                   minute =  Math.floor(diff / 60);
                   diff =  Math.floor(diff % 60);
                 }
-                return  "마감까지 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분 " + diff + "초 남았습니다.";
+                return  "마감: " + month + "월 " + day + "일 " + hour + "시 " + minute + "분 " + diff+ "초";
             }
         },
         nextPage(){

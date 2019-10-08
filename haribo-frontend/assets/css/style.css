@@ -1,14 +1,14 @@
 body {
-    margin: 0;
-    padding: 0;
-    color: #000000;
-    height: 100%;
-    background-size: cover;
+  margin: 0;
+  padding: 0;
+  color: #000000;
+  height: 100%;
+  background-size: cover;
 }
 
 a {
-    text-decoration: none;
-    color: #f4a900;
+  text-decoration: none;
+  color: #f4a900;
 }
 
 .text-center {
@@ -24,14 +24,14 @@ a {
 }
 
 .nav-height {
-    background: #2A3247;
+  background: #2A3247;
   height: 70px;
 }
 
 .nav-style {
   background-color: #2A3247;
-
 }
+
 /* 홈 스타일 시트 */
 .backGif {
   height: 100%;
@@ -51,84 +51,155 @@ a {
 
 /* 메인 소개글 스타일 시트 */
 #main-overview {
-    margin-top: 80px;
+  margin-top: 80px;
 }
 
 #main-overview h1 {
-    font-size: 50px;
-    font-weight: 800;
-    padding-top: 50px;
+  font-size: 50px;
+  font-weight: 800;
+  padding-top: 50px;
 }
 
 #main-overview h4 {
-    font-weight: 300;
-    padding-bottom: 50px;
+  font-weight: 300;
+  padding-bottom: 50px;
 }
 
 #main-overview a.btn {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .breadcrumb {
-    padding-top: 100px;
+  padding-top: 100px;
 }
 
 #my-artwork .artwork {
-    padding: 10px !important;
+  padding: 10px !important;
 }
 
 /* 작품 리스트 스타일 시트 */
 #auction-list,
 #artwork-list {
-    padding: 50px 0;
+  padding: 50px 0;
 }
 
 #auction-list .auction,
 #artwork-list .artwork {
-    padding: 20px 10px;
-    text-align: center;
+  padding: 20px 10px;
+  text-align: center;
 }
 
 #auction-list .auction img,
 #artwork-list .artwork img {
-    width: 100%;
+  width: 100%;
 }
 
 #auction-list .auction h4,
 #artwork-list .artwork h4 {
-    padding-top: 40px;
+  padding-top: 40px;
 }
 
 #auction-list .auction p,
 #artwork-list .artwork p {
-    padding-top: 10px;
+  padding-top: 10px;
+}
+
+.card-event:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+
+  &::before,
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: scale3d(0, 0, 1);
+    transition: transform .3s ease-out 0s;
+    background: rgba(255, 255, 255, .1);
+    content: '';
+    pointer-events: none;
+  }
+
+  /* #auctionlistcss .card:hover{
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4);
+  &::before,
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: scale3d(0, 0, 1);
+    transition: transform .3s ease-out 0s;
+    background: rgba(255, 255, 255, .1);
+    content: '';
+    pointer-events: none;
+  } */
+  &::before {
+    transform-origin: left top;
+  }
+
+  &::after {
+    transform-origin: right bottom;
+  }
+
+  &:hover,
+  &:focus {
+
+    &::before,
+    &::after {
+      transform: scale3d(1, 1, 1);
+    }
+  }
 }
 
 img {
-    vertical-align: middle;
-    border-style: none;
-    height: 260px;
+  vertical-align: middle;
+  border-style: none;
+  height: 260px;
+}
 
+/* badge 색변경 */
+.badge-navy {
+  background-color: #2A3247;
+  color: white;
+}
+
+.badge-orange {
+  background-color: #F4A900;
+  color: white;
+}
+
+.badge-red {
+  background-color: red;
+  color: white;
+}
+
+.badge-blue {
+  background-color: #3399ff;
+  color: white;
+}
 
 /* 작품 등록 스타일 시트 */
 .form-control {
-    height: calc(1.5em + 1.2rem + 2px);
+  height: calc(1.5em + 1.2rem + 2px);
 }
 
 .btn-warning {
-    color: #212529;
-    background-color: #6c757d61;
-    border-color: #6c757d61;
+  color: #212529;
+  background-color: #6c757d61;
+  border-color: #6c757d61;
 }
 
 /* 로그인 & 회원가입 스타일 시트 */
 #register-form,
 #login-form {
-    margin-top: 150px;
-    padding: 30px;
+  margin-top: 150px;
+  padding: 30px;
 }
 
-.bg-style{
+.bg-style {
   margin: 0px;
   padding: 0px;
   background-color: #2A3247;
@@ -142,85 +213,84 @@ img {
   left: 0;
 }
 
-.form-style{
+.form-style {
   background-color: #f4a900;
   color: #2A3247;
   text-decoration: none;
   font-family: 'Revalia', cursive;
 }
 
-.link-style{
-  color:#2A3247;
+.link-style {
+  color: #2A3247;
   font-family: 'Revalia', cursive;
 }
 
 /* 마이페이지 > 서브 메뉴 */
 .sub-nav .nav-item.nav-link {
-    background: #fff;
-    margin-right: 10px;
-    border: 1px solid #eaeaea;
+  background: #fff;
+  margin-right: 10px;
+  border: 1px solid #eaeaea;
 }
 
 .sub-nav .nav-item.nav-link.active {
-    background: #F4A900;
-    border: 1px solid #F4A900;
+  background: #F4A900;
+  border: 1px solid #F4A900;
 }
 
 /* 마이페이지 > 내 작품 스타일 시트 */
 #my-artwork {
-    margin-bottom: 300px;
+  margin-bottom: 300px;
 }
 
 #my-artwork .artwork {
-    padding: 20px 40px;
-    text-align: center;
+  padding: 20px 40px;
+  text-align: center;
 }
 
 #my-artwork .artwork img {
-    width: 100px;
-    height: 100px;
-    margin: 20px 0;
+  width: 100px;
+  height: 100px;
+  margin: 20px 0;
 }
 
 /* 마이페이지 > 내 지갑 정보 스타일 시트 */
 .card .table {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 nav.bottom-pagination {
-    display: inline-block;
+  display: inline-block;
 }
 
 /* 작품 리스트 > 작품 상세 정보 > 사용자 별 작품 조회 */
 .work-list-item {
-    display: block;
-    border-bottom: 1px solid #eee;
-    color: #aaa;
-    padding: 10px;
+  display: block;
+  border-bottom: 1px solid #eee;
+  color: #aaa;
+  padding: 10px;
 }
 
 .work-list-item:hover {
-    text-decoration :none;
-    background: #f7f7f7;
+  text-decoration: none;
+  background: #f7f7f7;
 }
 
 .work-list-item:hover h4 {
-    color: #4444bb;
+  color: #4444bb;
 }
 
 .work-list-item:hover p {
-    color: #4444bb;
+  color: #4444bb;
 }
 
 .work-list-item h4 {
-    color: #333;
-    padding: 0;
-    margin: 0;
+  color: #333;
+  padding: 0;
+  margin: 0;
 }
 
 .work-list-item p {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
-
