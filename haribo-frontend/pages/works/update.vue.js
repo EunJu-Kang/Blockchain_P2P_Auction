@@ -10,7 +10,7 @@ var worksUpdateView = Vue.component("worksUpdateView", {
                             <div class="card-body">
                                 <div class="form-group">
                                     <label id="name">작품 이름</label>
-                                    <input type="text" class="form-control" id="name" v-model="work.name">
+                                    <input type="text" class="form-control" id="name" v-model="work.name" readOnly>
                                 </div>
                                 <div class="form-group">
                                     <label id="description">작품 설명</label>
