@@ -29,7 +29,7 @@ public class AuctionRepository implements IAuctionRepository
 	@Override
 	public List<Auction> 목록조회()
 	{
-		StringBuilder sbSql =  new StringBuilder("SELECT * FROM 경매 WHERE 상태=?");
+		StringBuilder sbSql =  new StringBuilder("SELECT * FROM 경매 WHERE 상태=? order by id desc limit 10");
 		try {
 			return this.jdbcTemplate.query(sbSql.toString(),
 			                               new Object[]{ "V" }, (rs, rowNum) -> AuctionFactory.생성(rs));

@@ -25,7 +25,9 @@ var worksCreateView = Vue.component("worksCreateView", {
                                     <input type="checkbox" id="isActive" v-model="work.isActive">
                                 </div>
                                 <img :src="outimage">
-                                <button type="button" class="btn btn-primary" v-on:click="save">작품 등록하기</button>
+                                <div class="col-md-12 text-right">
+                                <button type="button" class="btn btn-warning" v-on:click="save">작품 등록하기</button>
+                                </div>
                             </div>
                         </div>
                     </div>
