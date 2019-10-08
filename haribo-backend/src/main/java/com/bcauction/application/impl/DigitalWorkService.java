@@ -123,6 +123,10 @@ public class DigitalWorkService implements IDigitalWorkService {
 			this.digitalWorkRepository.삭제(id);
 			deleteDigita = this.digitalWorkRepository.조회(id);
 			this.fabricService.소유권소멸(deleteDigita.get회원id(), deleteDigita.getId());
+			File file = new File("artImage/"+deleteDigita.get이름()+".jpg");
+			if(file.exists()) {
+				file.delete();
+			}
 		}
 
 		return deleteDigita;
