@@ -8,26 +8,34 @@ var worksDetailView = Vue.component("WorkDetailView", {
                     <div class="col-md-8 mx-auto">
                         <div class="card">
                             <div class="card-body">
-                                <div class="form-group">
-                                    <label id="user" class="text-secondary">출품자</label>
-                                    <p><router-link :to="{ name: 'work.by_user', params: { id: user.id }}">{{ user.name }}({{ user.email }})</router-link></p>
+                              <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label id="user" class="text-secondary">출품자</label>
+                                        <p><router-link :to="{ name: 'work.by_user', params: { id: user.id }}">{{ user.name }}({{ user.email }})</router-link></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="name" class="text-secondary">작품 이름</label>
+                                        <p>{{ work.name }}</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="description" class="text-secondary">작품 설명</label>
+                                        <p>{{ work.description }}</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="isActive" class="text-secondary">공개여부</label><br>
+                                        <p>{{ work.isActive }}</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="status" class="text-secondary">상태</label><br>
+                                        <p>{{ work.status }}</p>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label id="name" class="text-secondary">작품 이름</label>
-                                    <p>{{ work.name }}</p>
+                                <div class="col-md-6">
+                                    <h5 class="text-secondary">작품 이미지</h5>
+                                    <img :src="work.image">
                                 </div>
-                                <div class="form-group">
-                                    <label id="description" class="text-secondary">작품 설명</label>
-                                    <p>{{ work.description }}</p>
-                                </div>
-                                <div class="form-group">
-                                    <label id="isActive" class="text-secondary">공개여부</label><br>
-                                    <p>{{ work.isActive }}</p>
-                                </div>
-                                <div class="form-group">
-                                    <label id="status" class="text-secondary">상태</label><br>
-                                    <p>{{ work.status }}</p>
-                                </div>
+                              </div>
                                 <div class="row">
                                     <div class="col-md-12 mb-5">
                                         <table class="table table-striped table-bordered">
@@ -75,7 +83,8 @@ var worksDetailView = Vue.component("WorkDetailView", {
                 description: "",
                 isActive: "",
                 status: "",
-                ownerId: 0
+                ownerId: 0,
+                image:""
             },
             user: {
                 id: 0,
@@ -117,6 +126,7 @@ var worksDetailView = Vue.component("WorkDetailView", {
             scope.work.isActive = data["공개여부"];
             scope.work.status = data["상태"];
             scope.work.ownerId = data["회원id"];
+            scope.work.image = data["작품이미지"];
 
             userService.findById(scope.work.ownerId, function(user){
                 scope.user.id = user["id"];
