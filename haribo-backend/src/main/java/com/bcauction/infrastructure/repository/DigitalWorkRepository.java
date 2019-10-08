@@ -74,6 +74,19 @@ public class DigitalWorkRepository implements IDigitalWorkRepository
 			throw new RepositoryException(e, e.getMessage());
 		}
 	}
+	
+	@Override
+	public DigitalWork 조회(final String 이름) {
+		StringBuilder sbSql =  new StringBuilder("SELECT * FROM 작품 WHERE 이름=?");
+		try {
+			return this.jdbcTemplate.queryForObject(sbSql.toString(),
+								new Object[] { 이름 }, (rs, rowNum) -> DigitalWorkFactory.생성(rs) );
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		} catch (Exception e) {
+			throw new RepositoryException(e, e.getMessage());
+		}
+	}
 
 	@Override
 	public long 추가(final DigitalWork 작품) {
