@@ -21,16 +21,14 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
-public class AuctionController
-{
+public class AuctionController {
 	public static final Logger logger = LoggerFactory.getLogger(AuctionController.class);
 
 	private IAuctionService auctionService;
 	private IAuctionContractService auctionContractService;
 
 	@Autowired
-	public AuctionController(IAuctionService auctionService,
-	                         IAuctionContractService auctionContractService) {
+	public AuctionController(IAuctionService auctionService, IAuctionContractService auctionContractService) {
 		Assert.notNull(auctionService, "auctionService 개체가 반드시 필요!");
 		Assert.notNull(auctionContractService, "auctionContractService 개체가 반드시 필요!");
 
@@ -41,7 +39,7 @@ public class AuctionController
 	@RequestMapping(value = "/auctions", method = RequestMethod.POST)
 	public Auction 생성(@RequestBody Auction auction) {
 		Auction 경매 = auctionService.생성(auction);
-		if( 경매 == null )
+		if (경매 == null)
 			throw new ApplicationException("경매 정보를 입력할 수 없습니다!");
 
 		return 경매;
@@ -51,10 +49,8 @@ public class AuctionController
 	public List<Auction> 목록조회() {
 		List<Auction> 목록 = auctionService.경매목록조회();
 
-		if (목록 == null || 목록.isEmpty() )
+		if (목록 == null || 목록.isEmpty())
 			throw new EmptyListException("NO DATA");
-		
-		Collections.reverse(목록);
 
 		return 목록;
 	}
@@ -62,13 +58,13 @@ public class AuctionController
 	@RequestMapping(value = "/auctions/{id}", method = RequestMethod.GET)
 	public AuctionInfo 조회(@PathVariable long id) {
 		Auction 경매 = this.auctionService.조회(id);
-		if (경매 == null){
+		if (경매 == null) {
 			logger.error("NOT FOUND AUCTION: ", id);
 			throw new NotFoundException(id + " 해당 경매를 찾을 수 없습니다.");
 		}
 
 		AuctionInfo 경매정보 = this.auctionContractService.경매정보조회(경매.get컨트랙트주소());
-		if(경매정보 == null){
+		if (경매정보 == null) {
 			throw new NotFoundException(id + " 해당 경매 컨트랙트를 찾을 수 없습니다.");
 		}
 		경매정보.set경매컨트랙트주소(경매.get컨트랙트주소());
@@ -86,7 +82,7 @@ public class AuctionController
 	}
 
 	@RequestMapping(value = "/auctions/{aid}/by/{mid}", method = RequestMethod.PUT)
-	public Auction 경매종료(@PathVariable long aid, @PathVariable long mid) { //mid = 최고가 입찰자 id
+	public Auction 경매종료(@PathVariable long aid, @PathVariable long mid) { // mid = 최고가 입찰자 id
 		return this.auctionService.경매종료(aid, mid);
 	}
 
@@ -96,21 +92,17 @@ public class AuctionController
 	}
 
 	/**
-	 * 협업과제
-	 * 협업과제
-	 * week. 4-7
-	 * mission. 3
-	 * Req. 1-2
+	 * 협업과제 협업과제 week. 4-7 mission. 3 Req. 1-2
 	 */
 	@RequestMapping(value = "/auctions/owner/{id}", method = RequestMethod.GET)
-	public List<Auction> 사용자경매목록조회(@PathVariable int id){
+	public List<Auction> 사용자경매목록조회(@PathVariable int id) {
 		// TODO
 		List<Auction> auctions = auctionService.나의경매목록조회(id);
 		return auctions;
 	}
 
 	@RequestMapping(value = "/auctions/search/{str}", method = RequestMethod.GET)
-	public List<Auction> 경매검색조회(@PathVariable String str){
+	public List<Auction> 경매검색조회(@PathVariable String str) {
 		List<Auction> auctions = auctionService.경매검색조회(str);
 		return auctions;
 	}

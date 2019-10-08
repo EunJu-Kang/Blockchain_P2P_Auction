@@ -97,7 +97,6 @@ var worksDetailView = Vue.component("WorkDetailView", {
     },
     methods: {
         goBack: function(){
-            // 이전 페이지로 이동한다.
             this.$router.go(-1);
         },
         deleteWork: function(){
@@ -109,7 +108,7 @@ var worksDetailView = Vue.component("WorkDetailView", {
                     scope.$router.push('/artworks');
                 },
                 function(error){
-                    alert("작품을 삭제할 수 없습니다.");
+                    alert("경매를 진행중이거나 오류로 인해 작품을 삭제할 수 없습니다.");
                 }
             );
         }
