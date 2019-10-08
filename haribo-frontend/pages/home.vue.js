@@ -102,7 +102,7 @@ var homeView = Vue.component("Home", {
           scope.artworks.push(data[2]);
       });
 
-      auctionService.findAll(function(data){
+      auctionService.homeAuction(function(data){
           var result = data;
 
           function fetchData(start, end){
