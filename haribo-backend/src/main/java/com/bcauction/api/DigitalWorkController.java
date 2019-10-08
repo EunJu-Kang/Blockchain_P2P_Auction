@@ -5,6 +5,7 @@ import com.bcauction.application.IDigitalWorkService;
 import com.bcauction.application.IFabricService;
 import com.bcauction.domain.DigitalWork;
 import com.bcauction.domain.FabricAsset;
+import com.bcauction.domain.exception.DomainException;
 import com.bcauction.domain.exception.EmptyListException;
 import com.bcauction.domain.exception.NotFoundException;
 import org.slf4j.Logger;
@@ -37,6 +38,10 @@ public class DigitalWorkController
 
 	@RequestMapping(value = "/works", method = RequestMethod.POST)
 	public DigitalWork 등록(@RequestBody DigitalWork work) {
+		if(digitalWorkService.조회(work.get이름())!=null) {
+			System.out.println(work.get이름()+"이미 있어불젱");
+    		throw new DomainException("작품 중복 입니다.!");
+    	}
 		return  digitalWorkService.작품등록(work);
 	}
 

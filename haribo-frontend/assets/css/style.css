@@ -2,11 +2,13 @@ body {
     margin: 0;
     padding: 0;
     color: #000000;
+    height: 100%;
     background-size: cover;
 }
 
 a {
     text-decoration: none;
+    color: #f4a900;
 }
 
 .text-center {
@@ -15,16 +17,21 @@ a {
 
 /* navbar 스타일 시트 */
 .nav-fontColor {
-  color: #000000 !important;
+  color: #ffffff !important;
   font-family: 'Revalia', cursive;
   font-size: 22px;
   margin-right: 10px;
 }
 
 .nav-height {
+    background: #2A3247;
   height: 70px;
 }
 
+.nav-style {
+  background-color: #2A3247;
+
+}
 /* 홈 스타일 시트 */
 .backGif {
   height: 100%;
@@ -97,11 +104,54 @@ a {
     padding-top: 10px;
 }
 
+img {
+    vertical-align: middle;
+    border-style: none;
+    height: 260px;
+
+
+/* 작품 등록 스타일 시트 */
+.form-control {
+    height: calc(1.5em + 1.2rem + 2px);
+}
+
+.btn-warning {
+    color: #212529;
+    background-color: #6c757d61;
+    border-color: #6c757d61;
+}
+
 /* 로그인 & 회원가입 스타일 시트 */
 #register-form,
 #login-form {
     margin-top: 150px;
     padding: 30px;
+}
+
+.bg-style{
+  margin: 0px;
+  padding: 0px;
+  background-color: #2A3247;
+  background-size: 100% 100%;
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.form-style{
+  background-color: #f4a900;
+  color: #2A3247;
+  text-decoration: none;
+  font-family: 'Revalia', cursive;
+}
+
+.link-style{
+  color:#2A3247;
+  font-family: 'Revalia', cursive;
 }
 
 /* 마이페이지 > 서브 메뉴 */
@@ -112,8 +162,8 @@ a {
 }
 
 .sub-nav .nav-item.nav-link.active {
-    background: #007bff;
-    border: 1px solid #007bff;
+    background: #F4A900;
+    border: 1px solid #F4A900;
 }
 
 /* 마이페이지 > 내 작품 스타일 시트 */
@@ -173,3 +223,4 @@ nav.bottom-pagination {
     padding: 0;
     margin: 0;
 }
+

@@ -42,7 +42,7 @@ var auctionRegisterView = Vue.component('AuctionRegisterView', {
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button class="btn btn-sm btn-primary" v-on:click="register" v-bind:disabled="isCreatingContract">{{ isCreatingContract ? "계약을 생성하는 중입니다." : "경매 등록하기" }}</button>
+                                        <button class="btn btn-sm  btn-warning" v-on:click="register" v-bind:disabled="isCreatingContract">{{ isCreatingContract ? "계약을 생성하는 중입니다." : "경매 등록하기" }}</button>
                                     </div>
                                     <div class="col-md-6 text-right">
                                         <button class="btn btn-sm btn-outline-secondary" v-on:click="goBack">이전으로 돌아가기</button>
