@@ -8,43 +8,51 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th width="20%">생성자</th>
-                                        <td><router-link :to="{ name: 'work.by_user', params: { id: creator['id'] } }">{{ creator['이름'] }}({{creator['이메일']}})</router-link></td>
-                                    </tr>
-                                    <tr>
-                                        <th>작품명</th>
-                                        <td>{{ work['이름'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>작품 설명</th>
-                                        <td>{{ work['설명'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>경매 시작일</th>
-                                        <td>{{ auction['경매시작시간'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>경매 종료일</th>
-                                        <td>{{ auction['경매종료시간'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>최저가</th>
-                                        <td><strong>{{ auction['최소금액'] }} ETH</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <th>컨트랙트 주소</th>
-                                        <td><a href="#">{{ auction['경매컨트랙트주소'] }}</a></td>
-                                    </tr>
-                                    <tr>
-                                        <th>상태</th>
-                                        <td>
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <h5 class="text-secondary">작품 이미지</h5>
+                                  <img :src="work['작품이미지']">
+                                </div>
+                                <div class="col-md-8">
+                                  <table class="table table-bordered">
+                                      <tr>
+                                          <th width="25%">생성자</th>
+                                          <td><router-link :to="{ name: 'work.by_user', params: { id: creator['id'] } }">{{ creator['이름'] }}({{creator['이메일']}})</router-link></td>
+                                      </tr>
+                                      <tr>
+                                          <th>작품명</th>
+                                          <td>{{ work['이름'] }}</td>
+                                      </tr>
+                                      <tr>
+                                          <th>작품 설명</th>
+                                          <td>{{ work['설명'] }}</td>
+                                      </tr>
+                                      <tr>
+                                          <th>경매 시작일</th>
+                                          <td>{{ auction['경매시작시간'] }}</td>
+                                      </tr>
+                                      <tr>
+                                          <th>경매 종료일</th>
+                                          <td>{{ auction['경매종료시간'] }}</td>
+                                      </tr>
+                                      <tr>
+                                          <th>최저가</th>
+                                          <td><strong>{{ auction['최소금액'] }} ETH</strong></td>
+                                      </tr>
+                                      <tr>
+                                          <th>컨트랙트 주소</th>
+                                          <td><a href="#">{{ auction['경매컨트랙트주소'] }}</a></td>
+                                      </tr>
+                                      <tr>
+                                          <th>상태</th>
+                                          <td>
                                             <span class="badge badge-success" v-if="auction['종료'] == false">경매 진행중</span>
                                             <span class="badge badge-danger" v-if="auction['종료'] == true">경매 종료</span>
-                                        </td>
-                                    </tr>
-                                </table>
+                                          </td>
+                                      </tr>
+                                  </table>
+                                </div>
+                              </div>
                                 <table class="table table-bordered mt-3" v-if="bidder.id">
                                     <tr>
                                         <th width="20%">현재 최고 입찰자</th>
