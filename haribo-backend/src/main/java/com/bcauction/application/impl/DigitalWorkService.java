@@ -107,11 +107,16 @@ public class DigitalWorkService implements IDigitalWorkService {
 	public DigitalWork 작품삭제(final long id) {
 		DigitalWork deleteDigita = null;
 		deleteDigita = this.digitalWorkRepository.조회(id);
+		
 		System.out.println("deleteDigita1: " + deleteDigita.toString());
 		if (deleteDigita != null) {
 			this.digitalWorkRepository.삭제(id);
 			deleteDigita = this.digitalWorkRepository.조회(id);
 			this.fabricService.소유권소멸(deleteDigita.get회원id(), deleteDigita.getId());
+			File file = new File("artImage/"+deleteDigita.get이름()+".jpg");
+			if(file.exists()) {
+				file.delete();
+			}
 		}
 		System.out.println("deleteDigita2: " + deleteDigita.toString());
 		return deleteDigita;
