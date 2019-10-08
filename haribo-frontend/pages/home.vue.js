@@ -5,11 +5,18 @@ var homeView = Vue.component("Home", {
             <v-nav></v-nav>
             <div id="main-overview" class="container home-margin">
                 <div class="col text-center">
-                        <h2 class="pixelFont">FIGURE AUCTION</h2>
-                        <h4>블록체인 기반 피규어 경매를 시작해보세요.</h4>
+                  <h2 class="pixelFont">FIGURE AUCTION</h2>
+                  <h4>블록체인 기반 피규어 경매를 시작해보세요.</h4>
 
-                        <input v-model="message" placeholder="Search">
-                          <router-link :to="{ name: 'search', params: { searched: message } }" class="btn">검색</router-link>
+                  <div class='containers'>
+                    <div class='search-box-container'>
+                      <button class='submit'>
+                        <i class='fa fa-search'></i>
+                      </button>
+                      <input class='search-box' v-model="value" @keyup.enter="Enter" placeholder="Search">
+                    </div>
+                    <h3 class='response'></h3>
+                  </div>
                 </div>
 
               <h6 class="home-margin">최근 게시된 작품</h6>
@@ -53,7 +60,8 @@ var homeView = Vue.component("Home", {
             sharedState: store.state,
             message: "",
             artworks: [],
-            auctions: []
+            auctions: [],
+            value: ""
         }
     },
     methods: {
@@ -92,10 +100,14 @@ var homeView = Vue.component("Home", {
               }
               return  "마감까지 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분 " + diff + "초 남았습니다.";
           }
+      },
+      Enter() {
+        this.$router.push({ name: 'search', params: { searched: this.value }})
       }
     },
     mounted: function() {
       var scope = this;
+
       workService.findAll(function(data){
           scope.artworks.push(data[0]);
           scope.artworks.push(data[1]);
@@ -122,6 +134,35 @@ var homeView = Vue.component("Home", {
           if(result != undefined){
             fetchData(0, result.length);
           }
+      });
+
+      $.fn.toggleState = function(b) {
+      	$(this).stop().animate({
+      		width: b ? "450px" : "50px"
+      	}, 600, "easeOutElastic" );
+      }
+
+      $(document).ready(function() {
+      	var container = $(".container");
+      	var boxContainer = $(".search-box-container");
+      	var submit = $(".submit");
+      	var searchBox = $(".search-box");
+      	var response = $(".response");
+      	var isOpen = false;
+      	submit.on("mousedown", function(e) {
+      		e.preventDefault();
+      		boxContainer.toggleState(!isOpen);
+      		isOpen = !isOpen;
+      		if(!isOpen) {
+      			handleRequest();
+      		} else {
+      			searchBox.focus();
+      		}
+      	});
+      	searchBox.blur(function() {
+      		boxContainer.toggleState(false);
+      		isOpen = false;
+      	});
       });
     }
 })
