@@ -6,17 +6,19 @@ var auctionView = Vue.component('AuctionView', {
             <div id="auction-list" class="container">
                 <div class="row">
                     <div class="col-md-12 text-right">
+                    <input v-model="message" placeholder="빈 검색시 전체보기">
+                    <button type="button" class="btn btn-danger" v-on:click="search">검색</button>
                         <router-link :to="{ name: 'auction.regsiter' }" class="btn btn-outline-secondary">경매 생성하기</router-link>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 auction" v-for="item in pageAuction">
-                        <div class="card">
+                <div class="col-md-3 auction" v-for="item in pageAuction">
+                        <div class="card card-event" style="width: 18rem;">
                             <div class="card-body">
-                                <img :src="item['작품정보']['작품이미지']">
-                                <h4>{{ item['작품정보']['이름'] }}</h4>
-                                <p>{{ calculateDate(item['종료일시']) }}</p>
-                                <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn btn-block btn-secondary">자세히보기</router-link>
+                              <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn btn-block">  <img  :src="item['작품정보']['작품이미지']"  ></router-link>
+                                <h5 class="card-title">{{ item['작품정보']['이름'] | truncate(10) }}</h5>
+                                <span class="badge badge-navy" v-if="calculateDate(item['종료일시']) == '경매 마감'">{{calculateDate(item['종료일시'])}}</span>
+                                <span class="badge badge-orange" v-if="calculateDate(item['종료일시']) != '경매 마감'">{{calculateDate(item['종료일시'])}}</span>
                             </div>
                         </div>
                     </div>
@@ -27,7 +29,12 @@ var auctionView = Vue.component('AuctionView', {
                             <ul class="pagination">
                                 <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="movePage(1)">◀</a></li>
                                 <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="prevPage"><</a></li>
-                                <li class="page-item" v-for="idx in pageCount"><a class="page-link" href="#" @click="movePage(idx)">{{idx}}</a></li>
+                                <li class="page-item" v-for="idx in pages">
+                                  <a class="page-link" @click="movePage(idx)">
+                                    <span class="pagination_curr" v-if="idx==currentPage">{{idx}}</span>
+                                    <span class="pagination_page" v-else >{{idx}}</span>
+                                  </a>
+                                </li>
                                 <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="nextPage">></a></li>
                                 <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="movePage(pageCount)">▶</a></li>
                             </ul>
@@ -43,10 +50,42 @@ var auctionView = Vue.component('AuctionView', {
             pageAuction:[],
             pageCount: 0,
             perPage:8,
-            currentPage: 1
+            currentPage: 1,
+            message: "",
+            pages:[]
         }
     },
     methods: {
+      search() {
+        var scope = this;
+        if(this.message != ""){
+          auctionService.searchAuction(this.message, function(data) {
+            var result = data;
+            function fetchData(start, end){
+                if(start == end) {
+                    scope.auctions = result;
+                    scope.pageCount = Math.ceil(result.length /scope.perPage);
+                    scope.movePage(1);
+                } else {
+                    var id = result[start]['경매작품id'];
+                    workService.findById(id, function(work){
+                        result[start]['작품정보'] = work;
+                        fetchData(start+1, end);
+                    });
+                }
+            }
+
+            if(result != undefined){
+              fetchData(0, result.length);
+            }
+
+            scope.pageCount = Math.ceil(data.length /scope.perPage);
+            scope.movePage(1);
+          });
+        } else {
+          this.findAll();
+        }
+      },
         calculateDate(date) {
             var now = new Date();
             var endDate = new Date(date);
@@ -80,7 +119,7 @@ var auctionView = Vue.component('AuctionView', {
                   minute =  Math.floor(diff / 60);
                   diff =  Math.floor(diff % 60);
                 }
-                return  "마감까지 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분 " + diff + "초 남았습니다.";
+                return  "마감: " + month + "월 " + day + "일 " + hour + "시 " + minute + "분 " + diff+ "초";
             }
         },
         nextPage(){
@@ -104,32 +143,39 @@ var auctionView = Vue.component('AuctionView', {
           for(var i = start; i<end; i++){
             this.pageAuction.push(this.auctions[i])
           }
+          this.pages = [];
+          var stPage = this.currentPage-2<=0?1:this.currentPage-2;
+          var end = stPage+5>this.pageCount?this.pageCount+1:stPage+5;
+          for(var i = stPage; i<end; i++){
+            this.pages.push(i);
+          }
+        },
+        findAll() {
+          var scope = this;
+
+          auctionService.findAll(function(data){
+              var result = data;
+              function fetchData(start, end){
+                  if(start == end) {
+                      scope.auctions = result;
+                      scope.pageCount = Math.ceil(result.length /scope.perPage);
+                      scope.movePage(1);
+                  } else {
+                      var id = result[start]['경매작품id'];
+                      workService.findById(id, function(work){
+                          result[start]['작품정보'] = work;
+                          fetchData(start+1, end);
+                      });
+                  }
+              }
+
+              if(result != undefined){
+                fetchData(0, result.length);
+              }
+          });
         }
     },
     mounted: function(){
-        var scope = this;
-
-        auctionService.findAll(function(data){
-            var result = data;
-
-            // 각 경매별 작품 정보를 불러온다.
-            function fetchData(start, end){
-                if(start == end) {
-                    scope.auctions = result;
-                    scope.pageCount = Math.ceil(result.length /scope.perPage);
-                    scope.movePage(1);
-                } else {
-                    var id = result[start]['경매작품id'];
-                    workService.findById(id, function(work){
-                        result[start]['작품정보'] = work;
-                        fetchData(start+1, end);
-                    });
-                }
-            }
-
-            if(result != undefined){
-              fetchData(0, result.length);
-            }
-        });
+        this.findAll();
     }
 });

@@ -11,6 +11,7 @@ public interface IAuctionRepository
 	List<Auction> 나의경매목록조회(int id);
 	Auction 조회(long id);
 	Auction 조회(String 컨트랙트주소);
+	List<Auction> 작품경매목록조회(long id);
 
 	@Transactional
 	long 생성(Auction 경매);

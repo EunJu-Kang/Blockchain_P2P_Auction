@@ -5,8 +5,8 @@ var auctionService = {
             callback(data);
         });
     },
-    searchAuction: function(data, callback){
-      $.get(API_BASE_URL + '/api/auctions/search/' + data, function(data){
+    searchAuction: function(str, callback){
+      $.get(API_BASE_URL + '/api/auctions/search/' + str, function(data){
           callback(data);
       });
     },

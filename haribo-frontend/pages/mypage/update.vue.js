@@ -24,7 +24,7 @@ var myUpdateView = Vue.component('MyUpdateView', {
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button class="btn btn-sm btn-primary" v-on:click="update">개인정보 수정</button>
+                                        <button class="btn btn-sm btn-warning" v-on:click="update" >개인정보 수정</button>
                                     </div>
                                     <div class="col-md-6 text-right">
                                         <button class="btn btn-sm btn-outline-secondary" v-on:click="goBack">이전으로 돌아가기</button>

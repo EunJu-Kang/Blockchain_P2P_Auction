@@ -19,10 +19,13 @@ import org.springframework.stereotype.Service;
 
 import com.bcauction.application.IDigitalWorkService;
 import com.bcauction.application.IFabricService;
+import com.bcauction.domain.Auction;
 import com.bcauction.domain.DigitalWork;
 import com.bcauction.domain.Ownership;
 import com.bcauction.domain.exception.ApplicationException;
+import com.bcauction.domain.repository.IAuctionRepository;
 import com.bcauction.domain.repository.IDigitalWorkRepository;
+import com.bcauction.infrastructure.repository.AuctionRepository;
 
 @Service
 public class DigitalWorkService implements IDigitalWorkService {
@@ -30,19 +33,22 @@ public class DigitalWorkService implements IDigitalWorkService {
 
 	private IDigitalWorkRepository digitalWorkRepository;
 	private IFabricService fabricService;
+	private IAuctionRepository auctionRepository;
 
 	@Autowired
-	public DigitalWorkService(IFabricService fabricService, IDigitalWorkRepository digitalWorkRepository) {
+	public DigitalWorkService(IFabricService fabricService, IDigitalWorkRepository digitalWorkRepository,
+			IAuctionRepository auctionRepository) {
 		this.fabricService = fabricService;
 		this.digitalWorkRepository = digitalWorkRepository;
+		this.auctionRepository = auctionRepository;
 	}
 
 	@Override
 	public List<DigitalWork> 목록조회() {
 		List<DigitalWork> list = this.digitalWorkRepository.목록조회();
-		for(int i = 0 ; i<list.size(); i++) {
+		for (int i = 0; i < list.size(); i++) {
 			String imageString = encodeBase64(list.get(i));
-			list.get(i).set작품이미지(imageString);	
+			list.get(i).set작품이미지(imageString);
 		}
 		return list;
 	}
@@ -50,7 +56,7 @@ public class DigitalWorkService implements IDigitalWorkService {
 	@Override
 	public List<DigitalWork> 사용자작품목록조회(final long id) {
 		List<DigitalWork> list = this.digitalWorkRepository.사용자작품목록조회(id);
-		for(int i = 0 ; i<list.size(); i++) {
+		for (int i = 0; i < list.size(); i++) {
 			String imageString = encodeBase64(list.get(i));
 			list.get(i).set작품이미지(imageString);
 		}
@@ -64,7 +70,7 @@ public class DigitalWorkService implements IDigitalWorkService {
 		select.set작품이미지(imageString);
 		return select;
 	}
-	
+
 	@Override
 	public DigitalWork 조회(String name) {
 		return this.digitalWorkRepository.조회(name);
@@ -106,14 +112,23 @@ public class DigitalWorkService implements IDigitalWorkService {
 	@Override
 	public DigitalWork 작품삭제(final long id) {
 		DigitalWork deleteDigita = null;
+		List<Auction> workAucions = this.auctionRepository.작품경매목록조회(id);
+
+		if (workAucions.size() != 0) {
+			return null;
+		}
+		
 		deleteDigita = this.digitalWorkRepository.조회(id);
-		System.out.println("deleteDigita1: " + deleteDigita.toString());
 		if (deleteDigita != null) {
 			this.digitalWorkRepository.삭제(id);
 			deleteDigita = this.digitalWorkRepository.조회(id);
 			this.fabricService.소유권소멸(deleteDigita.get회원id(), deleteDigita.getId());
+			File file = new File("artImage/"+deleteDigita.get이름()+".jpg");
+			if(file.exists()) {
+				file.delete();
+			}
 		}
-		System.out.println("deleteDigita2: " + deleteDigita.toString());
+
 		return deleteDigita;
 	}
 
@@ -144,15 +159,15 @@ public class DigitalWorkService implements IDigitalWorkService {
 
 		return 작품;
 	}
-	
+
 	public String encodeBase64(DigitalWork artWork) {
-		
+
 		String imageString = "data:image/jpg;base64,";
-		File f = new File("artImage/"+artWork.get이름()+".jpg");
+		File f = new File("artImage/" + artWork.get이름() + ".jpg");
 		FileInputStream fis;
 		try {
 			fis = new FileInputStream(f);
-			byte byteArray[] = new byte[(int)f.length()];
+			byte byteArray[] = new byte[(int) f.length()];
 			fis.read(byteArray);
 			Encoder encoder = Base64.getEncoder();
 			imageString += encoder.encodeToString(byteArray);
