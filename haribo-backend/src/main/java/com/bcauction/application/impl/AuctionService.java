@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.bcauction.application.IAuctionContractService;
 import com.bcauction.application.IAuctionService;
+import com.bcauction.application.IDigitalWorkService;
 import com.bcauction.application.IFabricService;
 import com.bcauction.domain.Auction;
 import com.bcauction.domain.Bid;
@@ -30,14 +31,17 @@ public class AuctionService implements IAuctionService {
 	private IAuctionRepository auctionRepository;
 	private IBidRepository bidRepository;
 	private IAuctionService auctionService;
+	private IDigitalWorkService digitalworkService;
 
 	@Autowired
 	public AuctionService(IAuctionContractService auctionContractService, IFabricService fabricService,
-			IAuctionRepository auctionRepository, IBidRepository bidRepository) {
+			IAuctionRepository auctionRepository, IBidRepository bidRepository,
+			IDigitalWorkService digitalworkService) {
 		this.auctionContractService = auctionContractService;
 		this.fabricService = fabricService;
 		this.auctionRepository = auctionRepository;
 		this.bidRepository = bidRepository;
+		this.digitalworkService = digitalworkService;
 	}
 
 	@Override
@@ -148,15 +152,23 @@ public class AuctionService implements IAuctionService {
 	}
 
 	@Override
-	public List<Auction> 경매검색조회(List<DigitalWork> data) {
+	public List<Auction> 경매검색조회(String str) {
 		List<Auction> allAuction = this.경매목록조회();
 		List<Auction> searched = new ArrayList<>();
 
-		for (int i = 0; i < allAuction.size(); i++) {
-			for (int j = 0; j < data.size(); j++) {
-				if(allAuction.get(i).get경매작품id() == data.get(j).getId()) {
-					searched.add(allAuction.get(i));
-					break;
+		List<DigitalWork> allArtwork = this.digitalworkService.목록조회();
+		List<DigitalWork> getArtwork = new ArrayList<>();
+
+		for (int i = 0; i < allArtwork.size(); i++) {
+			if (allArtwork.get(i).get설명().contains(str) || allArtwork.get(i).get이름().contains(str)) {
+				getArtwork.add(allArtwork.get(i));
+			}
+		}
+
+		for (int i = 0; i < getArtwork.size(); i++) {
+			for (int j = 0; j < allAuction.size(); j++) {
+				if (getArtwork.get(i).getId() == allAuction.get(j).get경매작품id()) {
+					searched.add(allAuction.get(j));
 				}
 			}
 		}

@@ -109,9 +109,9 @@ public class AuctionController
 		return auctions;
 	}
 
-	@RequestMapping(value = "/auctions/search", method = RequestMethod.GET)
-	public List<Auction> 경매검색조회(@RequestBody List<DigitalWork> data){
-		List<Auction> auctions = auctionService.경매검색조회(data);
+	@RequestMapping(value = "/auctions/search/{str}", method = RequestMethod.GET)
+	public List<Auction> 경매검색조회(@PathVariable String str){
+		List<Auction> auctions = auctionService.경매검색조회(str);
 		return auctions;
 	}
 }

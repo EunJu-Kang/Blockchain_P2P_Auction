@@ -6,6 +6,8 @@ var artworksView = Vue.component('artworksView', {
             <div id="artwork-list" class="container">
                 <div class="row">
                     <div class="col-md-12 text-right">
+                    <input v-model="message" placeholder="빈 검색시 전체보기">
+                    <button type="button" class="btn btn-danger" v-on:click="search">검색</button>
                         <router-link to="/works/create" class="btn btn-outline-secondary">내 작품 등록하기</router-link>
                     </div>
                 </div>
@@ -48,10 +50,23 @@ var artworksView = Vue.component('artworksView', {
             pageArtwork:[],
             pageCount: 0,
             perPage:8,
-            currentPage: 1
+            currentPage: 1,
+            message: ""
         }
     },
     methods: {
+      search() {
+        var scope = this;
+        if(this.message != ""){
+          workService.searchWork(this.message, function(data) {
+            scope.artworks = data;
+            scope.pageCount = Math.ceil(data.length /scope.perPage);
+            scope.movePage(1);
+          });
+        } else {
+          this.findAll();
+        }
+      },
       nextPage(){
         this.currentPage++;
         this.movePage(this.currentPage);
@@ -73,15 +88,17 @@ var artworksView = Vue.component('artworksView', {
         for(var i = start; i<end; i++){
           this.pageArtwork.push(this.artworks[i])
         }
+      },
+      findAll() {
+        var scope = this;
+        workService.findAll(function(data){
+          scope.artworks = data;
+          scope.pageCount = Math.ceil(data.length /scope.perPage);
+          scope.movePage(1)
+        });
       }
     },
     mounted: function(){
-        var scope = this;
-        workService.findAll(function(data){
-            scope.artworks = data;
-            scope.pageCount = Math.ceil(data.length /scope.perPage);
-            console.log(data)
-            scope.movePage(1)
-        });
+        this.findAll();
     }
 })
