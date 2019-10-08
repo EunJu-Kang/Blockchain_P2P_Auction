@@ -69,18 +69,6 @@ var worksCreateView = Vue.component("worksCreateView", {
                 alert("입력폼을 모두 입력해주세요.");
             });
         },
-        // fileSelect() {
-        //   console.log(this.$refs);
-        //   var file = this.$refs.artimage.files[0];
-        //   console.log(file)
-        //   console.log(file["name"])
-        //   var reader = new FileReader(file);
-        //   reader.onload = function(){
-        //     this.work.image = reader.result;
-        //     console.log(this.work.image)
-        //   }
-        //   // this.work.image = this.$refs.artimage.files[0];
-        // },
         onFileChange(e) {
           var files = e.target.files || e.dataTransfer.files;
           if (!files.length)

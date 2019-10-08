@@ -6,6 +6,8 @@ var artworksView = Vue.component('artworksView', {
             <div id="artwork-list" class="container">
                 <div class="row">
                     <div class="col-md-12 text-right">
+                    <input v-model="message" placeholder="빈 검색시 전체보기">
+                    <button type="button" class="btn btn-danger" v-on:click="search">검색</button>
                         <router-link to="/works/create" class="btn btn-outline-secondary">내 작품 등록하기</router-link>
                     </div>
                 </div>
@@ -27,7 +29,12 @@ var artworksView = Vue.component('artworksView', {
                             <ul class="pagination">
                                 <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="movePage(1)">◀</a></li>
                                 <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="prevPage"><</a></li>
-                                <li class="page-item" v-for="idx in pageCount"><a class="page-link" href="#" @click="movePage(idx)">{{idx}}</a></li>
+                                <li class="page-item" v-for="idx in pages">
+                                  <a class="page-link" @click="movePage(idx)">
+                                    <span class="pagination_curr" v-if="idx==currentPage">{{idx}}</span>
+                                    <span class="pagination_page" v-else >{{idx}}</span>
+                                  </a>
+                                </li>
                                 <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="nextPage">></a></li>
                                 <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="movePage(pageCount)">▶</a></li>
                             </ul>
@@ -47,10 +54,25 @@ var artworksView = Vue.component('artworksView', {
             pageArtwork:[],
             pageCount: 0,
             perPage:8,
-            currentPage: 1
+            currentPage: 1,
+            message: "",
+            pages:[]
+
         }
     },
     methods: {
+      search() {
+        var scope = this;
+        if(this.message != ""){
+          workService.searchWork(this.message, function(data) {
+            scope.artworks = data;
+            scope.pageCount = Math.ceil(data.length /scope.perPage);
+            scope.movePage(1);
+          });
+        } else {
+          this.findAll();
+        }
+      },
       nextPage(){
         this.currentPage++;
         this.movePage(this.currentPage);
@@ -72,14 +94,23 @@ var artworksView = Vue.component('artworksView', {
         for(var i = start; i<end; i++){
           this.pageArtwork.push(this.artworks[i])
         }
+        this.pages = [];
+        var stPage = this.currentPage-2<=0?1:this.currentPage-2;
+        var end = stPage+5>this.pageCount?this.pageCount+1:stPage+5;
+        for(var i = stPage; i<end; i++){
+          this.pages.push(i);
+        }
+      },
+      findAll() {
+        var scope = this;
+        workService.findAll(function(data){
+          scope.artworks = data;
+          scope.pageCount = Math.ceil(data.length /scope.perPage);
+          scope.movePage(1)
+        });
       }
     },
     mounted: function(){
-        var scope = this;
-        workService.findAll(function(data){
-            scope.artworks = data;
-            scope.pageCount = Math.ceil(data.length /scope.perPage);
-            scope.movePage(1)
-        });
+        this.findAll();
     }
 })
