@@ -3,25 +3,28 @@ var registerView = Vue.component('RegisterView', {
         <div class="container bg-style">
             <div class="row">
                 <div id="register-form" class="col-md-6 mx-auto form-style">
-                    <router-link class="link-style" to="/">Auction | HARIBO</router-link>
+                <h1>Register</h1>
                     <div class="mt-4">
                         <div class="form-group">
-                            <label for="email">이메일</label>
-                            <input type="text" class="form-control" id="email" v-model="user.email" placeholder="이메일">
+                            <label for="email">EMAIL</label>
+                            <input type="text" class="form-control" id="email" v-model="user.email" placeholder="email">
                         </div>
                         <div class="form-group">
-                            <label for="name">이름</label>
-                            <input type="text" class="form-control" id="name" v-model="user.name" placeholder="이름">
+                            <label for="name">NAME</label>
+                            <input type="text" class="form-control" id="name" v-model="user.name" placeholder="name">
                         </div>
                         <div class="form-group">
-                            <label for="password">비밀번호</label>
-                            <input type="password" class="form-control" id="pw" v-model="user.password" placeholder="비밀번호">
+                            <label for="password">PASSWORD</label>
+                            <input type="password" class="form-control" id="pw" v-model="user.password" placeholder="password">
                         </div>
                         <div class="form-group">
-                            <label for="password-confirm">비밀번호 확인</label>
-                            <input type="password" class="form-control" id="pwConfirm" v-model="user.passwordConfirm" placeholder="비밀번호 확인">
+                            <label for="password-confirm">PASSWORD CONFIRM</label>
+                            <input type="password" class="form-control" id="pwConfirm" v-model="user.passwordConfirm" placeholder="password confirm">
                         </div>
-                        <button type="submit" class="btn form-style" style="background-color:#2A3247; color:white;" v-on:click="register">회원가입</button>
+                        <div class="text-right">
+                          <button class="btn form-style btn-style"><router-link class="link-style" to="/">Home</router-link></button>
+                          <button type="submit" class="btn form-style btn-style" v-on:click="register">Signup</button>
+                        </div>
                     </div>
                 </div>
             </div>

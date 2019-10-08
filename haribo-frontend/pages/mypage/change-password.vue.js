@@ -11,7 +11,7 @@ var myChangePasswordView = Vue.component('MyChangePasswordView', {
                 <v-mypage-nav></v-mypage-nav>
                 <div class="row">
                     <div class="col-md-6 mx-auto mt-5">
-                        <div class="card">
+                        <div class="card ">
                             <div class="card-header">비밀번호 변경</div>
                             <div class="card-body">
                                 <div class="form-group">
