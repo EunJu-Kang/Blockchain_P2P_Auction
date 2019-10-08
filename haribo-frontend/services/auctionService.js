@@ -5,6 +5,11 @@ var auctionService = {
             callback(data);
         });
     },
+    homeAuction: function(callback) {
+      $.get(API_BASE_URL + '/api/auctions/home/', function(data){
+          callback(data);
+      });
+    },
     searchAuction: function(str, callback){
       $.get(API_BASE_URL + '/api/auctions/search/' + str, function(data){
           callback(data);

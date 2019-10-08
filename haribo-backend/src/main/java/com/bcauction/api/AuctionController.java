@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -52,6 +53,17 @@ public class AuctionController {
 		if (목록 == null || 목록.isEmpty())
 			throw new EmptyListException("NO DATA");
 
+		Collections.sort(목록, new Comparator<Auction>() {
+
+			@Override
+			public int compare(Auction o1, Auction o2) {
+				String str1 = o1.get종료일시()+"";
+				String str2 = o2.get종료일시()+"";
+				
+				return str2.compareTo(str1);
+			}
+		});
+		
 		return 목록;
 	}
 
@@ -104,6 +116,26 @@ public class AuctionController {
 	@RequestMapping(value = "/auctions/search/{str}", method = RequestMethod.GET)
 	public List<Auction> 경매검색조회(@PathVariable String str) {
 		List<Auction> auctions = auctionService.경매검색조회(str);
+		return auctions;
+	}
+	
+	@RequestMapping(value = "/auctions/home/", method = RequestMethod.GET)
+	public List<Auction> 메인경매조회() {
+		List<Auction> auctions = this.목록조회();
+		
+		Collections.sort(auctions, new Comparator<Auction>() {
+
+			@Override
+			public int compare(Auction o1, Auction o2) {
+				if(o2.getId() < o1.getId()) 
+					return -1;
+				else if(o2.getId() > o1.getId())
+					return 1;
+				else 
+					return 0;
+			}
+		});
+		
 		return auctions;
 	}
 }
