@@ -26,7 +26,7 @@ var navVue = Vue.component("v-nav", {
                             <router-link class="nav-link nav-fontColor" to="/register">SignUp</router-link>
                         </li>
                         <li class="nav-item" v-if="sharedState.isSigned">
-                            <router-link class="nav-link nav-fontColor" to="#" @click.native="logout">Logout</router-link>
+                            <router-link class="nav-link nav-fontColor" to="/login" @click.native="logout">Logout</router-link>
                         </li>
                     </ul>
                 </div>
@@ -65,7 +65,6 @@ var navVue = Vue.component("v-nav", {
           store.state.hasWallet = false
           sessionStorage.removeItem("userID")
           sessionStorage.removeItem("sign")
-          router.push('/')
         }
     },
     mounted: function(){
