@@ -120,4 +120,13 @@ public class DigitalWorkController
 		return history;
 	}
 
+	@RequestMapping(value = "/works/search/{str}", method = RequestMethod.GET)
+	public List<DigitalWork> 작품검색조회(@PathVariable String str){
+		System.out.println("sdsdfsdfsdfsdfwefwefwefwefwef");
+		List<DigitalWork> search = this.digitalWorkService.작품검색조회(str);
+		if(search == null || search.isEmpty())
+			return null;
+		
+		return search;
+	}
 }

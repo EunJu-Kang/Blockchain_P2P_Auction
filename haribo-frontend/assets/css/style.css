@@ -11,6 +11,10 @@ a {
     color: #f4a900;
 }
 
+.text-center {
+  text-align: center;
+}
+
 /* navbar 스타일 시트 */
 .nav-fontColor {
   color: #ffffff !important;
@@ -41,6 +45,10 @@ a {
   margin-top: 40px;
 }
 
+.home-margin {
+  padding-top: 100px;
+}
+
 /* 메인 소개글 스타일 시트 */
 #main-overview {
     margin-top: 80px;
@@ -54,7 +62,7 @@ a {
 
 #main-overview h4 {
     font-weight: 300;
-    padding-top: 150px;
+    padding-bottom: 50px;
 }
 
 #main-overview a.btn {

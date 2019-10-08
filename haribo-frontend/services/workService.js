@@ -4,6 +4,11 @@ var workService = {
             callback(data);
         });
     },
+    searchWork: function(str, callback){
+      $.get(API_BASE_URL + '/api/works/search/' + str, function(data){
+          callback(data);
+      });
+    },
     findWorksByOwner: function(userId, callback){
         $.get(API_BASE_URL + '/api/works/my/' + userId, function(data){
             callback(data);
@@ -14,7 +19,7 @@ var workService = {
             callback(data);
         });
     },
- 
+
     findHistoryById: function(workId, callback){
         $.get(API_BASE_URL + "/api/works/history/" + workId, function(data){
             var result = [];

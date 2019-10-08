@@ -109,7 +109,7 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
             auction_close(options, function(receipt){
               var auctionId = scope.$route.params.id;
               var bidderId = scope.bidder.id;
-                
+
               if(receipt.cumulativeGasUsed == 2000000){
                 alert("경매 종료를 실패했습니다.")
               } else {
@@ -139,7 +139,7 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
               if(receipt.cumulativeGasUsed == 2000000){
                 alert("경매 취소를 실패했습니다.")
               } else {
-              auctionService.cancel(auctionId, bidderId, 
+              auctionService.cancel(auctionId, bidderId,
                  function(){
                     alert("경매가 취소되었습니다.");
                     scope.auction['종료'] = true;
