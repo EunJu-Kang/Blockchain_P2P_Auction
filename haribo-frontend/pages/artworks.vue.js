@@ -30,7 +30,12 @@ var artworksView = Vue.component('artworksView', {
                             <ul class="pagination">
                                 <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="movePage(1)">◀</a></li>
                                 <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="prevPage"><</a></li>
-                                <li class="page-item" v-for="idx in pageCount"><a class="page-link" href="#" @click="movePage(idx)">{{idx}}</a></li>
+                                <li class="page-item" v-for="idx in pages">
+                                  <a class="page-link" @click="movePage(idx)">
+                                    <span class="pagination_curr" v-if="idx==currentPage">{{idx}}</span>
+                                    <span class="pagination_page" v-else >{{idx}}</span>
+                                  </a>
+                                </li>
                                 <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="nextPage">></a></li>
                                 <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="movePage(pageCount)">▶</a></li>
                             </ul>
@@ -51,7 +56,9 @@ var artworksView = Vue.component('artworksView', {
             pageCount: 0,
             perPage:8,
             currentPage: 1,
-            message: ""
+            message: "",
+            pages:[]
+
         }
     },
     methods: {
@@ -87,6 +94,12 @@ var artworksView = Vue.component('artworksView', {
         this.pageArtwork = [];
         for(var i = start; i<end; i++){
           this.pageArtwork.push(this.artworks[i])
+        }
+        this.pages = [];
+        var stPage = this.currentPage-2<=0?1:this.currentPage-2;
+        var end = stPage+5>this.pageCount?this.pageCount+1:stPage+5;
+        for(var i = stPage; i<end; i++){
+          this.pages.push(i);
         }
       },
       findAll() {
