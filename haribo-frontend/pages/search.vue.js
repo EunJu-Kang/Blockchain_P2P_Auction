@@ -5,7 +5,7 @@ var searchView = Vue.component('searchView', {
         <div class="container">
         <h3 class="home-margin">" {{ searched }} "으로 검색한 결과입니다.</h3>
         <div class="col-md-12 text-right">
-            <router-link to="/works/create" class="btn btn-outline-secondary">뒤로가기</router-link>
+            <router-link to="/" class="btn btn-outline-secondary">홈으로</router-link>
         </div>
 
             <div id="my-artwork" class="row">
