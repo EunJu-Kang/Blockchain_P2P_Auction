@@ -49,6 +49,18 @@ public class AuctionRepository implements IAuctionRepository
 			throw new RepositoryException(e, e.getMessage());
 		}
 	}
+	
+	@Override
+	public List<Auction> 작품경매목록조회(long id)
+	{
+		StringBuilder sbSql =  new StringBuilder("SELECT * FROM 경매 WHERE 상태=? AND 경매작품id=?");
+		try {
+			return this.jdbcTemplate.query(sbSql.toString(),
+			                               new Object[]{ "V", id }, (rs, rowNum) -> AuctionFactory.생성(rs));
+		} catch (Exception e) {
+			throw new RepositoryException(e, e.getMessage());
+		}
+	}
 
 	@Override
 	public Auction 조회(final long id)

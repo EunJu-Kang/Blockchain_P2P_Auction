@@ -5,6 +5,7 @@ import com.bcauction.application.IDigitalWorkService;
 import com.bcauction.application.IFabricService;
 import com.bcauction.domain.DigitalWork;
 import com.bcauction.domain.FabricAsset;
+import com.bcauction.domain.exception.ApplicationException;
 import com.bcauction.domain.exception.DomainException;
 import com.bcauction.domain.exception.EmptyListException;
 import com.bcauction.domain.exception.NotFoundException;
@@ -81,7 +82,12 @@ public class DigitalWorkController
 
 	@RequestMapping(value = "/works/{id}", method = RequestMethod.DELETE)
 	public DigitalWork 삭제(@PathVariable int id) {
-		return  digitalWorkService.작품삭제(id);
+		DigitalWork result = digitalWorkService.작품삭제(id);
+		
+		if (result == null)
+			throw new ApplicationException("해당 작품을 찾을 수 없습니다.");
+		
+		return result;
 	}
 
 

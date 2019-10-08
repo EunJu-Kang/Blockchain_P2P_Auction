@@ -72,7 +72,7 @@ var auctionView = Vue.component('AuctionView', {
             if(result != undefined){
               fetchData(0, result.length);
             }
-            
+
             scope.pageCount = Math.ceil(data.length /scope.perPage);
             scope.movePage(1);
           });
