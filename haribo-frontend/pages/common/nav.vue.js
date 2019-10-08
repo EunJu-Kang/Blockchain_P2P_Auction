@@ -23,7 +23,7 @@ var navVue = Vue.component("v-nav", {
                             <router-link class="nav-link nav-fontColor" to="/login">Login</router-link>
                         </li>
                         <li class="nav-item" v-if="!sharedState.isSigned">
-                            <router-link class="nav-link nav-fontColor" to="/register">Register</router-link>
+                            <router-link class="nav-link nav-fontColor" to="/register">SignUp</router-link>
                         </li>
                         <li class="nav-item" v-if="sharedState.isSigned">
                             <router-link class="nav-link nav-fontColor" to="#" @click.native="logout">Logout</router-link>
