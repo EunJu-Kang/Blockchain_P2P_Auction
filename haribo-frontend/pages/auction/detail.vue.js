@@ -78,7 +78,7 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
                                         <button type="button" class="btn btn-sm btn-danger" v-on:click="cancelAuction" v-bind:disabled="isCanceling || isClosing">{{ isCanceling ? "취소하는 중" : "경매취소하기" }}</button>
                                     </div>
                                     <div class="col-md-6 text-right" v-if="sharedStates.user.id != work['회원id'] && auction['종료'] != true" v-show="check">
-                                        <router-link :to="{ name: 'auction.bid', params: { id: this.$route.params.id } }" class="btn btn-sm btn-primary">입찰하기</router-link>
+                                        <router-link :to="{ name: 'auction.bid', params: { id: this.$route.params.id } }" class="btn btn-sm btn-primary" v-if="!endBid">입찰하기</router-link>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +97,8 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
             bidder: {},
             isCanceling: false,
             isClosing: false,
-            check:false
+            check:false,
+            endBid:false
         }
     },
     methods: {
@@ -154,6 +155,16 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
                  })
                 }
             });
+        },
+        calculateDate(date) {
+            var now = new Date();
+            var endDate = new Date(date);
+            var diff = Math.floor((Date.parse(endDate) - now) / 1000);
+            console.log(diff)
+            // 만약 종료일자가 지났다면 "경매 마감"을 표시한다.
+            if(diff < 0) {
+              this.endBid = true;
+            }
         }
     },
     mounted: async function(){
@@ -193,6 +204,8 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
             }
 
             scope.auction = auction;
+
+            scope.calculateDate(scope.auction['경매종료시간'])
         });
     }
 });
