@@ -5,9 +5,9 @@ var homeView = Vue.component("Home", {
             <v-nav></v-nav>
             <div id="main-overview" class="container home-margin">
                 <div class="col text-center">
-                  <h2 class="pixelFont">FIGURE AUCTION</h2>
+                  <h1 class="pixelFont">FIGURE AUCTION</h1>
+                  <br>
                   <h4>블록체인 기반 피규어 경매를 시작해보세요.</h4>
-
                   <div class='containers'>
                     <div class='search-box-container'>
                       <button class='submit'>
@@ -19,24 +19,24 @@ var homeView = Vue.component("Home", {
                   </div>
                 </div>
 
-              <h6 class="home-margin">최근 게시된 작품</h6>
+              <p class="home-margin">최근 게시된 작품</p>
               <div class="col text-center">
                 <div class="row">
-                <div class="col-md-4 artwork" v-for="item in artworks">
-                    <div class="card">
-                        <div class="card-body">
-                            <img :src="item['작품이미지']">
-                            <h4>{{ item['이름'] }}</h4>
-                            <p v-if="item['설명'] != null">{{ item["설명"] }}</p>
-                            <p v-if="item['설명'] == null">-</p>
-                            <router-link :to="{ name: 'work.detail', params: { id: item['id'] } }" class="btn btn-block btn-secondary">이력보기</router-link>
-                        </div>
-                    </div>
-                </div>
+                  <div class="col-md-4 artwork" v-for="item in artworks">
+                      <div class="card">
+                          <div class="card-body">
+                              <img :src="item['작품이미지']">
+                              <h4>{{ item['이름'] }}</h4>
+                              <p v-if="item['설명'] != null">{{ item["설명"] }}</p>
+                              <p v-if="item['설명'] == null">-</p>
+                              <router-link :to="{ name: 'work.detail', params: { id: item['id'] } }" class="btn btn-block btn-style" style="margin-left:0px;">이력보기</router-link>
+                          </div>
+                      </div>
+                  </div>
                 </div>
               </div>
 
-              <h6 class="home-margin">최근 게시된 경매</h6>
+              <p class="home-margin">최근 게시된 경매</p>
               <div class="col text-center">
               <div class="row">
                   <div class="col-md-4 auction" v-for="item in auctions">
