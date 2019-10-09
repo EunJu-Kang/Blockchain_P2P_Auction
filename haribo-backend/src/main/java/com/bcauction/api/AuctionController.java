@@ -2,6 +2,7 @@ package com.bcauction.api;
 
 import com.bcauction.application.IAuctionContractService;
 import com.bcauction.application.IAuctionService;
+import com.bcauction.application.IWalletService;
 import com.bcauction.domain.Auction;
 import com.bcauction.domain.AuctionInfo;
 import com.bcauction.domain.Bid;
@@ -26,14 +27,16 @@ public class AuctionController {
 
 	private IAuctionService auctionService;
 	private IAuctionContractService auctionContractService;
+	private IWalletService walletService;
 
 	@Autowired
-	public AuctionController(IAuctionService auctionService, IAuctionContractService auctionContractService) {
+	public AuctionController(IAuctionService auctionService, IAuctionContractService auctionContractService, IWalletService walletService) {
 		Assert.notNull(auctionService, "auctionService 개체가 반드시 필요!");
 		Assert.notNull(auctionContractService, "auctionContractService 개체가 반드시 필요!");
 
 		this.auctionService = auctionService;
 		this.auctionContractService = auctionContractService;
+		this.walletService = walletService;
 	}
 
 	@RequestMapping(value = "/auctions", method = RequestMethod.POST)
@@ -133,5 +136,11 @@ public class AuctionController {
 		});
 
 		return auctions;
+	}
+	
+	@RequestMapping(value = "/auctions/bidder/{bidder}", method = RequestMethod.GET)
+	public String 최고가입찰자(@PathVariable String bidder) {
+		String str = this.walletService.최고입찰자조회(bidder);
+		return str;
 	}
 }

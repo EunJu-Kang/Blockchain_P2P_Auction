@@ -57,7 +57,7 @@ var explorerAuctionView = Vue.component('ExplorerView', {
                let temp_endTime = result[idxs].종료일시
                let temp_startTime = result[idxs].시작일시
                let temp_workId = result[idxs].경매작품id
-               auction_info(data[idxs].컨트랙트주소, (bid, bidder, endtime, auctionEndTime) => {
+                auction_info(data[idxs].컨트랙트주소, (bid, bidder, endtime, auctionEndTime) => {
                  if(bid){
                    bid = web3.utils.fromWei(bid, 'ether');
                    var cnt = 0
@@ -70,6 +70,7 @@ var explorerAuctionView = Vue.component('ExplorerView', {
                      bidder = "-"
                    }
                  }
+
                  var obj = {
                    "최고가" : bid,
                    "최고입찰자" : bidder,
@@ -80,7 +81,15 @@ var explorerAuctionView = Vue.component('ExplorerView', {
                    "시작일시" : temp_startTime,
                    "작품id" : temp_workId,
                  }
-                 arr.push(obj);
+
+                 if (bidder != "-") {
+                    auctionService.highestBidder(bidder, function(data) {
+                    obj["최고입찰자"]  = data;
+                    arr.push(obj);
+                   });
+                 } else  {
+                   arr.push(obj);
+                 }
                });
                scope.items = arr
              }

@@ -17,4 +17,6 @@ public interface IWalletRepository {
 	int 잔액갱신(String 지갑주소, BigDecimal 잔액);
 
 	int 충전회수갱신(String 지갑주소);
+
+	Wallet 최고입찰자조회(String str);
 }

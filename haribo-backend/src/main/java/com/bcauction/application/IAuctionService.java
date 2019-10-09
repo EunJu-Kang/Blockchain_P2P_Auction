@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface IAuctionService
 {
-	
+	String 최고가입찰자(String str);
 	List<Auction> 경매목록조회();
 	List<Auction> 경매검색조회(String str);
 	List<Auction> 나의경매목록조회(int id);
