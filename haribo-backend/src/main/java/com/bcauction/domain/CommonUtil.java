@@ -22,69 +22,60 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.TimeZone;
 
-public class CommonUtil
-{
+public class CommonUtil {
 	private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 
 	public static String readString(String filePath) {
 		try {
 			File file = getFile(filePath);
 			logger.info(file.getAbsolutePath());
-			if(file.exists()) {
+			if (file.exists()) {
 				byte[] encoded = new byte[0];
 				try {
 					encoded = FileCopyUtils.copyToByteArray(file);
-				}
-				catch (IOException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 					throw new ApplicationException(filePath + " CANNOT READ STRING!");
 				}
 				return new String(encoded, StandardCharsets.UTF_8);
 			}
 			return null;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new ApplicationException(e.getMessage());
 		}
 
 	}
 
-
-	public static Credentials getCredential(final String filePath, final String password)
-	{
+	public static Credentials getCredential(final String filePath, final String password) {
 		try {
 			File file = getFile(filePath);
-			if(file.exists()){
+			if (file.exists()) {
 				return WalletUtils.loadCredentials(password, file);
 			}
 			return null;
 		} catch (IOException e) {
 			throw new DomainException(e.getMessage());
-		}
-		catch (CipherException e) {
+		} catch (CipherException e) {
 			throw new DomainException(e.getMessage());
 		}
 	}
 
-	private static File getFile(final String filePath)
-			throws IOException
-	{
+	private static File getFile(final String filePath) throws IOException {
 		String[] tokens = filePath.split("\\.");
 
 		ClassPathResource classPathResource = new ClassPathResource(filePath);
 		String protocol = classPathResource.getURL().getProtocol();
 		logger.info(protocol + "| url=" + classPathResource.getURL());
 
-		if(protocol.equals("file"))
+		if (protocol.equals("file"))
 			return classPathResource.getFile();
 
-		if(protocol.equals("jar")) {
+		if (protocol.equals("jar")) {
 			InputStream inputStream = new ClassPathResource(filePath).getInputStream();
 			File tempFile = File.createTempFile(tokens[0] + "-temp", "." + tokens[1]);
 			try {
 				FileUtils.copyInputStreamToFile(inputStream, tempFile);
-			}
-			finally {
+			} finally {
 				IOUtils.closeQuietly(inputStream);
 			}
 			return tempFile;
@@ -94,7 +85,6 @@ public class CommonUtil
 	}
 
 	public static LocalDateTime ETH타임스탬프변환(long value) {
-		return LocalDateTime.ofInstant(Instant.ofEpochSecond(value),
-				TimeZone.getDefault().toZoneId());
+		return LocalDateTime.ofInstant(Instant.ofEpochSecond(value), TimeZone.getDefault().toZoneId());
 	}
 }
