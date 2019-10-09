@@ -7,7 +7,7 @@ var homeView = Vue.component("Home", {
                 <div class="col text-center">
                   <h1 class="pixelFont"> Photo Copyright Auction</h1>
                   <br>
-                  <h4 class="h4-font">블록체인 기반 이미지 저작권 경매를 시작해보세요.</h4>
+                  <h4 class="korean-font">블록체인 기반 이미지 저작권 경매를 시작해보세요.</h4>
                   <div class='containers'>
                     <div class='search-box-container'>
                       <button class='submit'>
@@ -19,17 +19,17 @@ var homeView = Vue.component("Home", {
                   </div>
                 </div>
 
-              <p class="home-margin">최근 게시된 작품</p>
+              <p class="home-margin korean-font">최근 게시된 작품</p>
               <div class="col text-center">
                 <div class="row">
                   <div class="col-md-4 artwork" v-for="item in artworks">
                       <div class="card">
-                          <div class="card-body">
+                          <div class="card-body img">
                               <img :src="item['작품이미지']">
-                              <h5>{{ item['이름'] }}</h5>
-                              <p v-if="item['설명'] != null">{{ item["설명"] }}</p>
-                              <p v-if="item['설명'] == null">-</p>
-                              <router-link :to="{ name: 'work.detail', params: { id: item['id'] } }" class="btn btn-block btn-secondary" style="margin-left:0px;">작품자세히보기</router-link>
+                              <h5 class="korean-font">{{ item['이름'] }}</h5>
+                              <p calss="korean-font" v-if="item['설명'] != null">{{ item["설명"] }}</p>
+                              <p calss= "korean-font" v-if="item['설명'] == null">-</p>
+                              <router-link :to="{ name: 'work.detail', params: { id: item['id'] } }" class="btn btn-block btn-secondary korean-font" style="margin-left:0px;">작품자세히보기</router-link>
                           </div>
                       </div>
                   </div>
@@ -109,24 +109,27 @@ var homeView = Vue.component("Home", {
     var scope = this;
 
     workService.findAll(function (data) {
-      scope.artworks.push(data[0]);
-      scope.artworks.push(data[1]);
-      scope.artworks.push(data[2]);
+      for(var i=0; i < 3 ; i++){
+        if(data[i]){
+          scope.artworks.push(data[i]);
+        }
+      }
     });
 
     auctionService.homeAuction(function (data) {
       var result = data;
-
       function fetchData(start, end) {
         if (start == end) {
-          scope.auctions.push(result[0]);
-          scope.auctions.push(result[1]);
-          scope.auctions.push(result[2]);
+          for(var i=0; i < 3 ; i++){
+            if(result[i]){
+              scope.auctions.push(result[i])
+            }
+          }
         } else {
-          var id = result[start]['경매작품id'];
-          workService.findById(id, function (work) {
-            result[start]['작품정보'] = work;
-            fetchData(start + 1, end);
+            var id = result[start]['경매작품id'];
+            workService.findById(id, function (work) {
+              result[start]['작품정보'] = work;
+              fetchData(start + 1, end);
           });
         }
       }

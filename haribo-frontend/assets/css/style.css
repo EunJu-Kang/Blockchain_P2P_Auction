@@ -23,6 +23,11 @@ a {
   margin-right: 10px;
 }
 
+.Font-shape{
+  font-family:'Acme', sans-serif;
+  color: white;
+}
+
 .nav-height {
   background: #2A3247;
   height: 70px;
@@ -110,7 +115,6 @@ a {
 img {
   vertical-align: middle;
   border-style: none;
-  height: 260px;
 }
 
 /* badge 색변경 */
@@ -143,7 +147,7 @@ img {
   background-color: #2A3247;
   color: #f4a900;
   text-decoration: none;
-  font-family: 'Revalia', cursive;
+   font-family:'Acme', sans-serif;
 }
 
 .bg-style {
@@ -168,7 +172,11 @@ img {
 
 .link-style{
   color: white !important;
-  font-family: 'Revalia', cursive;
+  font-family:'Acme', sans-serif;
+}
+
+.korean-font{
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .btn-warning {
@@ -343,4 +351,9 @@ nav.bottom-pagination {
   line-height: 100%;
   pointer-event: none;
   color: #2A3247;
+}
+
+.card-body img{
+  height: 260px;
+    width: 210px;
 }

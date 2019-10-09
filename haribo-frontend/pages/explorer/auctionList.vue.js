@@ -21,7 +21,7 @@ var explorerAuctionView = Vue.component('ExplorerView', {
                             <tr v-for="item in items">
                                 <td><router-link :to="{ name: 'explorer.auction.detail', params: { contractAddress: item } }">{{ item.컨트랙트주소 | truncate(15) }}</router-link></td>
                                 <td>
-                                    <span class="badge badge-primary" v-if="item.경매상태">Processing</span>
+                                    <span class="badge badge-primary" v-if="!item.경매상태">Processing</span>
                                     <span class="badge badge-danger" v-else>Ended</span>
                                 </td>
                                 <td v-if="item.최고가 != null ">{{ item.최고가 }} ETH</td>
@@ -51,7 +51,6 @@ var explorerAuctionView = Vue.component('ExplorerView', {
              var result = data;
              var arr = []
              scope.contracts = result;
-
              for( var idxs = 0; idxs<scope.contracts.length; idxs++){
                let temp_contract = result[idxs].컨트랙트주소
                let temp_endTime = result[idxs].종료일시
