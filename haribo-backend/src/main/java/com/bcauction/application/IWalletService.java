@@ -11,6 +11,7 @@ public interface IWalletService
 	List<Wallet> 목록조회();
 	Wallet 조회_ETH잔액동기화(String 지갑주소);
 	Wallet 조회(long 소유자id);
+	String 최고입찰자조회(String str);
 
 	@Transactional
 	Wallet 등록(Wallet 지갑);

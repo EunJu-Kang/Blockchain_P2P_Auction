@@ -2,9 +2,11 @@ package com.bcauction.application.impl;
 
 import com.bcauction.application.IEthereumService;
 import com.bcauction.application.IWalletService;
+import com.bcauction.domain.Member;
 import com.bcauction.domain.Wallet;
 import com.bcauction.domain.exception.ApplicationException;
 import com.bcauction.domain.exception.NotFoundException;
+import com.bcauction.domain.repository.IMemberRepository;
 import com.bcauction.domain.repository.IWalletRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +22,13 @@ public class WalletService implements IWalletService {
 
 	private IWalletRepository walletRepository;
 	private IEthereumService ethereumService;
+	private IMemberRepository memberRepository;
 
 	@Autowired
-	public WalletService(IWalletRepository walletRepository, IEthereumService ethereumService) {
+	public WalletService(IWalletRepository walletRepository, IEthereumService ethereumService, IMemberRepository memberRepository) {
 		this.walletRepository = walletRepository;
 		this.ethereumService = ethereumService;
+		this.memberRepository = memberRepository;
 	}
 
 	@Override
@@ -94,5 +98,15 @@ public class WalletService implements IWalletService {
 		} catch (Exception e) {
 			throw new ApplicationException("[2] 충전할 수 없습니다!");
 		}
+	}
+
+	@Override
+	public String 최고입찰자조회(String str) {
+		Wallet wallet = this.walletRepository.최고입찰자조회(str);
+		long id = wallet.get소유자id();
+		Member member = this.memberRepository.조회(id);
+		String result = member.get이름()+"("+member.get이메일()+")";
+		
+		return result;
 	}
 }

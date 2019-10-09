@@ -114,4 +114,17 @@ public class WalletRepository implements IWalletRepository
 			throw new RepositoryException(e, e.getMessage());
 		}
 	}
+
+	@Override
+	public Wallet 최고입찰자조회(String str) {
+		StringBuilder sbSql =  new StringBuilder("SELECT * FROM 지갑 WHERE 주소=?");
+		try {
+			return this.jdbcTemplate.queryForObject(sbSql.toString(),
+								new Object[] { str }, (rs, rowNum) -> WalletFactory.생성(rs) );
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		} catch (Exception e) {
+			throw new RepositoryException(e, e.getMessage());
+		}
+	}
 }
