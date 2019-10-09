@@ -46,7 +46,6 @@ public class EthBlockListeningService
 	@PostConstruct
 	public void listen()
 	{
-		System.out.println("listen start");
 		Subscription subscription = (Subscription)web3j.replayPastAndFutureBlocksFlowable(
 				(DefaultBlockParameterName.LATEST), false)
 				.subscribe(block -> {

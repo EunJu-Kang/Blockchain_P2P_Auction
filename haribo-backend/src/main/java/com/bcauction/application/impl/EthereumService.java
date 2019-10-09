@@ -201,7 +201,7 @@ public class EthereumService implements IEthereumService {
 		Block block = 블록검색(BlockNumber);
 		List<EthereumTransaction> ListTran = block.getTrans();
 		com.bcauction.domain.Transaction transaction = new com.bcauction.domain.Transaction();
-
+		
 		if (ListTran.size() > 0) {
 			for (int i = 0; i < ListTran.size(); i++) {
 				EthereumTransaction tx = ListTran.get(i);
@@ -224,7 +224,7 @@ public class EthereumService implements IEthereumService {
 				transaction.setS(null);
 				transaction.setV(0);
 				transaction.set저장일시(tx.getTimestamp());
-
+				
 				transactionRepository.추가(transaction);
 			}
 		}

@@ -49,7 +49,6 @@ public class EthereumController {
 	@GetMapping("/trans")
 	public List<com.bcauction.domain.Transaction> 최근트랜잭션조회() {
 		List<com.bcauction.domain.Transaction> 목록 = this.explorerService.최근트랜잭션조회();
-
 		if (목록 == null || 목록.isEmpty())
 			throw new EmptyListException("NO DATA");
 
@@ -71,7 +70,6 @@ public class EthereumController {
 		EthereumTransaction 트랜잭션 = this.explorerService.트랜잭션검색(id);
 		if (트랜잭션 == null)
 			throw new NotFoundException(id + " 트랜잭션 정보를 찾을 수 없습니다.");
-		System.out.println("1" + 트랜잭션.toString());
 		return 트랜잭션;
 	}
 

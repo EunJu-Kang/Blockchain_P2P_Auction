@@ -45,12 +45,25 @@ var explorerTxListView = Vue.component('ExplorerTxListView', {
             etheriumService.recentTrans(function (response) {
                 if (response) {
                     var BlockNumber;
-                    for (let i = 0; i < 10; i++) {
+                    var tranlen = response.length;
+                    console.log(tranlen)
+                    if(tranlen<10){
+                        for (let i = 0; i < tranlen; i++) {
+                            console.log(response);
                             etheriumService.findBlockById(response[i].blockNumber, function (blcokdata) {
+                                response[i].저장일시 = etheriumService.timeSince(blcokdata.timestamp);
+                            })
+                        }
+                        scope.transactions = response
+                    }else{
+                    for (let i = 0; i < 2; i++) {
+                        console.log(response);
+                        etheriumService.findBlockById(response[i].blockNumber, function (blcokdata) {
                                 response[i].저장일시 = etheriumService.timeSince(blcokdata.timestamp);
                         })
                     }
-                    scope.transactions = response
+                        scope.transactions = response
+                }
                 }
             })
         }
