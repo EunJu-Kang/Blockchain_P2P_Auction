@@ -41,9 +41,6 @@ var explorerTxListView = Vue.component('ExplorerTxListView', {
     },
     methods: {
         fetchTxes: function () {
-            /**
-             * TODO 최근 블록에 포함된 트랜잭션 리스트를 반환합니다.
-             */
             var scope = this;
             etheriumService.recentTrans(function (response) {
                 if (response) {

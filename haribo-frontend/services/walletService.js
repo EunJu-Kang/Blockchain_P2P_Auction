@@ -14,7 +14,6 @@ var walletService = {
                 callback(response);
             },
             error: function(){
-              // router.push('/')
             }
         });
     },
@@ -28,7 +27,6 @@ var walletService = {
         });
     },
     registerWallet: function(userId, walletAddress, callback){
-        // TODO 지갑 등록 API를 호출합니다.
         var wallet = {
           "소유자id": userId,
           "주소": walletAddress
@@ -45,7 +43,6 @@ var walletService = {
         });
     },
     chargeEther: function(walletAddress, callback){
-        // TODO 코인 충전 API를 호출합니다.
         $.ajax({
             type: "PUT",
             url: API_BASE_URL + "/api/wallets/" + walletAddress,

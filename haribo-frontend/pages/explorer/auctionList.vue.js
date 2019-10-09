@@ -46,11 +46,6 @@ var explorerAuctionView = Vue.component('ExplorerView', {
         }
     },
     mounted: async function(){
-        /* *
-         * TODO
-         * 1. AuctionFactory 컨트랙트로부터 경매컨트랙트 주소 리스트를 가져옵니다.
-         * 2. 각 컨트랙트 주소로부터 경매의 상태(state) 정보를 가져옵니다.
-         * */
          var scope = this;
          auctionService.findAll(function(data){
              var result = data;
