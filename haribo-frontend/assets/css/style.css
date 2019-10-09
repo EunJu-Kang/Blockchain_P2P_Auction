@@ -7,6 +7,7 @@ body {
 }
 
 a {
+    color: #F4A900;
     text-decoration: none;
 }
 
@@ -17,8 +18,8 @@ a {
 /* navbar 스타일 시트 */
 .nav-fontColor {
   color: #ffffff !important;
-  font-family: 'Revalia', cursive;
-  font-size: 22px;
+  font-family:'Acme', sans-serif;
+  font-size: 24px;
   margin-right: 10px;
 }
 
@@ -40,13 +41,13 @@ a {
 }
 
 .pixelFont {
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'Caveat', cursive;
   margin-top: 10px;
   text-align: center;
 }
 
 .home-margin {
-  padding-top: 100px;
+  padding-top: 200px;
   text-align: left;
   font-weight: bold;
   font-size: 20px;
@@ -58,9 +59,9 @@ a {
 }
 
 #main-overview h1 {
-  font-size: 50px;
+  font-size: 100px;
   font-weight: 800;
-  padding-top: 50px;
+  padding-top: 30px;
 }
 
 #main-overview h4 {
@@ -78,6 +79,10 @@ a {
 
 #my-artwork .artwork {
   padding: 10px !important;
+}
+
+.h4-font{
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 /* 작품 리스트 스타일 시트 */
@@ -100,61 +105,6 @@ a {
 #auction-list .auction h4,
 #artwork-list .artwork h4 {
   padding-top: 40px;
-}
-
-#auction-list .auction p,
-#artwork-list .artwork p {
-  padding-top: 10px;
-}
-
-.card-event:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
-
-  &::before,
-  &::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transform: scale3d(0, 0, 1);
-    transition: transform .3s ease-out 0s;
-    background: rgba(255, 255, 255, .1);
-    content: '';
-    pointer-events: none;
-  }
-
-  /* #auctionlistcss .card:hover{
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4);
-  &::before,
-  &::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transform: scale3d(0, 0, 1);
-    transition: transform .3s ease-out 0s;
-    background: rgba(255, 255, 255, .1);
-    content: '';
-    pointer-events: none;
-  } */
-  &::before {
-    transform-origin: left top;
-  }
-
-  &::after {
-    transform-origin: right bottom;
-  }
-
-  &:hover,
-  &:focus {
-
-    &::before,
-    &::after {
-      transform: scale3d(1, 1, 1);
-    }
-  }
 }
 
 img {
@@ -214,7 +164,6 @@ img {
   background-color: #f4a900;
   color: white;
   margin-top: 15px;
-  margin-left: 15px;
 }
 
 .link-style{
@@ -277,6 +226,16 @@ nav.bottom-pagination {
   display: inline-block;
 }
 
+/*pagination style*/
+.pagination_curr {
+  color:#F4A900;
+  font-weight:bold;
+}
+.pagination_page {
+  color:#333333;
+}
+
+
 /* 작품 리스트 > 작품 상세 정보 > 사용자 별 작품 조회 */
 .work-list-item {
   display: block;
@@ -319,7 +278,7 @@ nav.bottom-pagination {
   width: 100%;
   top: 50%;
   padding: 50px 0;
-  margin-top: 120px;
+  margin-top: 200px;
   -moz-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   -o-transform: translateY(-50%);

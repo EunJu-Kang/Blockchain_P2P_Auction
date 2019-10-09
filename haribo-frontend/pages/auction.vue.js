@@ -5,9 +5,11 @@ var auctionView = Vue.component('AuctionView', {
             <v-breadcrumb title="경매 참여하기" description="경매 중인 작품을 보여줍니다."></v-breadcrumb>
             <div id="auction-list" class="container">
                 <div class="row">
-                    <div class="col-md-12 text-right">
-                    <input v-model="message" placeholder="빈 검색시 전체보기">
-                    <button type="button" class="btn btn-danger" v-on:click="search">검색</button>
+                    <div class="col-md-6">
+                    <input v-model="message" placeholder="경매">
+                    <button type="button" class="btn btn-outline-secondary col-md-0.5" v-on:click="search">검색</button>
+                    </div>
+                    <div class="col-md-6 text-right">
                         <router-link :to="{ name: 'auction.regsiter' }" class="btn btn-outline-secondary">경매 생성하기</router-link>
                     </div>
                 </div>
@@ -15,10 +17,12 @@ var auctionView = Vue.component('AuctionView', {
                 <div class="col-md-3 auction" v-for="item in pageAuction">
                         <div class="card card-event" style="width: 18rem;">
                             <div class="card-body">
-                              <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn btn-block">  <img  :src="item['작품정보']['작품이미지']"  ></router-link>
+                              <img  :src="item['작품정보']['작품이미지']"  >
                                 <h5 class="card-title">{{ item['작품정보']['이름'] | truncate(10) }}</h5>
-                                <span class="badge badge-navy" v-if="calculateDate(item['종료일시']) == '경매 마감'">{{calculateDate(item['종료일시'])}}</span>
-                                <span class="badge badge-orange" v-if="calculateDate(item['종료일시']) != '경매 마감'">{{calculateDate(item['종료일시'])}}</span>
+                                <p class="badge badge-navy" v-if="calculateDate(item['종료일시']) == '경매 마감'">{{calculateDate(item['종료일시'])}}</p>
+                                <p class="badge badge-orange" v-if="calculateDate(item['종료일시']) != '경매 마감'">{{calculateDate(item['종료일시'])}}</p>
+                                
+                                <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn  btn-block btn-secondary">작품자세히보기</router-link>
                             </div>
                         </div>
                     </div>
