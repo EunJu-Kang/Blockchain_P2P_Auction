@@ -21,8 +21,8 @@ var auctionView = Vue.component('AuctionView', {
                                 <h5 class="card-title">{{ item['작품정보']['이름'] | truncate(10) }}</h5>
                                 <p class="badge badge-navy" v-if="calculateDate(item['종료일시']) == '경매 마감'">{{calculateDate(item['종료일시'])}}</p>
                                 <p class="badge badge-orange" v-if="calculateDate(item['종료일시']) != '경매 마감'">{{calculateDate(item['종료일시'])}}</p>
-                                
-                                <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn  btn-block btn-secondary">작품자세히보기</router-link>
+
+                                <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn  btn-block btn-secondary">경매자세히보기</router-link>
                             </div>
                         </div>
                     </div>
