@@ -1,15 +1,11 @@
 package com.bcauction.application.impl;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
-import java.util.StringTokenizer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -17,7 +13,6 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.json.stream.JsonParser;
 
 import org.hyperledger.fabric.sdk.BlockEvent.TransactionEvent;
 import org.hyperledger.fabric.sdk.ChaincodeID;
@@ -52,9 +47,6 @@ public class FabricCCService implements IFabricCCService {
 	private HFClient hfClient;
 	private Channel channel;
 
-	/**
-	 * 패브릭 네트워크를 이용하기 위한 정보
-	 */
 	@Value("${fabric.ca-server.url}")
 	private String CA_SERVER_URL;
 	@Value("${fabric.ca-server.admin.name}")
@@ -86,15 +78,9 @@ public class FabricCCService implements IFabricCCService {
 	@Value("${fabric.channel.name}")
 	private String CHANNEL_NAME;
 
-	/**
-	 * 체인코드를 이용하기 위하여 구축해놓은 패브릭 네트워크의 채널을 가져오는 기능을 구현한다. 여기에서 this.channel의 값을 초기화
-	 * 한다
-	 */
 	private void loadChannel() {
-		// TODO
 		try {
-			CryptoSuite cryptoSuite = CryptoSuite.Factory.getCryptoSuite(); // 디지털 서명, 암호화 / 암호 해독 및 보안 해싱을 수행하기 위해 사용하는
-			// 추상 클래스입니다
+			CryptoSuite cryptoSuite = CryptoSuite.Factory.getCryptoSuite(); 
 			Properties properties = getPropertiesWith(CA_SERVER_PEM_FILE);
 
 			HFCAClient caClient = HFCAClient.createNewInstance(CA_SERVER_URL, properties);
@@ -115,7 +101,6 @@ public class FabricCCService implements IFabricCCService {
 			this.channel.initialize();
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -129,13 +114,6 @@ public class FabricCCService implements IFabricCCService {
 		return properties;
 	}
 
-	/**
-	 * 소유권 등록을 위해 체인코드 함수를 차례대로 호출한다.
-	 *
-	 * @param 소유자
-	 * @param 작품id
-	 * @return FabricAsset
-	 */
 	@Override
 	public FabricAsset registerOwnership(final long 소유자, final long 작품id) {
 		if (this.channel == null || this.hfClient == null)
@@ -149,14 +127,6 @@ public class FabricCCService implements IFabricCCService {
 		return query(작품id);
 	}
 
-	/**
-	 * 소유권 이전을 위해 체인코드 함수를 차례대로 호출한다.
-	 *
-	 * @param from
-	 * @param to
-	 * @param 작품id
-	 * @return List<FabricAsset
-	 */
 	@Override
 	public List<FabricAsset> transferOwnership(final long from, final long to, final long 작품id) {
 	      if (this.channel == null)
@@ -182,13 +152,6 @@ public class FabricCCService implements IFabricCCService {
 	      return assets;
 	}
 
-	/**
-	 * 소유권 소멸을 위해 체인코드 함수를 호출한다.
-	 *
-	 * @param 작품id
-	 * @param 소유자id
-	 * @return FabricAsset
-	 */
 	@Override
 	public FabricAsset expireOwnership(final long 작품id, final long 소유자id) {
 		if (this.channel == null)
@@ -204,15 +167,7 @@ public class FabricCCService implements IFabricCCService {
 		return query(작품id);
 	}
 
-	/**
-	 * 체인코드 registerAsset 함수를 호출하는 메소드
-	 *
-	 * @param 작품id
-	 * @param 소유자
-	 * @return boolean
-	 */
 	private boolean registerAsset(final long 작품id, final long 소유자) {
-		// TODO
 		if (this.hfClient == null || this.channel == null)
 			loadChannel();
 
@@ -234,24 +189,15 @@ public class FabricCCService implements IFabricCCService {
 		} catch (ProposalException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return result;
 	}
 
-	/**
-	 * 체인코드 confirmTimestamp 함수를 호출하는 메소드
-	 *
-	 * @param 작품id
-	 * @return
-	 */
 	private boolean confirmTimestamp(final long 작품id) {
-		// TODO
 		if (this.hfClient == null || this.channel == null)
 			loadChannel();
 
@@ -274,24 +220,14 @@ public class FabricCCService implements IFabricCCService {
 		} catch (ProposalException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
 	}
 
-	/**
-	 * 체인코드 expireAssetOwnership를 호출하는 메소드 만료 된 자산 소유권
-	 * 
-	 * @param 작품id
-	 * @param 소유자
-	 * @return
-	 */
 	private boolean expireAssetOwnership(final long 작품id, final long 소유자) {
-		// TODO
 		if (this.hfClient == null || this.channel == null)
 			loadChannel();
 
@@ -310,30 +246,18 @@ public class FabricCCService implements IFabricCCService {
 			CompletableFuture<TransactionEvent> tmp = this.channel.sendTransaction(res);
 			result = tmp.get().isValid();
 		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ProposalException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
 	}
 
-	/**
-	 * 체인코드 updateAssetOwnership를 호출하는 메소드
-	 *
-	 * @param 작품id
-	 * @param to
-	 * @return
-	 */
 	private boolean updateAssetOwnership(final long 작품id, final long to) {
-		// TODO
 		if (this.hfClient == null || this.channel == null)
 			loadChannel();
 
@@ -352,27 +276,17 @@ public class FabricCCService implements IFabricCCService {
 			CompletableFuture<TransactionEvent> tmp = this.channel.sendTransaction(res);
 			result = tmp.get().isValid();
 		} catch (org.hyperledger.fabric.sdk.exception.InvalidArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ProposalException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
 	}
 
-	/**
-	 * 체인코드 queryHistory 함수를 호출하는 메소드
-	 *
-	 * @param 작품id
-	 * @return
-	 */
 	@Override
 	public List<FabricAsset> queryHistory(final long 작품id) {
 		if (this.hfClient == null || this.channel == null)
@@ -414,12 +328,6 @@ public class FabricCCService implements IFabricCCService {
 		return history;
 	}
 
-	/**
-	 * 체인코드 query 함수를 호출하는 메소드
-	 *
-	 * @param 작품id
-	 * @return
-	 */
 	@Override
 	public FabricAsset query(final long 작품id) {
 		if (this.hfClient == null || this.channel == null)
@@ -458,15 +366,11 @@ public class FabricCCService implements IFabricCCService {
 
 	private static FabricAsset getAssetRecord(final JsonObject rec) {
 		FabricAsset asset = new FabricAsset();
-
 		asset.setAssetId(rec.getString("assetID"));
 		asset.setOwner(rec.getString("owner"));
 		asset.setCreatedAt(rec.getString("createdAt"));
 		asset.setExpiredAt(rec.getString("expiredAt"));
-
-		logger.info("Work " + rec.getString("assetID") + " by Owner " + rec.getString("owner") + ": "
-				+ rec.getString("createdAt") + " ~ " + rec.getString("expiredAt"));
-
+		
 		return asset;
 	}
 

@@ -25,7 +25,6 @@ import com.bcauction.domain.Ownership;
 import com.bcauction.domain.exception.ApplicationException;
 import com.bcauction.domain.repository.IAuctionRepository;
 import com.bcauction.domain.repository.IDigitalWorkRepository;
-import com.bcauction.infrastructure.repository.AuctionRepository;
 
 @Service
 public class DigitalWorkService implements IDigitalWorkService {
@@ -76,16 +75,8 @@ public class DigitalWorkService implements IDigitalWorkService {
 		return this.digitalWorkRepository.조회(name);
 	}
 
-	/**
-	 * 작품 등록 시 작품 정보를 저장하고 패브릭에 작품 소유권을 등록한다.
-	 * 
-	 * @param 작품
-	 * @return DigitalWork
-	 */
 	@Override
 	public DigitalWork 작품등록(final DigitalWork 작품) {
-		// TODO
-
 		Decoder decoder = Base64.getDecoder();
 		String data = 작품.get작품이미지().split(",")[1];
 		byte[] decodedBytes = decoder.decode(data);
@@ -103,12 +94,6 @@ public class DigitalWorkService implements IDigitalWorkService {
 		return 작품;
 	}
 
-	/**
-	 * 작품 삭제 시, 작품의 상태를 업데이트하고 패브릭에 작품 소유권 소멸 이력을 추가한다.
-	 * 
-	 * @param id 작품id
-	 * @return DigitalWork
-	 */
 	@Override
 	public DigitalWork 작품삭제(final long id) {
 		DigitalWork deleteDigita = null;
@@ -117,14 +102,14 @@ public class DigitalWorkService implements IDigitalWorkService {
 		if (workAucions.size() != 0) {
 			return null;
 		}
-		
+
 		deleteDigita = this.digitalWorkRepository.조회(id);
 		if (deleteDigita != null) {
 			this.digitalWorkRepository.삭제(id);
 			deleteDigita = this.digitalWorkRepository.조회(id);
 			this.fabricService.소유권소멸(deleteDigita.get회원id(), deleteDigita.getId());
-			File file = new File("artImage/"+deleteDigita.get이름()+".jpg");
-			if(file.exists()) {
+			File file = new File("artImage/" + deleteDigita.get이름() + ".jpg");
+			if (file.exists()) {
 				file.delete();
 			}
 		}
@@ -161,7 +146,6 @@ public class DigitalWorkService implements IDigitalWorkService {
 	}
 
 	public String encodeBase64(DigitalWork artWork) {
-
 		String imageString = "data:image/jpg;base64,";
 		File f = new File("artImage/" + artWork.get이름() + ".jpg");
 		FileInputStream fis;
@@ -173,7 +157,6 @@ public class DigitalWorkService implements IDigitalWorkService {
 			imageString += encoder.encodeToString(byteArray);
 			fis.close();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return imageString;
@@ -191,5 +174,4 @@ public class DigitalWorkService implements IDigitalWorkService {
 		}
 		return searched;
 	}
-
 }

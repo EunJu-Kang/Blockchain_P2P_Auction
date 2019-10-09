@@ -19,7 +19,6 @@ public class MemberService implements IMemberService {
         this.memberRepository = memberRepository;
     }
 
-
     @Override
     public List<Member> 목록조회() {
         return this.memberRepository.목록조회();
