@@ -1,29 +1,15 @@
-/**
- * 아래 제공된 함수는 완성해야하는 기능들에 사용할 수 있는
- * 헬퍼 함수를 포함합니다.
- */
 
-const NUMBER_OF_CONTENTS_TO_SHOW = 10; // 한 번에 보여줄 정보의 개수
-const REFRESH_TIMES_OF_OVERVIEW = 1000; // 개요 정보 갱신 시간 1초
-const REFRESH_TIMES_OF_BLOCKS = 5000; // 블록 정보 갱신 시간 5초
-const REFRESH_TIMES_OF_TRANSACTIONS = 15000; // 트랜잭션 정보 갱신 시간 15초
+const NUMBER_OF_CONTENTS_TO_SHOW = 10; 
+const REFRESH_TIMES_OF_OVERVIEW = 1000; 
+const REFRESH_TIMES_OF_BLOCKS = 5000; 
+const REFRESH_TIMES_OF_TRANSACTIONS = 15000; 
 
 const web3 = new Web3(BLOCKCHAIN_URL);
 
-// 가장 최근 블록 넘버를 비동기로 조회한다.
 function fetchLatestBlock() {
   return web3.eth.getBlockNumber();
 }
 
-/*
-    javascript 에서 URL 쿼리 스트링을 읽을 수 있게 해주는 함수
-    https://test.com/?abc=123&def=456 의 URL을 아래와 같이 변환해서 리턴한다.
-
-    [
-        "abc": "123",
-        "def": "456"
-    ]
-*/
 function parseQueryString() {
   var values = [],
     item;
@@ -40,8 +26,6 @@ function parseQueryString() {
   return values;
 }
 
-// from 블록 부터 end 블록까지 순차적으로 조회하여
-// callback 함수를 실행한다.
 function fetchBlocks(from, end, callback) {
   web3.eth.getBlock(from).then(function(block) {
     callback(block);
@@ -53,7 +37,6 @@ function fetchBlocks(from, end, callback) {
   });
 }
 
-// timestamp 포맷을 사람이 읽을 수 있는 형태로 변환한다.
 function timeSince(date) {
   var seconds = Math.floor((new Date() - date * 1000) / 1000);
 
