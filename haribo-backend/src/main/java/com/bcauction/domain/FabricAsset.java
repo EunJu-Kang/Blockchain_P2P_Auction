@@ -9,9 +9,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * 패브릭 체인코드로부터 조회된 결과를 담기위한 클래스
  */
-public class FabricAsset
-{
-
+public class FabricAsset {
 
 	@Override
 	public String toString() {
@@ -28,47 +26,39 @@ public class FabricAsset
 
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-	public String getAssetId()
-	{
+	public String getAssetId() {
 		return assetId;
 	}
 
-	public void setAssetId(final String assetId)
-	{
+	public void setAssetId(final String assetId) {
 		this.assetId = assetId;
 	}
 
-	public String getOwner()
-	{
+	public String getOwner() {
 		return owner;
 	}
 
-	public void setOwner(final String owner)
-	{
+	public void setOwner(final String owner) {
 		this.owner = owner;
 	}
 
-	public LocalDateTime getCreatedAt()
-	{
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(final String createdAt)
-	{
-		if("FALSE".equals(createdAt))
+	public void setCreatedAt(final String createdAt) {
+		if ("FALSE".equals(createdAt))
 			this.createdAt = null;
 		else
 			this.createdAt = LocalDateTime.parse(createdAt, formatter);
 	}
 
-	public LocalDateTime getExpiredAt()
-	{
+	public LocalDateTime getExpiredAt() {
 		return expiredAt;
 	}
 
-	public void setExpiredAt(final String expiredAt)
-	{
-		if("FALSE".equals(expiredAt))
+	public void setExpiredAt(final String expiredAt) {
+		if ("FALSE".equals(expiredAt))
 			this.expiredAt = null;
 		else
 			this.expiredAt = LocalDateTime.parse(expiredAt, formatter);
