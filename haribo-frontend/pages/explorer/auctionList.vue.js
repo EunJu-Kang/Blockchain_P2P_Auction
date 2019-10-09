@@ -47,7 +47,7 @@ var explorerAuctionView = Vue.component('ExplorerView', {
     },
     mounted: async function(){
          var scope = this;
-         auctionService.findAll(function(data){
+         auctionService.explorerAuction(function(data){ 
              var result = data;
              var arr = []
              scope.contracts = result;

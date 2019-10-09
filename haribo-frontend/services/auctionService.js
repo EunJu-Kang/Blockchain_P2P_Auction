@@ -4,6 +4,11 @@ var auctionService = {
             callback(data);
         });
     },
+    explorerAuction: function(callback){
+        $.get(API_BASE_URL + '/api/auctions/explorer', function(data){
+            callback(data);
+        });
+    },
     highestBidder: function(bidder, callback) {
       $.get(API_BASE_URL + '/api/auctions/bidder/'+bidder, function(data){
           callback(data);

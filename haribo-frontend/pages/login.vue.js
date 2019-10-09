@@ -15,6 +15,7 @@ var loginView = Vue.component('LoginView', {
                         </div>
                         <div class="text-right">
                           <button class="btn form-style btn-style"><router-link class="Font-shape" to="/">Home</router-link></button>
+                          <button type="submit" class="btn form-style btn-style" v-on:click="register">Signup</button>
                           <button type="submit" class="btn form-style btn-style" v-on:click="login">Login</button>
                         </div>
                     </div>

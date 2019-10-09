@@ -68,6 +68,27 @@ public class AuctionController {
 
 		return 목록;
 	}
+	
+	@RequestMapping(value = "/auctions/explorer", method = RequestMethod.GET)
+	public List<Auction> 전체목록조회() {
+		List<Auction> 목록 = auctionService.목록조회();
+
+		if (목록 == null || 목록.isEmpty())
+			throw new EmptyListException("NO DATA");
+
+		Collections.sort(목록, new Comparator<Auction>() {
+
+			@Override
+			public int compare(Auction o1, Auction o2) {
+				String str1 = o1.get종료일시() + "";
+				String str2 = o2.get종료일시() + "";
+
+				return str2.compareTo(str1);
+			}
+		});
+
+		return 목록;
+	}
 
 	@RequestMapping(value = "/auctions/{id}", method = RequestMethod.GET)
 	public AuctionInfo 조회(@PathVariable long id) {
