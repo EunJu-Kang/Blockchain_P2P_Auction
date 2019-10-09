@@ -51,7 +51,6 @@ var worksCreateView = Vue.component("worksCreateView", {
     methods: {
         save: function(){
             var scope = this;
-            console.log(scope.work.image)
 
             workService.create({
                 "이름": this.work.name,

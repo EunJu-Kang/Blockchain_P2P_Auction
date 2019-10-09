@@ -46,7 +46,6 @@ var explorerTxListView = Vue.component('ExplorerTxListView', {
                 if (response) {
                     var BlockNumber;
                     var tranlen = response.length;
-                    console.log(tranlen)
                         for (let i = 0; i < 10; i++) {
                             if (response[i]) {
                             etheriumService.findBlockById(response[i].blockNumber, function (blcokdata) {
