@@ -1,7 +1,3 @@
-/**
- * 화면: 경매 입찰하기
- */
-
 var auctionBidView = Vue.component('AuctionBidView', {
     template: `
         <div>
@@ -69,10 +65,6 @@ var auctionBidView = Vue.component('AuctionBidView', {
             this.$router.go(-1);
         },
         bid: function(){
-            /**
-             * 컨트랙트를 호출하여 입찰하고
-             * 입찰 정보 등록 API를 호출합니다.
-             */
             var scope = this;
             var options = {
                 amount: scope.input.price,
@@ -85,7 +77,7 @@ var auctionBidView = Vue.component('AuctionBidView', {
             auction_bid(options, function(receipt){
                 var bidder = scope.sharedStates.user.id;
                 var auctionId = scope.$route.params.id;
-                
+
                 if(receipt.cumulativeGasUsed == 3000000){
                     alert("입찰을 실패했습니다.")
                     scope.bidding = false;
@@ -104,7 +96,6 @@ var auctionBidView = Vue.component('AuctionBidView', {
         var auctionId = this.$route.params.id;
         auctionService.findById(auctionId, function(auction){
             auction['최소금액'] = Number(auction['최소금액']);
-            // auction이 늦게 처리되어 돌아오기 때문에 그전에 입찰을 진행하게 되면 경매컨트랙트주소가 넘어오지 않은채 진행이 된다.
             scope.auction = auction
             if(auction != null ){
               scope.check = true
@@ -114,8 +105,6 @@ var auctionBidView = Vue.component('AuctionBidView', {
                 scope.work = work;
             });
         });
-
-        // 내 지갑 정보 조회
         walletService.findById(scope.sharedStates.user.id, function(wallet){
             wallet['잔액'] = Number(wallet['잔액']) ;
             scope.wallet = wallet;
