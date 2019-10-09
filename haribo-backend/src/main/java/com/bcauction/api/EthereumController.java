@@ -81,7 +81,7 @@ public class EthereumController {
 
 		if (주소 == null)
 			throw new NotFoundException(address + " 주소 정보를 찾을 수 없습니다.");
-		
+
 		return 주소;
 	}
 
@@ -90,13 +90,12 @@ public class EthereumController {
 		List<String> 경매목록 = this.auctionContractService.경매컨트랙트주소리스트();
 		if (경매목록 == null || 경매목록.isEmpty())
 			throw new EmptyListException("NO DATA");
-		
+
 		List<AuctionInfo> 경매정보목록 = new ArrayList<>();
-        경매목록.forEach(경매 -> {
-            AuctionInfo 경매정보 = this.auctionContractService.경매정보조회(경매.toString());
-            경매정보목록.add(경매정보);
-        });
-		int cnt=1;
+		경매목록.forEach(경매 -> {
+			AuctionInfo 경매정보 = this.auctionContractService.경매정보조회(경매.toString());
+			경매정보목록.add(경매정보);
+		});
 		for (String 경매 : 경매목록) {
 			AuctionInfo 경매정보 = this.auctionContractService.경매정보조회(경매);
 			if (경매정보 != null)

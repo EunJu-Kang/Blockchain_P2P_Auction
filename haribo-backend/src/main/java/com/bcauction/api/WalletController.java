@@ -34,7 +34,7 @@ public class WalletController {
 
 		this.walletService.등록(wallet);
 		Wallet 새지갑 = walletService.조회_ETH잔액동기화(wallet.get주소());
-		if(새지갑 == null)
+		if (새지갑 == null)
 			throw new NotFoundException(wallet.get주소() + " 해당 주소 지갑을 찾을 수 없습니다.");
 		return 새지갑;
 	}
@@ -43,7 +43,7 @@ public class WalletController {
 	public List<Wallet> 목록조회() {
 		List<Wallet> 목록 = walletService.목록조회();
 
-		if (목록 == null || 목록.isEmpty() )
+		if (목록 == null || 목록.isEmpty())
 			throw new EmptyListException("NO DATA");
 
 		return 목록;
@@ -58,14 +58,14 @@ public class WalletController {
 	public Wallet 조회By소유자(@PathVariable long mid) {
 		Wallet 지갑 = this.walletService.조회(mid);
 
-		if(지갑 == null) {
+		if (지갑 == null) {
 			return null;
 		}
 		return walletService.조회_ETH잔액동기화(지갑.get주소());
 	}
 
-	@RequestMapping(value ="/wallets/{address}", method = RequestMethod.PUT)
-	public Wallet 충전(@PathVariable String address){ // 테스트 가능하도록 일정 개수의 코인을 충전해준다.
+	@RequestMapping(value = "/wallets/{address}", method = RequestMethod.PUT)
+	public Wallet 충전(@PathVariable String address) {
 		return this.walletService.충전(address);
 	}
 }

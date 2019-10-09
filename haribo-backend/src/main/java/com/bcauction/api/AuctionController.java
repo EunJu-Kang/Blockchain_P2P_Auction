@@ -5,7 +5,6 @@ import com.bcauction.application.IAuctionService;
 import com.bcauction.domain.Auction;
 import com.bcauction.domain.AuctionInfo;
 import com.bcauction.domain.Bid;
-import com.bcauction.domain.DigitalWork;
 import com.bcauction.domain.exception.ApplicationException;
 import com.bcauction.domain.exception.EmptyListException;
 import com.bcauction.domain.exception.NotFoundException;
@@ -57,13 +56,13 @@ public class AuctionController {
 
 			@Override
 			public int compare(Auction o1, Auction o2) {
-				String str1 = o1.get종료일시()+"";
-				String str2 = o2.get종료일시()+"";
-				
+				String str1 = o1.get종료일시() + "";
+				String str2 = o2.get종료일시() + "";
+
 				return str2.compareTo(str1);
 			}
 		});
-		
+
 		return 목록;
 	}
 
@@ -103,9 +102,6 @@ public class AuctionController {
 		return auctionService.입찰(bid);
 	}
 
-	/**
-	 * 협업과제 협업과제 week. 4-7 mission. 3 Req. 1-2
-	 */
 	@RequestMapping(value = "/auctions/owner/{id}", method = RequestMethod.GET)
 	public List<Auction> 사용자경매목록조회(@PathVariable int id) {
 		// TODO
@@ -118,24 +114,24 @@ public class AuctionController {
 		List<Auction> auctions = auctionService.경매검색조회(str);
 		return auctions;
 	}
-	
+
 	@RequestMapping(value = "/auctions/home/", method = RequestMethod.GET)
 	public List<Auction> 메인경매조회() {
 		List<Auction> auctions = this.목록조회();
-		
+
 		Collections.sort(auctions, new Comparator<Auction>() {
 
 			@Override
 			public int compare(Auction o1, Auction o2) {
-				if(o2.getId() < o1.getId()) 
+				if (o2.getId() < o1.getId())
 					return -1;
-				else if(o2.getId() > o1.getId())
+				else if (o2.getId() > o1.getId())
 					return 1;
-				else 
+				else
 					return 0;
 			}
 		});
-		
+
 		return auctions;
 	}
 }

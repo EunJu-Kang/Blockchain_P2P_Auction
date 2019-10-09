@@ -39,12 +39,11 @@ var walletInfoView = Vue.component('walletInfoView', {
                 "잔액": 0,
                 "충전회수": 0
             },
-            isCharging: false,          // 현재 코인을 충전하고 있는 중인지 확인하는 변수
+            isCharging: false,
             sharedState: store.state
         }
     },
     methods: {
-        // ETH 충전하기
         charge: function(){
             var scope = this;
             scope.isCharging = true;
@@ -58,7 +57,6 @@ var walletInfoView = Vue.component('walletInfoView', {
               })
             }
         },
-        // 지갑 정보 가져오기
         fetchWalletInfo: async function(){
             var scope = this;
             web3.eth.getAccounts().then(res=>{
@@ -66,8 +64,6 @@ var walletInfoView = Vue.component('walletInfoView', {
             })
             var w = scope.wallet;
             await walletService.findById(sessionStorage.getItem("userID"), function(data){
-                // TODO API 호출로 지갑 정보를 가져와 보여줍니다.
-                // web3를 사용하여 잔액을 조회해 보는 것도 포함해보도록 합니다.
                 w.id = data.id;
                 w.소유자id = data.소유자id;
                 w.주소 = data.주소;

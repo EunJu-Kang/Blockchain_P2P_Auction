@@ -51,17 +51,11 @@ var walletCreateView = Vue.component('WalletCreateView', {
         }
     },
     methods: {
-        // TODO web3 API를 이용하여 내 지갑을 생성합니다.
         createWallet: function(){
             var wallet = web3.eth.accounts.create();
             this.step = 1;
             this.privateKey = wallet.privateKey;
             this.walletAddress = wallet.address;
-
-            // web3.eth.accounts.wallet.add({
-            //   privateKey: wallet.privateKey,
-            //   address: wallet.address
-            // });
         },
         saveWallet: function(){
             var scope = this;

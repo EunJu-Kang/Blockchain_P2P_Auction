@@ -90,16 +90,6 @@ public class DigitalWorkController
 		return result;
 	}
 
-
-	// TODO : not need to use the function below.
-	/**
-	 * 협업과제
-	 * week. 4-7
-	 * mission. 3
-	 * Req. 1-1
-	 * @param id
-	 * @return
-	 */
 	@RequestMapping(value = "/works/my/{id}", method = RequestMethod.GET)
 	public List<DigitalWork> 사용자별작품목록조회(@PathVariable int id){
 		List<DigitalWork> 목록 = digitalWorkService.사용자작품목록조회(id);
@@ -110,13 +100,6 @@ public class DigitalWorkController
 		return 목록;
 	}
 
-	/**
-	 * 협업과제
-	 * 협업과제
-	 * week. 4-7
-	 * mission. 3
-	 * Req. 1-2
-	 */
 	@RequestMapping(value = "/works/history/{id}", method = RequestMethod.GET)
 	public List<FabricAsset> 작품이력조회(@PathVariable int id){
 		List<FabricAsset> history = this.fabricService.작품이력조회(id);

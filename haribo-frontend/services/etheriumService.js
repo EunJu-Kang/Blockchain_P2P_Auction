@@ -10,7 +10,6 @@ var etheriumService = {
     })
   },
   timeSince : function(date) {
-    console.log(date);
     var seconds = Math.floor((new Date() - Date.parse(date)) / 1000);
     var interval = Math.floor(seconds / 31536000);
     if (interval > 1) {
@@ -41,14 +40,12 @@ var etheriumService = {
   },
   findTranById : function(id, callback){
     $.get(API_BASE_URL + "/api/eth/trans/" + id, function(data){
-      console.log(data)
       callback(data)
     })
   },
 
   findTranByAddress :  function(address, callback){
     $.get(API_BASE_URL + "/api/eth/tranaddress/" +address, function(data){
-      console.log(data);
       callback(data)
     })
   },

@@ -37,7 +37,6 @@ var explorerBlockView = Vue.component("ExplorerBlockView", {
   },
   methods: {
     fetchBlocks: function(){
-        // TODO 최근 10개의 블록 정보를 가져와서 계속 업데이트 한다.
         var scope = this;
         etheriumService.recentBlock(function (response){
           for(let i=0; i<10; i++){
