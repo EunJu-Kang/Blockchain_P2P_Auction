@@ -21,7 +21,7 @@ var auctionView = Vue.component('AuctionView', {
                                 <h5 class="card-title korean-font">{{ item['작품정보']['이름'] | truncate(10) }}</h5>
                                 <p class="badge badge-navy korean-font" v-if="calculateDate(item['종료일시']) == '경매 마감'">{{calculateDate(item['종료일시'])}}</p>
                                 <p class="badge badge-orange korean-font" v-if="calculateDate(item['종료일시']) != '경매 마감'">{{calculateDate(item['종료일시'])}}</p>
-                                
+
                                 <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn  btn-block btn-secondary korean-font">경매자세히보기</router-link>
                             </div>
                         </div>
@@ -94,7 +94,6 @@ var auctionView = Vue.component('AuctionView', {
             var now = new Date();
             var endDate = new Date(date);
             var diff = Math.floor((Date.parse(endDate) - now) / 1000);
-            // 만약 종료일자가 지났다면 "경매 마감"을 표시한다.
             if(diff < 0) {
                 return "경매 마감";
             } else {

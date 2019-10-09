@@ -3,8 +3,8 @@ var store = {
     state: {
         isSigned: false,
         user: {
-            id: "",                // 사용자 아이디 저장
-            hasWallet: false      // 지갑을 가지고 있는지 여부 조회
+            id: "",
+            hasWallet: false     
         }
     },
     setMessageAction (newValue) {
