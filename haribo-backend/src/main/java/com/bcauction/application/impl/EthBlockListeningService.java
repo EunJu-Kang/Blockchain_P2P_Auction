@@ -15,11 +15,7 @@ import org.web3j.protocol.core.DefaultBlockParameterName;
 
 import com.bcauction.domain.repository.IEthInfoRepository;
 import com.bcauction.domain.repository.ITransactionRepository;
-/**
- * EthBlockListeningService
- * 이더리움 네트워크의 새로 생성된 블록 정보로부터
- * 트랜잭션을 동기화하는 기능 포함
- */
+
 @Service
 public class EthBlockListeningService
 {
@@ -47,9 +43,6 @@ public class EthBlockListeningService
 		this.etherumService = ethereumService;
 	}
 
-	/**
-	 * 구축한 이더리움 네트워크로부터 신규 생성된 블록을 동기화한다.
-	 */
 	@PostConstruct
 	public void listen()
 	{
