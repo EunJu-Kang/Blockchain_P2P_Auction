@@ -40,7 +40,6 @@ public class DigitalWorkController
 	@RequestMapping(value = "/works", method = RequestMethod.POST)
 	public DigitalWork 등록(@RequestBody DigitalWork work) {
 		if(digitalWorkService.조회(work.get이름())!=null) {
-			System.out.println(work.get이름()+"이미 있어불젱");
     		throw new DomainException("작품 중복 입니다.!");
     	}
 		return  digitalWorkService.작품등록(work);
@@ -111,7 +110,6 @@ public class DigitalWorkController
 
 	@RequestMapping(value = "/works/search/{str}", method = RequestMethod.GET)
 	public List<DigitalWork> 작품검색조회(@PathVariable String str){
-		System.out.println("sdsdfsdfsdfsdfwefwefwefwefwef");
 		List<DigitalWork> search = this.digitalWorkService.작품검색조회(str);
 		if(search == null || search.isEmpty())
 			return null;
