@@ -80,7 +80,6 @@ var explorerAuctionView = Vue.component('ExplorerView', {
                    "시작일시" : temp_startTime,
                    "작품id" : temp_workId,
                  }
-
                  if (bidder != "-") {
                     auctionService.highestBidder(bidder, function(data) {
                     obj["최고입찰자"]  = data;
