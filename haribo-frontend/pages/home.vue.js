@@ -109,24 +109,27 @@ var homeView = Vue.component("Home", {
     var scope = this;
 
     workService.findAll(function (data) {
-      scope.artworks.push(data[0]);
-      scope.artworks.push(data[1]);
-      scope.artworks.push(data[2]);
+      for(var i=0; i < 3 ; i++){
+        if(data[i]){
+          scope.artworks.push(data[i]);
+        }
+      }
     });
 
     auctionService.homeAuction(function (data) {
       var result = data;
-
       function fetchData(start, end) {
         if (start == end) {
-          scope.auctions.push(result[0]);
-          scope.auctions.push(result[1]);
-          scope.auctions.push(result[2]);
+          for(var i=0; i < 3 ; i++){
+            if(result[i]){
+              scope.auctions.push(result[i])
+            }
+          }
         } else {
-          var id = result[start]['경매작품id'];
-          workService.findById(id, function (work) {
-            result[start]['작품정보'] = work;
-            fetchData(start + 1, end);
+            var id = result[start]['경매작품id'];
+            workService.findById(id, function (work) {
+              result[start]['작품정보'] = work;
+              fetchData(start + 1, end);
           });
         }
       }

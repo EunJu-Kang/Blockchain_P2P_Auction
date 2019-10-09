@@ -31,6 +31,9 @@ var loginView = Vue.component('LoginView', {
         }
     },
     methods: {
+        register: function(){
+          this.$router.push({ name: 'register' })
+        },
         login: function() {
             var scope = this;
             var shaPW = CryptoJS.SHA256($('#pw').val()).toString();
