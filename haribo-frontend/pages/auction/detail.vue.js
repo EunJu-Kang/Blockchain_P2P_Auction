@@ -103,14 +103,8 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
     },
     methods: {
         closeAuction: function(){
-            /**
-             * 컨트랙트를 호출하여 경매를 종료하고
-             * 경매 상태 업데이트를 위해 API를 호출합니다.
-             */
             var scope = this;
             var privateKey = window.prompt("경매를 종료하시려면 지갑 비밀키를 입력해주세요.","");
-
-            // register.vue.js, bid.vue.js를 참조하여 완성해 봅니다.
             var options = {
                 contractAddress: this.auction['경매컨트랙트주소'],
                 privateKey: privateKey
@@ -130,13 +124,8 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
             });
         },
         cancelAuction: function(){
-            /**
-             * 컨트랙트를 호출하여 경매를 취소하고
-             * 경매 상태 업데이트를 위해 API를 호출합니다.
-             */
             var scope = this;
             var privateKey = window.prompt("경매를 취소하시려면 지갑 비밀키를 입력해주세요.","");
-            // register.vue.js, bid.vue.js를 참조하여 완성해 봅니다.
             var options = {
                 contractAddress: this.auction['경매컨트랙트주소'],
                 privateKey: privateKey
@@ -160,8 +149,6 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
             var now = new Date();
             var endDate = new Date(date);
             var diff = Math.floor((Date.parse(endDate) - now) / 1000);
-            console.log(diff)
-            // 만약 종료일자가 지났다면 "경매 마감"을 표시한다.
             if(diff < 0) {
               this.endBid = true;
             }
@@ -172,27 +159,19 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
         var scope = this;
         var web3 = createWeb3();
 
-        // 경매 정보 조회
         auctionService.findById(auctionId, function(auction){
             var amount = Number(auction['최소금액']).toLocaleString().split(",").join("")
-            // auction['최소금액'] = web3.utils.fromWei(amount, 'ether');
-
             var workId = auction['작품id'];
             if(auction != null ){
               scope.check = true
             }
-            // 작품 정보 조회
             workService.findById(workId, function(work){
                 scope.work = work;
                 var creatorId = work['회원id'];
-
-                // 생성자 정보 조회
                 userService.findById(creatorId, function(user){
                     scope.creator = user;
                 });
             });
-
-            // 입찰자 조회
             if(auction['최고입찰액'] > 0) {
                 var amount = Number(auction['최고입찰액']).toLocaleString().split(",").join("")
                 auction['최고입찰액'] = web3.utils.fromWei(amount, 'ether');
@@ -202,9 +181,7 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
                     scope.bidder = user;
                 });
             }
-
             scope.auction = auction;
-
             scope.calculateDate(scope.auction['경매종료시간'])
         });
     }
