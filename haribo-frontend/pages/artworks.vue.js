@@ -2,15 +2,15 @@ var artworksView = Vue.component('artworksView', {
   template: `
         <div>
             <v-nav></v-nav>
-            <v-breadcrumb title="Artworks" description="작품을 둘러볼 수 있습니다."></v-breadcrumb>
+            <v-breadcrumb class="korean-font" title="Artworks" description="작품을 둘러볼 수 있습니다."></v-breadcrumb>
             <div id="artwork-list" class="container">
                 <div class="row">
                     <div class="col-md-6">
                     <input v-model="message" placeholder="작품">
-                    <button type="button" class="btn btn-outline-secondary col-md-0.5" v-on:click="search">검색</button>
+                    <button type="button" class="btn btn-outline-secondary col-md-0.5 korean-font" v-on:click="search">검색</button>
                     </div>
                     <div class="col-md-6 text-right">
-                        <router-link to="/works/create" class="btn btn-outline-secondary">내 작품 등록하기</router-link>
+                        <router-link to="/works/create" class="btn btn-outline-secondary korean-font">내 작품 등록하기</router-link>
                     </div>
                 </div>
                 <div class="row">
@@ -18,10 +18,10 @@ var artworksView = Vue.component('artworksView', {
                         <div class="card" id="auctionlistcss">
                             <div class="card-body">
                                <img :src="item['작품이미지']"> 
-                                <h5 class="card-title">{{ item['이름']  | truncate(10) }}</h5>
-                                <p class="card-text" v-if="item['설명'] != null">{{ item["설명"] | truncate(10)}}</p>
-                                <p class="card-text" v-if="item['설명'] == null">-</p>
-                                <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn  btn-block btn-secondary">경매자세히보기</router-link>
+                                <h5 class="card-title korean-font">{{ item['이름']  | truncate(10) }}</h5>
+                                <p class="card-text korean-font" v-if="item['설명'] != null">{{ item["설명"] | truncate(10)}}</p>
+                                <p class="card-text korean-font" v-if="item['설명'] == null">-</p>
+                                <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn  btn-block btn-secondary korean-font">경매자세히보기</router-link>
                             </div>
                         </div>
                     </div>

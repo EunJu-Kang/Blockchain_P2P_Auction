@@ -1,6 +1,6 @@
 var registerView = Vue.component('RegisterView', {
     template: `
-        <div class="container bg-style">
+        <div class="container bg-style ">
             <div class="row">
                 <div id="register-form" class="col-md-6 mx-auto form-style">
                 <h1>Register</h1>
