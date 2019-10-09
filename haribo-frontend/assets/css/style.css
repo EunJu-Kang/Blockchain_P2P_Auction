@@ -115,7 +115,6 @@ a {
 img {
   vertical-align: middle;
   border-style: none;
-  height: 260px;
 }
 
 /* badge 색변경 */
@@ -352,4 +351,9 @@ nav.bottom-pagination {
   line-height: 100%;
   pointer-event: none;
   color: #2A3247;
+}
+
+.card-body img{
+  height: 260px;
+    width: 210px;
 }

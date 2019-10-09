@@ -21,7 +21,7 @@ var artworksView = Vue.component('artworksView', {
                                 <h5 class="card-title korean-font">{{ item['이름']  | truncate(10) }}</h5>
                                 <p class="card-text korean-font" v-if="item['설명'] != null">{{ item["설명"] | truncate(10)}}</p>
                                 <p class="card-text korean-font" v-if="item['설명'] == null">-</p>
-                                <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn  btn-block btn-secondary korean-font">경매자세히보기</router-link>
+                                <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn  btn-block btn-secondary korean-font">작품자세히보기</router-link>
                             </div>
                         </div>
                     </div>

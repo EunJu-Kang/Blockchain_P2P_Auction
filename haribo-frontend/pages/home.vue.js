@@ -24,7 +24,7 @@ var homeView = Vue.component("Home", {
                 <div class="row">
                   <div class="col-md-4 artwork" v-for="item in artworks">
                       <div class="card">
-                          <div class="card-body">
+                          <div class="card-body img">
                               <img :src="item['작품이미지']">
                               <h5 class="korean-font">{{ item['이름'] }}</h5>
                               <p calss="korean-font" v-if="item['설명'] != null">{{ item["설명"] }}</p>
