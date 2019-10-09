@@ -14,6 +14,7 @@ import com.bcauction.application.IAuctionContractService;
 import com.bcauction.application.IAuctionService;
 import com.bcauction.application.IDigitalWorkService;
 import com.bcauction.application.IFabricService;
+import com.bcauction.application.IWalletService;
 import com.bcauction.domain.Auction;
 import com.bcauction.domain.Bid;
 import com.bcauction.domain.DigitalWork;
@@ -21,6 +22,7 @@ import com.bcauction.domain.Ownership;
 import com.bcauction.domain.exception.NotFoundException;
 import com.bcauction.domain.repository.IAuctionRepository;
 import com.bcauction.domain.repository.IBidRepository;
+import com.bcauction.domain.repository.IWalletRepository;
 
 @Service
 public class AuctionService implements IAuctionService {
@@ -32,16 +34,23 @@ public class AuctionService implements IAuctionService {
 	private IBidRepository bidRepository;
 	private IAuctionService auctionService;
 	private IDigitalWorkService digitalworkService;
+	private IWalletService walletService;
 
 	@Autowired
 	public AuctionService(IAuctionContractService auctionContractService, IFabricService fabricService,
 			IAuctionRepository auctionRepository, IBidRepository bidRepository,
-			IDigitalWorkService digitalworkService) {
+			IDigitalWorkService digitalworkService, IWalletService walletService) {
 		this.auctionContractService = auctionContractService;
 		this.fabricService = fabricService;
 		this.auctionRepository = auctionRepository;
 		this.bidRepository = bidRepository;
 		this.digitalworkService = digitalworkService;
+		this.walletService = walletService;
+	}
+	
+	@Override
+	public String 최고가입찰자(String str) {
+		return this.walletService.최고입찰자조회(str);
 	}
 
 	@Override
