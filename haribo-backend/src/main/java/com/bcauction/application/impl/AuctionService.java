@@ -55,6 +55,11 @@ public class AuctionService implements IAuctionService {
 
 	@Override
 	public List<Auction> 경매목록조회() {
+		return this.auctionRepository.진행목록조회();
+	}
+	
+	@Override
+	public List<Auction> 목록조회() {
 		return this.auctionRepository.목록조회();
 	}
 

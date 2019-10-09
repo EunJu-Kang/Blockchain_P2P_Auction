@@ -9,13 +9,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigInteger;
 import java.util.List;
 
-public interface IAuctionService
-{
+public interface IAuctionService {
 	String 최고가입찰자(String str);
+
 	List<Auction> 경매목록조회();
+
 	List<Auction> 경매검색조회(String str);
+
 	List<Auction> 나의경매목록조회(int id);
+
+	List<Auction> 목록조회();
+
 	Auction 조회(long 경매id);
+
 	Auction 조회(String 컨트랙트주소);
 
 	@Transactional
@@ -25,7 +31,7 @@ public interface IAuctionService
 	Bid 입찰(Bid bid);
 
 	@Transactional
-	Bid 낙찰(long 경매id,long 회원id, final BigInteger 입찰최고가);
+	Bid 낙찰(long 경매id, long 회원id, final BigInteger 입찰최고가);
 
 	@Transactional
 	Auction 경매종료(long 경매id, long 회원id); // 현재 최고가에서 끝내기, 소유권 이전
