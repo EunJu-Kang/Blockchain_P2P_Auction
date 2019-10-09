@@ -3,8 +3,9 @@ var homeView = Vue.component("Home", {
   template: `
         <div>
             <v-nav></v-nav>
+            <full-page :options="options" id="fullpage" ref="fullpage">
             <div id="main-overview" class="container home-margin">
-                <div class="col text-center">
+                <div class="col text-center section">
                   <h1 class="pixelFont"> Photo Copyright Auction</h1>
                   <br>
                   <h4 class="korean-font">블록체인 기반 이미지 저작권 경매를 시작해보세요.</h4>
@@ -19,8 +20,8 @@ var homeView = Vue.component("Home", {
                   </div>
                 </div>
 
-              <p class="home-margin korean-font">최근 게시된 작품</p>
-              <div class="col text-center">
+              <div class="col text-center section">
+                <p class="home-margin korean-font">최근 게시된 작품</p>
                 <div class="row">
                   <div class="col-md-4 artwork" v-for="item in artworks">
                       <div class="card">
@@ -36,8 +37,8 @@ var homeView = Vue.component("Home", {
                 </div>
               </div>
 
+              <div class="col text-center section">
               <p class="home-margin">최근 게시된 경매</p>
-              <div class="col text-center">
               <div class="row">
                   <div class="col-md-4 auction" v-for="item in auctions">
                       <div class="card">
@@ -53,6 +54,7 @@ var homeView = Vue.component("Home", {
               </div>
               </div>
             </div>
+            </full-page>
         </div>
     `,
   data() {
@@ -61,9 +63,13 @@ var homeView = Vue.component("Home", {
       message: "",
       artworks: [],
       auctions: [],
-      value: ""
+      value: "",
+      options: {
+        licenseKey: '',
+      },
     }
   },
+
   methods: {
     calculateDate(date) {
       var now = new Date();
