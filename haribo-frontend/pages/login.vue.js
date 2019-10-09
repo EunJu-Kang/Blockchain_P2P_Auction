@@ -1,9 +1,9 @@
 var loginView = Vue.component('LoginView', {
     template: `
-        <div class="container bg-style">
+        <div class="container bg-style ">
             <div class="row">
-                <div id="login-form" class="col-md-6 mx-auto form-style">
-                <h1>Login</h1>
+                <div id="login-form" class="col-md-6 mx-auto form-style" >
+                <h1 >Login</h1>
                     <div class="mt-4">
                         <div class="form-group">
                             <label for="email">EMAIL</label>
@@ -14,8 +14,7 @@ var loginView = Vue.component('LoginView', {
                             <input type="password" @keyup.enter="login" class="form-control" id="pw" v-model="user.password" placeholder="password">
                         </div>
                         <div class="text-right">
-                          <button class="btn form-style btn-style"><router-link class="link-style" to="/">Home</router-link></button>
-                          <button type="submit" class="btn form-style btn-style" v-on:click="register">Signup</button>
+                          <button class="btn form-style btn-style"><router-link class="Font-shape" to="/">Home</router-link></button>
                           <button type="submit" class="btn form-style btn-style" v-on:click="login">Login</button>
                         </div>
                     </div>

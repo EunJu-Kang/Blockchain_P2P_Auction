@@ -6,8 +6,8 @@ var myArtworkView = Vue.component('MyArtworkView', {
             <div class="container">
                 <v-mypage-nav></v-mypage-nav>
                 <div class="row">
-                    <div class="col-md-12 text-right">
-                        <router-link to="/works/create" class="btn btn-outline-secondary">내 작품 등록하기</router-link>
+                    <div class="col-md-12 text-right korean-font">
+                        <router-link to="/works/create" class="btn btn-outline-secondary korean-font">내 작품 등록하기</router-link>
                     </div>
                 </div>
                 <div id="my-artwork" class="row">
@@ -21,7 +21,7 @@ var myArtworkView = Vue.component('MyArtworkView', {
                                         <h4>{{ item["이름"] }}</h4>
                                         <p v-if="item['설명'] != null">{{ item["설명"] }}</p>
                                         <p v-if="item['설명'] == null">-</p>
-                                        <router-link :to="{ name: 'work.detail', params: { id: item['id'] } }" class="btn btn-block btn-secondary">자세히보기</router-link>
+                                        <router-link :to="{ name: 'work.detail', params: { id: item['id'] } }" class="btn btn-block btn-secondary ">자세히보기</router-link>
                                     </div>
                                 </div>
                             </div>

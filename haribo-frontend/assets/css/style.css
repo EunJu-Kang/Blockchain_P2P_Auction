@@ -23,6 +23,11 @@ a {
   margin-right: 10px;
 }
 
+.Font-shape{
+  font-family:'Acme', sans-serif;
+  color: white;
+}
+
 .nav-height {
   background: #2A3247;
   height: 70px;
@@ -143,7 +148,7 @@ img {
   background-color: #2A3247;
   color: #f4a900;
   text-decoration: none;
-  font-family: 'Revalia', cursive;
+   font-family:'Acme', sans-serif;
 }
 
 .bg-style {
@@ -168,7 +173,11 @@ img {
 
 .link-style{
   color: white !important;
-  font-family: 'Revalia', cursive;
+  font-family:'Acme', sans-serif;
+}
+
+.korean-font{
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .btn-warning {
