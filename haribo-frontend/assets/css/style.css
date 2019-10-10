@@ -36,6 +36,7 @@ a {
 .Font-shape{
   font-family:'Acme', sans-serif;
   color: white;
+  text-decoration: none;
 }
 
 .nav-height {
@@ -154,10 +155,10 @@ img {
 }
 
 .form-style{
-  background-color: #2A3247;
-  color: #f4a900;
-  text-decoration: none;
-   font-family:'Acme', sans-serif;
+  background-color: #2A3247 !important ;
+  color: #f4a900 !important ;
+  text-decoration: none !important ;
+  font-family:'Acme', sans-serif !important ;
 }
 
 .bg-style {
@@ -175,10 +176,11 @@ img {
 }
 
 .btn-style {
-  background-color: #f4a900;
-  color: white;
-  margin-top: 15px;
-  margin-left: 15px;
+  background-color: #F4A900 !important ;
+  color: white !important ;
+  margin-top: 15px !important ;
+  margin-left: 15px !important ;
+  text-decoration: none !important ;
 }
 
 .link-style{
