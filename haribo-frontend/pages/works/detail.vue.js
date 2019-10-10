@@ -33,7 +33,7 @@ var worksDetailView = Vue.component("WorkDetailView", {
                                 </div>
                                 <div class="col-md-6">
                                     <h5 class="text-secondary">작품 이미지</h5>
-                                    <img :src="work.image">
+                                    <img class="workImg-style":src="work.image">
                                 </div>
                               </div>
                                 <div class="row">
