@@ -5,11 +5,23 @@ var auctionView = Vue.component('AuctionView', {
             <v-breadcrumb class="korean-font" title="경매 참여하기" description="경매 중인 작품을 보여줍니다."></v-breadcrumb>
             <div id="auction-list" class="container">
                 <div class="row">
-                    <div class="col-md-6">
-                    <input v-model="message" placeholder="경매">
-                    <button type="button" class="btn btn-outline-secondary col-md-0.5 korean-font" v-on:click="search">검색</button>
+                    <div class="col-2">
+                      <input v-model="message" placeholder="경매">
+
                     </div>
-                    <div class="col-md-6 text-right">
+                    <div class="col-2">
+                      <button type="button" class="btn btn-outline-secondary col-md-0.5 korean-font" v-on:click="search">검색</button>
+                    </div>
+                    <div class="col"></div>
+                    <section class="col-2 text-right">
+                      <select id="mySelect" @change="filter()">
+                        <option value="2" selected>종료시간 긴 순</option>
+                        <option value="1">종료시간 짧은 순</option>
+                        <option value="0" >시작시간 순</option>
+                        <option value="3">이름 순</option>
+                      </select>
+                    </section>
+                    <div class="col-2 align-items-right">
                         <router-link :to="{ name: 'auction.regsiter' }" class="btn btn-outline-secondary korean-font">경매 생성하기</router-link>
                     </div>
                 </div>
@@ -60,6 +72,34 @@ var auctionView = Vue.component('AuctionView', {
         }
     },
     methods: {
+      filter() {
+        var num = document.getElementById('mySelect').value;
+        var scope = this;
+
+        auctionService.filter(num, function(data){
+          var result = data;
+          function fetchData(start, end){
+              if(start == end) {
+                  scope.auctions = result;
+                  scope.pageCount = Math.ceil(result.length /scope.perPage);
+                  scope.movePage(1);
+              } else {
+                  var id = result[start]['경매작품id'];
+                  workService.findById(id, function(work){
+                      result[start]['작품정보'] = work;
+                      fetchData(start+1, end);
+                  });
+              }
+          }
+
+          if(result != undefined){
+            fetchData(0, result.length);
+          }
+
+          scope.pageCount = Math.ceil(data.length /scope.perPage);
+          scope.movePage(1);
+        });
+      },
       search() {
         var scope = this;
         if(this.message != ""){

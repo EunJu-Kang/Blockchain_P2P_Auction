@@ -7,7 +7,7 @@ var navVue = Vue.component("v-nav", {
                 <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <router-link class="nav-link nav-fontColor" to="/artworks">Artworks</router-link>
+                            <router-link class="nav-link nav-fontColor" to="/artworks">Photo</router-link>
                         </li>
                         <li class="nav-item">
                             <router-link class="nav-link nav-fontColor" to="/auction">Auction</router-link>
