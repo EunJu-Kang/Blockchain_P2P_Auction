@@ -34,7 +34,7 @@ var worksDetailView = Vue.component("WorkDetailView", {
                                 <div class="col-md-6">
                                     <h5 class="text-secondary">작품 이미지</h5>
                                     <span>
-                                      <img :src="work.image" data-toggle="modal" data-target="#myModal" @click="clickImg(work.image)">
+                                      <img class="workImg-style" :src="work.image" data-toggle="modal" data-target="#myModal" @click="clickImg(work.image)">
                                       <v-img></v-img>
                                     </span>
 
