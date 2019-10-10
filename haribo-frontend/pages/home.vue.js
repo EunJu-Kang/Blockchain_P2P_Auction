@@ -3,7 +3,6 @@ var homeView = Vue.component("Home", {
   template: `
         <div>
             <v-nav></v-nav>
-            <full-page :options="options" id="fullpage" ref="fullpage">
             <div id="main-overview" class="container home-margin">
                 <div class="col text-center section">
                   <h1 class="pixelFont"> Photo Copyright Auction</h1>
@@ -54,7 +53,6 @@ var homeView = Vue.component("Home", {
               </div>
               </div>
             </div>
-            </full-page>
         </div>
     `,
   data() {
