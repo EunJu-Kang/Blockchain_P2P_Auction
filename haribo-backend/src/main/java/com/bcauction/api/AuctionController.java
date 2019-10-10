@@ -6,9 +6,12 @@ import com.bcauction.application.IWalletService;
 import com.bcauction.domain.Auction;
 import com.bcauction.domain.AuctionInfo;
 import com.bcauction.domain.Bid;
+import com.bcauction.domain.DigitalWork;
 import com.bcauction.domain.exception.ApplicationException;
 import com.bcauction.domain.exception.EmptyListException;
 import com.bcauction.domain.exception.NotFoundException;
+import com.bcauction.domain.repository.IDigitalWorkRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +31,18 @@ public class AuctionController {
 	private IAuctionService auctionService;
 	private IAuctionContractService auctionContractService;
 	private IWalletService walletService;
+	private IDigitalWorkRepository workRepository;
 
 	@Autowired
-	public AuctionController(IAuctionService auctionService, IAuctionContractService auctionContractService, IWalletService walletService) {
+	public AuctionController(IAuctionService auctionService, IAuctionContractService auctionContractService,
+			IWalletService walletService, IDigitalWorkRepository workRepository) {
 		Assert.notNull(auctionService, "auctionService 개체가 반드시 필요!");
 		Assert.notNull(auctionContractService, "auctionContractService 개체가 반드시 필요!");
 
 		this.auctionService = auctionService;
 		this.auctionContractService = auctionContractService;
 		this.walletService = walletService;
+		this.workRepository = workRepository;
 	}
 
 	@RequestMapping(value = "/auctions", method = RequestMethod.POST)
@@ -68,7 +74,7 @@ public class AuctionController {
 
 		return 목록;
 	}
-	
+
 	@RequestMapping(value = "/auctions/explorer", method = RequestMethod.GET)
 	public List<Auction> 전체목록조회() {
 		List<Auction> 목록 = auctionService.목록조회();
@@ -158,10 +164,44 @@ public class AuctionController {
 
 		return auctions;
 	}
-	
+
 	@RequestMapping(value = "/auctions/bidder/{bidder}", method = RequestMethod.GET)
 	public String 최고가입찰자(@PathVariable String bidder) {
 		String str = this.walletService.최고입찰자조회(bidder);
 		return str;
+	}
+
+	@RequestMapping(value = "/auctions/filter/{num}", method = RequestMethod.GET)
+	public List<Auction> 선택요소정렬(@PathVariable int num) {
+		List<Auction> auctions = this.목록조회();
+
+		Collections.sort(auctions, new Comparator<Auction>() {
+
+			@Override
+			public int compare(Auction o1, Auction o2) {
+				String str1 = o1.get생성일시() + "";
+				String str2 = o2.get생성일시() + "";
+				String str3 = o1.get종료일시() + "";
+				String str4 = o2.get종료일시() + "";
+
+				if (num == 0) { // 시작시간 순
+					return str1.compareTo(str2);
+				} else if (num == 1) { // 종료시간 순
+					return str3.compareTo(str4);
+				} 
+				else if (num == 2) { // 종료시간 순
+					return str4.compareTo(str3);
+				} else { // 가나다 순
+					long art1 = o1.get경매작품id();
+					long art2 = o2.get경매작품id();
+					DigitalWork work1 = workRepository.조회(art1);
+					DigitalWork work2 = workRepository.조회(art2);
+
+					return work1.get이름().compareTo(work2.get이름());
+				}
+			}
+		});
+
+		return auctions;
 	}
 }
