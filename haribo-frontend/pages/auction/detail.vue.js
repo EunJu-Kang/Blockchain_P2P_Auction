@@ -12,7 +12,7 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
                                 <div class="col-md-4">
                                   <h5 class="text-secondary korean-font">작품 이미지</h5>
                                   <span>
-                                    <img :src="work['작품이미지']" data-toggle="modal" data-target="#myModal" @click="clickImg(work['작품이미지'])">
+                                    <img class="auctionImg-style" :src="work['작품이미지']" data-toggle="modal" data-target="#myModal" @click="clickImg(work['작품이미지'])">
                                     <v-img></v-img>
                                   </span>
                                 </div>
