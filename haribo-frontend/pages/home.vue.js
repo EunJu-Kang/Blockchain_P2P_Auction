@@ -27,9 +27,9 @@ var homeView = Vue.component("Home", {
                       <div class="card">
                           <div class="card-body img">
                               <img :src="item['작품이미지']">
-                              <h5 class="korean-font">{{ item['이름'] }}</h5>
-                              <p calss="korean-font" v-if="item['설명'] != null">{{ item["설명"] }}</p>
-                              <p calss= "korean-font" v-if="item['설명'] == null">-</p>
+                              <p class="korean-font"style="margin-top:10px;">{{ item['이름'] }}</p>
+                              <h5 calss="korean-font" style="margin-top:10px; color:#4d4d4d;" v-if="item['설명'] != null">{{ item["설명"] }}</h5>
+                              <h5 calss= "korean-font" style="margin-top:10px;" v-if="item['설명'] == null">-</h5>
                               <router-link :to="{ name: 'work.detail', params: { id: item['id'] } }" class="btn btn-block btn-secondary korean-font" style="margin-left:0px;">작품자세히보기</router-link>
                           </div>
                       </div>
@@ -44,7 +44,7 @@ var homeView = Vue.component("Home", {
                       <div class="card">
                           <div class="card-body">
                               <img :src="item['작품정보']['작품이미지']">
-                              <h4>{{ item['작품정보']['이름'] }}</h4>
+                              <h4 class="korean-font"style="margin-top:10px; padding-bottom:10px;">{{ item['작품정보']['이름'] }}</h4>
                                 <span class="badge badge-navy" v-if="calculateDate(item['종료일시']) == '경매 마감'">{{calculateDate(item['종료일시'])}}</span>
                                 <span class="badge badge-orange" v-if="calculateDate(item['종료일시']) != '경매 마감'">{{calculateDate(item['종료일시'])}}</span>
                               <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn btn-block btn-secondary">경매자세히보기</router-link>

@@ -15,6 +15,16 @@ a {
   text-align: center;
 }
 
+.auctionImg-style {
+  margin-top:40px;
+  margin-left:70px;
+}
+
+.workImg-style {
+  margin-top:20px;
+  margin-left:30px;
+}
+
 /* navbar 스타일 시트 */
 .nav-fontColor {
   color: #ffffff !important;

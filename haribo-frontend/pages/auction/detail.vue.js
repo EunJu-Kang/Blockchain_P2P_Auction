@@ -11,7 +11,7 @@ var auctionDetailView = Vue.component('AuctionDetailView', {
                               <div class="row">
                                 <div class="col-md-4">
                                   <h5 class="text-secondary korean-font">작품 이미지</h5>
-                                  <img :src="work['작품이미지']">
+                                  <img class="auctionImg-style" :src="work['작품이미지']">
                                 </div>
                                 <div class="col-md-8">
                                   <table class="table table-bordered korean-font">
