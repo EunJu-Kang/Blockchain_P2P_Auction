@@ -368,3 +368,16 @@ nav.bottom-pagination {
   height: 260px;
     width: 210px;
 }
+
+/*modal*/
+.modal-size {
+  width: 80%;
+  height: 80%;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-body img{
+  height: 100%;
+  width: 100%;
+}

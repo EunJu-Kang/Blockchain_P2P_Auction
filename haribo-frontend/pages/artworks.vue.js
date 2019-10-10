@@ -14,10 +14,13 @@ var artworksView = Vue.component('artworksView', {
                     </div>
                 </div>
                 <div class="row">
-                <div class="col-md-3 artwork" v-for="item in pageArtwork">
+                <div class="col-md-3 artwork" v-for="(item,index) in pageArtwork">
                         <div class="card" id="auctionlistcss">
                             <div class="card-body">
-                               <img :src="item['작품이미지']">
+                              <span>
+                                <img :src="item['작품이미지']" data-toggle="modal" data-target="#myModal" @click="clickImg(item['작품이미지'])">
+                                <v-img></v-img>
+                              </span>
                                 <h5 class="card-title korean-font">{{ item['이름']  | truncate(10) }}</h5>
                                 <p class="card-text korean-font" v-if="item['설명'] != null">{{ item["설명"] | truncate(10)}}</p>
                                 <p class="card-text korean-font" v-if="item['설명'] == null">-</p>
@@ -60,7 +63,6 @@ var artworksView = Vue.component('artworksView', {
       currentPage: 1,
       message: "",
       pages: []
-
     }
   },
   methods: {
@@ -79,12 +81,10 @@ var artworksView = Vue.component('artworksView', {
     nextPage() {
       this.currentPage++;
       this.movePage(this.currentPage);
-
     },
     prevPage() {
       this.currentPage--;
       this.movePage(this.currentPage);
-
     },
     movePage(p) {
       this.currentPage = p;
@@ -110,6 +110,11 @@ var artworksView = Vue.component('artworksView', {
         scope.artworks = data;
         scope.pageCount = Math.ceil(data.length / scope.perPage);
         scope.movePage(1)
+      });
+    },
+    clickImg(data){
+      $('#myModal').on('show.bs.modal', function(e) {
+        $("#imgStr").attr("src", data);
       });
     }
   },
