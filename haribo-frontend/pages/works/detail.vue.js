@@ -33,7 +33,11 @@ var worksDetailView = Vue.component("WorkDetailView", {
                                 </div>
                                 <div class="col-md-6">
                                     <h5 class="text-secondary">작품 이미지</h5>
-                                    <img class="workImg-style":src="work.image">
+                                    <span>
+                                      <img :src="work.image" data-toggle="modal" data-target="#myModal" @click="clickImg(work.image)">
+                                      <v-img></v-img>
+                                    </span>
+
                                 </div>
                               </div>
                                 <div class="row">
@@ -111,6 +115,11 @@ var worksDetailView = Vue.component("WorkDetailView", {
                     alert("경매를 진행중이거나 오류로 인해 작품을 삭제할 수 없습니다.");
                 }
             );
+        },
+        clickImg(data){
+          $('#myModal').on('show.bs.modal', function(e) {
+            $("#imgStr").attr("src", data);
+          });
         }
     },
     mounted: function(){

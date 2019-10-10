@@ -29,7 +29,10 @@ var auctionView = Vue.component('AuctionView', {
                 <div class="col-md-3 auction" v-for="item in pageAuction">
                         <div class="card card-event" style="width: 18rem;">
                             <div class="card-body">
-                              <img  :src="item['작품정보']['작품이미지']"  >
+                              <span>
+                                <img :src="item['작품정보']['작품이미지']" data-toggle="modal" data-target="#myModal" @click="clickImg(item['작품정보']['작품이미지'])">
+                                <v-img></v-img>
+                              </span>
                                 <h5 class="card-title korean-font">{{ item['작품정보']['이름'] | truncate(10) }}</h5>
                                 <p class="badge badge-navy korean-font" v-if="calculateDate(item['종료일시']) == '경매 마감'">{{calculateDate(item['종료일시'])}}</p>
                                 <p class="badge badge-orange korean-font" v-if="calculateDate(item['종료일시']) != '경매 마감'">{{calculateDate(item['종료일시'])}}</p>
@@ -215,6 +218,11 @@ var auctionView = Vue.component('AuctionView', {
               if(result != undefined){
                 fetchData(0, result.length);
               }
+          });
+        },
+        clickImg(data){
+          $('#myModal').on('show.bs.modal', function(e) {
+            $("#imgStr").attr("src", data);
           });
         }
     },
