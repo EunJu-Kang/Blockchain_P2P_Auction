@@ -7,6 +7,7 @@
 
         <link rel="stylesheet" type="text/css" href="./assets/components/bootstrap/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/fullpage.css">
         <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Caveat|Noto+Sans+KR|Acme|Gothic+A1|Nanum+Myeongjo|Revalia&display=swap" rel="stylesheet">
 
         <script
@@ -80,6 +81,7 @@
             <!-- URL에 따라 화면이 바뀌는 부분 -->
             <router-view :key="$route.fullPath"/></router-view>
         </div>
+        <script type="text/javascript" src="./components/fullpage.js"></script>
         <!-- Router 세팅 -->
         <script type="text/javascript" src="./routes.js"></script>
         <script type="text/javascript">
