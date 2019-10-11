@@ -18,18 +18,19 @@ var explorerAuctionView = Vue.component('ExplorerView', {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item, index) in contracts">
-                                <td><router-link :to="{ name: 'explorer.auction.detail', params: { contractAddress: item } }">{{ item | truncate(15) }}</router-link></td>
+                            <tr v-for="item in items">
+                                <td><router-link :to="{ name: 'explorer.auction.detail', params: { contractAddress: item } }">{{ item.컨트랙트주소 | truncate(15) }}</router-link></td>
                                 <td>
-                                    <span class="badge badge-primary" v-if="items[index] && !items[index].ended">Processing</span>
-                                    <span class="badge badge-danger" v-if="items[index] && items[index].ended">Ended</span>
+                                    <span class="badge badge-primary" v-if="!item.경매상태">Processing</span>
+                                    <span class="badge badge-danger" v-else>Ended</span>
                                 </td>
-                                <td>{{ items[index] && items[index].higestBid }} ETH</td>
+                                <td v-if="item.최고가 != null ">{{ item.최고가 }} ETH</td>
+                                <td v-else>0 ETH</td>
                                 <td>
-                                    <span v-if="items[index] && items[index].higestBid != 0">{{ items[index] && items[index].higestBidder | truncate(15) }}</span>
-                                    <span v-if="items[index] && items[index].higestBid == 0">-</span>
+                                    <span>{{ item.최고입찰자 }}</span>
+
                                 </td>
-                                <td>{{ items[index] && items[index].endTime.toLocaleString() }}</td>
+                                <td>{{ item.종료일시 }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -45,10 +46,51 @@ var explorerAuctionView = Vue.component('ExplorerView', {
         }
     },
     mounted: async function(){
-        /**
-         * TODO 
-         * 1. AuctionFactory 컨트랙트로부터 경매컨트랙트 주소 리스트를 가져옵니다.
-         * 2. 각 컨트랙트 주소로부터 경매의 상태(state) 정보를 가져옵니다. 
-         * */ 
+         var scope = this;
+         auctionService.explorerAuction(function(data){ 
+             var result = data;
+             var arr = []
+             scope.contracts = result;
+             for( var idxs = 0; idxs<scope.contracts.length; idxs++){
+               let temp_contract = result[idxs].컨트랙트주소
+               let temp_endTime = result[idxs].종료일시
+               let temp_startTime = result[idxs].시작일시
+               let temp_workId = result[idxs].경매작품id
+                auction_info(data[idxs].컨트랙트주소, (bid, bidder, endtime, auctionEndTime) => {
+                 if(bid){
+                   bid = web3.utils.fromWei(bid, 'ether');
+                   var cnt = 0
+                   for(var i=0; i<bidder.length; i++){
+                     if(bidder[i] == "0"){
+                       cnt = cnt + 1
+                     }
+                   }
+                   if(cnt >= 30){
+                     bidder = "-"
+                   }
+                 }
+
+                 var obj = {
+                   "최고가" : bid,
+                   "최고입찰자" : bidder,
+                   "경매종료시간" : auctionEndTime,
+                   "경매상태" : endtime,
+                   "컨트랙트주소" : temp_contract,
+                   "종료일시" : temp_endTime,
+                   "시작일시" : temp_startTime,
+                   "작품id" : temp_workId,
+                 }
+                 if (bidder != "-") {
+                    auctionService.highestBidder(bidder, function(data) {
+                    obj["최고입찰자"]  = data;
+                    arr.push(obj);
+                   });
+                 } else  {
+                   arr.push(obj);
+                 }
+               });
+               scope.items = arr
+             }
+         });
     }
 })

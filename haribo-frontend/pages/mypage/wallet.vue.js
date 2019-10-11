@@ -33,7 +33,7 @@ var walletCreateView = Vue.component('WalletCreateView', {
                                         <p>{{ walletAddress }}</p>
                                     </div>
                                     <hr>
-                                    <a href="#" v-on:click="saveWallet" class="btn btn-primary">네, 경고를 모두 숙지 했으며 이제 지갑 정보를 저장하겠습니다.</a>
+                                    <a href="#" v-on:click="saveWallet" class="btn btn-outline-secondary">네, 경고를 모두 숙지 했으며 이제 지갑 정보를 저장하겠습니다.</a>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,6 @@ var walletCreateView = Vue.component('WalletCreateView', {
         }
     },
     methods: {
-        // TODO web3 API를 이용하여 내 지갑을 생성합니다.
         createWallet: function(){
             var wallet = web3.eth.accounts.create();
             this.step = 1;

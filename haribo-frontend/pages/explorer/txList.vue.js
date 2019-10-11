@@ -18,12 +18,12 @@ var explorerTxListView = Vue.component('ExplorerTxListView', {
                                 <div class="row tx-info" v-for="item in transactions">
                                     <div class="col-md-2">Tx</div>
                                     <div class="col-md-4">
-                                        <router-link :to="{name: 'explorer.tx.detail', params: { hash: item.txHash }}" class="tx-number">{{ item.txHash | truncate(10) }}</router-link>
-                                        <p class="tx-timestamp">{{ item.timestamp }}</p>
+                                        <router-link :to="{name: 'explorer.tx.detail', params: { hash: item.hash }}" class="tx-number">{{ item.hash | truncate(10) }}</router-link>
+                                        <p class="tx-timestamp">{{ item.저장일시 }}</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p><label class="text-secondary">From</label> {{ item.from | truncate(10) }}</p>
-                                        <p><label class="text-secondary">To</label> {{ item.to | truncate(10) }}</p>
+                                        <p><label class="text-secondary">From</label> <router-link :to="{ name: 'explorer.address.detail', params: { address: item.from }}">{{ item.from | truncate(10) }}</router-link></p>
+                                        <p><label class="text-secondary">To</label><router-link :to="{ name: 'explorer.address.detail', params: { address: item.to }}">{{ item.to | truncate(10) }}</router-link></p>
                                     </div>
                                 </div>
                             </div>
@@ -33,31 +33,34 @@ var explorerTxListView = Vue.component('ExplorerTxListView', {
             </div>
         </div>
     `,
-    data(){
+    data() {
         return {
             transactions: [],
             block: {}
         };
     },
     methods: {
-        fetchTxes: function(){
-            /**
-             * TODO 최근 블록에 포함된 트랜잭션 리스트를 반환합니다.
-             */
-             var scope = this;
-             etheriumService.recentTrans(function(response){
-               if(response){
-                 for(let i=0; i<10; i++){
-                   if(response[i]){
-                     response[i].timestamp = etheriumService.timeSince(response[i].timestamp)
-                   }
-                 }
-                 scope.transactions = response
-               }
-             })
+        fetchTxes: function () {
+            var scope = this;
+            etheriumService.recentTrans(function (response) {
+                if (response) {
+                    var BlockNumber;
+                    var tranlen = response.length;
+                        for (let i = 0; i < 10; i++) {
+                            if (response[i]) {
+                            etheriumService.findBlockById(response[i].blockNumber, function (blockdata) {
+                              let a = Math.round(new Date(blockdata.timestamp).getTime())+32400000;
+                              a = new Date(a)
+                                response[i].저장일시 = etheriumService.timeSince(blcokdata.timestamp);
+                            })
+                        }
+                        scope.transactions = response
+                    }
+                }
+            })
         }
     },
-    mounted: function(){
+    mounted: function () {
         this.fetchTxes();
 
         this.$nextTick(function () {

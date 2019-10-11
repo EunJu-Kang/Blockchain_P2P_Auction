@@ -72,7 +72,6 @@ var explorerBlockDetailView = Vue.component('ExplorerBlockDetailView', {
          }
      },
      mounted: function(){
-         // TODO
          var scope = this;
          var blockNumber=this.$route.params.blockNumber;
          if(blockNumber) {

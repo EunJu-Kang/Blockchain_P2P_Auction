@@ -4,8 +4,13 @@ var workService = {
             callback(data);
         });
     },
+    searchWork: function(str, callback){
+      $.get(API_BASE_URL + '/api/works/search/' + str, function(data){
+          callback(data);
+      });
+    },
     findWorksByOwner: function(userId, callback){
-        $.get(API_BASE_URL + '/api/works/owner/' + userId, function(data){
+        $.get(API_BASE_URL + '/api/works/my/' + userId, function(data){
             callback(data);
         });
     },
@@ -14,6 +19,7 @@ var workService = {
             callback(data);
         });
     },
+
     findHistoryById: function(workId, callback){
         $.get(API_BASE_URL + "/api/works/history/" + workId, function(data){
             var result = [];
@@ -44,10 +50,8 @@ var workService = {
             url: API_BASE_URL + '/api/works',
             data: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' },
-            success:
-              success,
-            error:
-              whenError
+            success: success,
+            error: whenError
         })
     },
     update: function(body, success, whenError){

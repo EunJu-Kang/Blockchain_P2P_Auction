@@ -8,26 +8,38 @@ var worksDetailView = Vue.component("WorkDetailView", {
                     <div class="col-md-8 mx-auto">
                         <div class="card">
                             <div class="card-body">
-                                <div class="form-group">
-                                    <label id="user" class="text-secondary">출품자</label>
-                                    <p><router-link :to="{ name: 'work.by_user', params: { id: user.id }}">{{ user.name }}({{ user.email }})</router-link></p>
+                              <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label id="user" class="text-secondary">출품자</label>
+                                        <p><router-link :to="{ name: 'work.by_user', params: { id: user.id }}">{{ user.name }}({{ user.email }})</router-link></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="name" class="text-secondary">작품 이름</label>
+                                        <p>{{ work.name }}</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="description" class="text-secondary">작품 설명</label>
+                                        <p>{{ work.description }}</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="isActive" class="text-secondary">공개여부</label><br>
+                                        <p>{{ work.isActive }}</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="status" class="text-secondary">상태</label><br>
+                                        <p>{{ work.status }}</p>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label id="name" class="text-secondary">작품 이름</label>
-                                    <p>{{ work.name }}</p>
+                                <div class="col-md-6">
+                                    <h5 class="text-secondary">작품 이미지</h5>
+                                    <span>
+                                      <img class="workImg-style" :src="work.image" data-toggle="modal" data-target="#myModal" @click="clickImg(work.image)">
+                                      <v-img></v-img>
+                                    </span>
+
                                 </div>
-                                <div class="form-group">
-                                    <label id="description" class="text-secondary">작품 설명</label>
-                                    <p>{{ work.description }}</p>
-                                </div>
-                                <div class="form-group">
-                                    <label id="isActive" class="text-secondary">공개여부</label><br>
-                                    <p>{{ work.isActive }}</p>
-                                </div>
-                                <div class="form-group">
-                                    <label id="status" class="text-secondary">상태</label><br>
-                                    <p>{{ work.status }}</p>
-                                </div>
+                              </div>
                                 <div class="row">
                                     <div class="col-md-12 mb-5">
                                         <table class="table table-striped table-bordered">
@@ -75,7 +87,8 @@ var worksDetailView = Vue.component("WorkDetailView", {
                 description: "",
                 isActive: "",
                 status: "",
-                ownerId: 0
+                ownerId: 0,
+                image:""
             },
             user: {
                 id: 0,
@@ -88,28 +101,31 @@ var worksDetailView = Vue.component("WorkDetailView", {
     },
     methods: {
         goBack: function(){
-            // 이전 페이지로 이동한다.
             this.$router.go(-1);
         },
         deleteWork: function(){
             var scope = this;
             workService.delete(
-                this.$route.params.id, 
+                this.$route.params.id,
                 function(response){
                     alert("작품이 삭제되었습니다.");
                     scope.$router.push('/artworks');
                 },
                 function(error){
-                    alert("작품을 삭제할 수 없습니다.");
+                    alert("경매를 진행중이거나 오류로 인해 작품을 삭제할 수 없습니다.");
                 }
             );
+        },
+        clickImg(data){
+          $('#myModal').on('show.bs.modal', function(e) {
+            $("#imgStr").attr("src", data);
+          });
         }
     },
     mounted: function(){
         var scope = this;
         var workId = this.$route.params.id;
 
-        // 작품 상세 정보 조회
         workService.findById(workId, function(data){
             scope.work.id = workId;
             scope.work.name = data["이름"];
@@ -117,6 +133,7 @@ var worksDetailView = Vue.component("WorkDetailView", {
             scope.work.isActive = data["공개여부"];
             scope.work.status = data["상태"];
             scope.work.ownerId = data["회원id"];
+            scope.work.image = data["작품이미지"];
 
             userService.findById(scope.work.ownerId, function(user){
                 scope.user.id = user["id"];
@@ -125,7 +142,6 @@ var worksDetailView = Vue.component("WorkDetailView", {
             });
         });
 
-        // 작품 이력 조회
         workService.findHistoryById(workId, function(data){
             scope.history = data;
         });

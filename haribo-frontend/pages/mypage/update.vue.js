@@ -1,7 +1,3 @@
-/**
- * 화면 명 : 개인정보 수정
- */
-
 var myUpdateView = Vue.component('MyUpdateView', {
     template: `
         <div>
@@ -20,11 +16,11 @@ var myUpdateView = Vue.component('MyUpdateView', {
                                 </div>
                                 <div class="form-group">
                                     <label id="password">비밀번호 확인</label>
-                                    <input id="password" type="password" class="form-control" placeholder="비밀번호 확인" v-model="input.password">
+                                    <input id="pw" type="password" class="form-control" placeholder="비밀번호 확인" v-model="input.password">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button class="btn btn-sm btn-primary" v-on:click="update">개인정보 수정</button>
+                                        <button class="btn btn-sm btn-warning" v-on:click="update" >개인정보 수정</button>
                                     </div>
                                     <div class="col-md-6 text-right">
                                         <button class="btn btn-sm btn-outline-secondary" v-on:click="goBack">이전으로 돌아가기</button>
@@ -54,25 +50,22 @@ var myUpdateView = Vue.component('MyUpdateView', {
     },
     methods: {
         update: function(){
-            // 비밀번호가 회원의 비밀번호와 일치하는지 비교한다.
-            if(this.user.password !== this.input.password){
+            var shaPW = CryptoJS.SHA256($('#pw').val()).toString();
+            if(this.user.password !== shaPW){
                 alert("입력하신 비밀번호가 일치하지 않습니다.");
                 return;
             }
-
-            // 이름을 공백으로 입력했는지 확인한다.
             if(this.input.name === "") {
                 alert("이름을 입력해주세요.");
                 return;
             }
-
             userService.update({
                 "이메일": this.user.email,
-                "이름": this.input.name, // 신규 이름
-                "비밀번호": this.user.password
+                "이름": this.input.name,
+                "비밀번호": shaPW
             }, function(data){
                 alert("이름이 변경되었습니다.");
-                this.$router.go(-1);
+                router.push('/');
             });
         },
         goBack: function(){
@@ -81,7 +74,7 @@ var myUpdateView = Vue.component('MyUpdateView', {
     },
     mounted: function(){
         var scope = this;
-        
+
         userService.findById(this.sharedStates.user.id, function(data){
             scope.user.id = data["id"];
             scope.user.email = data["이메일"];

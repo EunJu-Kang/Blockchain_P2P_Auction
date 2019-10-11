@@ -1,23 +1,30 @@
 var artworksView = Vue.component('artworksView', {
-    template: `
+  template: `
         <div>
             <v-nav></v-nav>
-            <v-breadcrumb title="Artworks" description="작품을 둘러볼 수 있습니다."></v-breadcrumb>
+            <v-breadcrumb class="korean-font" title="Artworks" description="작품을 둘러볼 수 있습니다."></v-breadcrumb>
             <div id="artwork-list" class="container">
                 <div class="row">
-                    <div class="col-md-12 text-right">
-                        <router-link to="/works/create" class="btn btn-outline-secondary">내 작품 등록하기</router-link>
+                    <div class="col-md-6">
+                    <input v-model="message" placeholder="작품">
+                    <button type="button" class="btn btn-outline-secondary col-md-0.5 korean-font" v-on:click="search">검색</button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <router-link to="/works/create" class="btn btn-outline-secondary korean-font">내 작품 등록하기</router-link>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 artwork" v-for="item in artworks">
-                        <div class="card">
+                <div class="col-md-3 artwork" v-for="(item,index) in pageArtwork">
+                        <div class="card" id="auctionlistcss">
                             <div class="card-body">
-                                <img src="./assets/images/artworks/artwork1.jpg">
-                                <h4>{{ item["이름"] }}</h4>
-                                <p v-if="item['설명'] != null">{{ item["설명"] }}</p>
-                                <p v-if="item['설명'] == null">-</p>
-                                <router-link :to="{ name: 'work.detail', params: { id: item['id'] } }" class="btn btn-block btn-secondary">이력보기</router-link>
+                              <span>
+                                <img :src="item['작품이미지']" data-toggle="modal" data-target="#myModal" @click="clickImg(item['작품이미지'])">
+                                <v-img></v-img>
+                              </span>
+                                <h5 class="card-title korean-font">{{ item['이름']  | truncate(10) }}</h5>
+                                <p class="card-text korean-font" v-if="item['설명'] != null">{{ item["설명"] | truncate(10)}}</p>
+                                <p class="card-text korean-font" v-if="item['설명'] == null">-</p>
+                                <router-link :to="{ name: 'work.detail', params: { id: item['id'] }}" class="btn  btn-block btn-secondary korean-font">작품자세히보기</router-link>
                             </div>
                         </div>
                     </div>
@@ -26,18 +33,16 @@ var artworksView = Vue.component('artworksView', {
                     <div class="col-md-12 text-center">
                         <nav class="bottom-pagination">
                             <ul class="pagination">
-                                <li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                <li class="page-item"><a class="page-link" href="#">7</a></li>
-                                <li class="page-item"><a class="page-link" href="#">8</a></li>
-                                <li class="page-item"><a class="page-link" href="#">9</a></li>
-                                <li class="page-item"><a class="page-link" href="#">10</a></li>
-                                <li class="page-item"><a class="page-link" href="#">다음</a></li>
+                                <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="movePage(1)">◀</a></li>
+                                <li class="page-item" :class="{disabled:currentPage == 1}"><a class="page-link" @click="prevPage"><</a></li>
+                                <li class="page-item" v-for="idx in pages">
+                                  <a class="page-link" @click="movePage(idx)">
+                                    <span class="pagination_curr" v-if="idx==currentPage">{{idx}}</span>
+                                    <span class="pagination_page" v-else >{{idx}}</span>
+                                  </a>
+                                </li>
+                                <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="nextPage">></a></li>
+                                <li class="page-item" :class="{disabled:currentPage == pageCount}"><a class="page-link" @click="movePage(pageCount)">▶</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -45,19 +50,75 @@ var artworksView = Vue.component('artworksView', {
             </div>
         </div>
     `,
-    data() {
-        return {
-            artworks: [{
-                "이름": "",
-                "설명": ""
-            }]
-        }
-    },
-    mounted: function(){
-        var scope = this;
-
-        workService.findAll(function(data){
-            scope.artworks = data;
-        });
+  data() {
+    return {
+      artworks: [{
+        "이름": "",
+        "설명": "",
+        "작품이미지": ""
+      }],
+      pageArtwork: [],
+      pageCount: 0,
+      perPage: 8,
+      currentPage: 1,
+      message: "",
+      pages: []
     }
+  },
+  methods: {
+    search() {
+      var scope = this;
+      if (this.message != "") {
+        workService.searchWork(this.message, function (data) {
+          scope.artworks = data;
+          scope.pageCount = Math.ceil(data.length / scope.perPage);
+          scope.movePage(1);
+        });
+      } else {
+        this.findAll();
+      }
+    },
+    nextPage() {
+      this.currentPage++;
+      this.movePage(this.currentPage);
+    },
+    prevPage() {
+      this.currentPage--;
+      this.movePage(this.currentPage);
+    },
+    movePage(p) {
+      this.currentPage = p;
+      var start = (p - 1) * this.perPage
+      var end = this.artworks.length;
+      if (end > start + this.perPage) {
+        end = start + this.perPage
+      }
+      this.pageArtwork = [];
+      for (var i = start; i < end; i++) {
+        this.pageArtwork.push(this.artworks[i])
+      }
+      this.pages = [];
+      var stPage = this.currentPage - 2 <= 0 ? 1 : this.currentPage - 2;
+      var end = stPage + 5 > this.pageCount ? this.pageCount + 1 : stPage + 5;
+      for (var i = stPage; i < end; i++) {
+        this.pages.push(i);
+      }
+    },
+    findAll() {
+      var scope = this;
+      workService.findAll(function (data) {
+        scope.artworks = data;
+        scope.pageCount = Math.ceil(data.length / scope.perPage);
+        scope.movePage(1)
+      });
+    },
+    clickImg(data){
+      $('#myModal').on('show.bs.modal', function(e) {
+        $("#imgStr").attr("src", data);
+      });
+    }
+  },
+  mounted: function () {
+    this.findAll();
+  }
 })

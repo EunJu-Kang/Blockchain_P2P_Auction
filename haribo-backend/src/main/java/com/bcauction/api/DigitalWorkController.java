@@ -5,6 +5,8 @@ import com.bcauction.application.IDigitalWorkService;
 import com.bcauction.application.IFabricService;
 import com.bcauction.domain.DigitalWork;
 import com.bcauction.domain.FabricAsset;
+import com.bcauction.domain.exception.ApplicationException;
+import com.bcauction.domain.exception.DomainException;
 import com.bcauction.domain.exception.EmptyListException;
 import com.bcauction.domain.exception.NotFoundException;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -36,6 +39,9 @@ public class DigitalWorkController
 
 	@RequestMapping(value = "/works", method = RequestMethod.POST)
 	public DigitalWork 등록(@RequestBody DigitalWork work) {
+		if(digitalWorkService.조회(work.get이름())!=null) {
+    		throw new DomainException("작품 중복 입니다.!");
+    	}
 		return  digitalWorkService.작품등록(work);
 	}
 
@@ -47,6 +53,8 @@ public class DigitalWorkController
 		if (목록 == null || 목록.isEmpty())
 			throw new EmptyListException("NO DATA");
 
+		Collections.reverse(목록);
+		
 		return 목록;
 	}
 
@@ -68,25 +76,20 @@ public class DigitalWorkController
 			logger.error("NOT FOUND WORK ID: ", work.getId());
 			throw new NotFoundException(work.getId() + " 작품 정보를 찾을 수 없습니다.");
 		}
-
 		return 수정된작품;
 	}
 
 	@RequestMapping(value = "/works/{id}", method = RequestMethod.DELETE)
 	public DigitalWork 삭제(@PathVariable int id) {
-		return  digitalWorkService.작품삭제(id);
+		DigitalWork result = digitalWorkService.작품삭제(id);
+		
+		if (result == null)
+			throw new ApplicationException("해당 작품을 찾을 수 없습니다.");
+		
+		return result;
 	}
 
-
-	// TODO : not need to use the function below.
-	/**
-	 * 협업과제
-	 * week. 4-7
-	 * mission. 3
-	 * Req. 1-1
-	 * @param id
-	 * @return
-	 */
+	@RequestMapping(value = "/works/my/{id}", method = RequestMethod.GET)
 	public List<DigitalWork> 사용자별작품목록조회(@PathVariable int id){
 		List<DigitalWork> 목록 = digitalWorkService.사용자작품목록조회(id);
 
@@ -96,19 +99,21 @@ public class DigitalWorkController
 		return 목록;
 	}
 
-	/**
-	 * 협업과제
-	 * 협업과제
-	 * week. 4-7
-	 * mission. 3
-	 * Req. 1-2
-	 */
+	@RequestMapping(value = "/works/history/{id}", method = RequestMethod.GET)
 	public List<FabricAsset> 작품이력조회(@PathVariable int id){
 		List<FabricAsset> history = this.fabricService.작품이력조회(id);
 		if(history == null || history.isEmpty())
 			throw new EmptyListException("조회된 작품 이력이 없습니다.");
-
+		
 		return history;
 	}
 
+	@RequestMapping(value = "/works/search/{str}", method = RequestMethod.GET)
+	public List<DigitalWork> 작품검색조회(@PathVariable String str){
+		List<DigitalWork> search = this.digitalWorkService.작품검색조회(str);
+		if(search == null || search.isEmpty())
+			return null;
+		
+		return search;
+	}
 }

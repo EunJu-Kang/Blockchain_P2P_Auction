@@ -24,16 +24,16 @@ var explorerTxDetailView = Vue.component('ExplorerTxDetailView', {
                                         <td>{{ tx.timestamp }}</td>
                                     </tr>
                                     <tr>
-                                        <th>송신자 주소</th>
-                                        <td><router-link :to="{ name: 'address', params: { address: tx.from }}">{{ tx.from }}</router-link></td>
+                                    <th>송신자 주소</th>
+                                    <td><router-link :to="{ name: 'explorer.address.detail', params: { address: tx.from }}">{{ tx.from }}</router-link></td>
                                     </tr>
                                     <tr>
-                                        <th>수신자 주소</th>
-                                        <td><router-link :to="{ name: 'address', params: { address: tx.to }}">{{ tx.to }}</router-link></td>
+                                    <th>수신자 주소</th>
+                                    <td><router-link :to="{ name: 'explorer.address.detail', params: { address: tx.to }}">{{ tx.to }}</router-link></td>
                                     </tr>
                                     <tr>
                                         <th>전송한 이더</th>
-                                        <td>{{ tx.value }} Ether</td>
+                                        <td>{{ tx.amount }} Ether</td>
                                     </tr>
                                     <tr>
                                         <th>Gas</th>
@@ -80,6 +80,7 @@ var explorerTxDetailView = Vue.component('ExplorerTxDetailView', {
                 response.gas = parseInt(Number(response.gasRaw), 16)
                 response.gasPrice = parseInt(Number(response.gasPriceRaw), 16)
                 response.timestamp = Date(response.timestamp).toString()
+                response.amount = response.amount/Math.pow(10, 18);
                 scope.tx = response
               })
             } else {

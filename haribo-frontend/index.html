@@ -5,17 +5,25 @@
         <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta charset="utf-8">
 
-        <link rel="stylesheet" type="text/css" href="./assets/components/bootstrap/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/fullpage.css">
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Caveat|Noto+Sans+KR|Acme|Gothic+A1|Nanum+Myeongjo|Revalia&display=swap" rel="stylesheet">
 
         <script
-            src="https://code.jquery.com/jquery-1.12.4.min.js"
-            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-            crossorigin="anonymous"></script>
-        <script type="text/javascript" src="./assets/components/bootstrap/bootstrap.js"></script>
+          src="https://code.jquery.com/jquery-1.12.4.js"
+          integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+          crossorigin="anonymous"></script>
+        <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
         <script type="text/javascript" src="./assets/components/web3/web3.js"></script>
         <script type="text/javascript" src="./assets/components/vuejs/vue.js"></script>
         <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+        <script src="https://kit.fontawesome.com/1e2d6b4852.js" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="./assets/components/bootstrap/bootstrap.js"></script>
+        <link rel="stylesheet" type="text/css" href="./assets/components/bootstrap/bootstrap.css">
+        <!--암호화-->
+        <script type="text/javascript" src="./assets/sha256/core.min.js"></script>
+        <script type="text/javascript" src="./assets/sha256/sha256.min.js"></script>
+
 
         <script type="text/javascript" src="./components/store.js"></script>
         <script type="text/javascript" src="./components/constants.js"></script>
@@ -33,10 +41,13 @@
         <script type="text/javascript" src="./pages/common/nav.vue.js"></script>
         <script type="text/javascript" src="./pages/common/mypage-nav.vue.js"></script>
         <script type="text/javascript" src="./pages/common/breadcrumb.vue.js"></script>
+        <script type="text/javascript" src="./pages/common/imageSize.vue.js"></script>
+
 
         <script type="text/javascript" src="./pages/login.vue.js"></script>
         <script type="text/javascript" src="./pages/register.vue.js"></script>
         <script type="text/javascript" src="./pages/home.vue.js"></script>
+        <script type="text/javascript" src="./pages/search.vue.js"></script>
 
         <!-- 마이페이지 관련 화면 -->
         <script type="text/javascript" src="./pages/mypage/wallet.vue.js"></script>
@@ -65,12 +76,14 @@
         <script type="text/javascript" src="./pages/explorer/blockList.vue.js"></script>
         <script type="text/javascript" src="./pages/explorer/txDetail.vue.js"></script>
         <script type="text/javascript" src="./pages/explorer/txList.vue.js"></script>
+        <script type="text/javascript" src="./pages/explorer/addressDetail.vue.js"></script>
     </head>
     <body class="bg-light">
         <div id="app" v-cloak>
             <!-- URL에 따라 화면이 바뀌는 부분 -->
-            <router-view></router-view>
+            <router-view :key="$route.fullPath"/></router-view>
         </div>
+        <script type="text/javascript" src="./components/fullpage.js"></script>
         <!-- Router 세팅 -->
         <script type="text/javascript" src="./routes.js"></script>
         <script type="text/javascript">
@@ -78,13 +91,13 @@
 
             let router = new VueRouter({
                 routes: routes
+
             });
 
             router.beforeEach((to, from, next) => {
-            let isSigned = store.state.isSigned;
+            let isSigned = sessionStorage.getItem("sign");
                 let isAvailableToGuest = (['/', '/login', '/register'].includes(to.path)) || to.path.startsWith("/explorer");
 
-                // 회원 가입도 하지 않았고 게스트에게 허용된 주소가 아니라면 로그인 화면으로 이동한다.
                 if(!isSigned && !isAvailableToGuest) {
                     alert("로그인을 하신 뒤에 사용이 가능합니다.");
                     next('/login');
@@ -94,8 +107,9 @@
             });
 
             const app = new Vue({
-                router
+                router,
             }).$mount('#app');
+
         </script>
     </body>
 </html>

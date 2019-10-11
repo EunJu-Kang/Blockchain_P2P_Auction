@@ -17,10 +17,17 @@ var worksCreateView = Vue.component("worksCreateView", {
                                     <textarea class="form-control" id="description" v-model="work.description"></textarea>
                                 </div>
                                 <div class="form-group">
+                                    <label id="imginsert">작품 선택</label>
+                                    <input v-on:change='onFileChange' type='file' ref='artimage' class="form-control" id="imgInsert"></input>
+                                </div>
+                                <div class="form-group">
                                     <label id="isActive">공개여부(공개하려면 체크)</label><br>
                                     <input type="checkbox" id="isActive" v-model="work.isActive">
                                 </div>
-                                <button type="button" class="btn btn-primary" v-on:click="save">작품 등록하기</button>
+                                <img v-if="outimage" :src="outimage">
+                                <div class="col-md-12 text-right">
+                                <button type="button" class="btn btn-warning" v-on:click="save">작품 등록하기</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -34,9 +41,11 @@ var worksCreateView = Vue.component("worksCreateView", {
                 name: "",
                 description: "",
                 isActive: true,
-                status: true
+                status: true,
+                image:""
             },
-            sharedStates: store.state
+            sharedStates: store.state,
+            outimage:""
         }
     },
     methods: {
@@ -48,7 +57,8 @@ var worksCreateView = Vue.component("worksCreateView", {
                 "설명": this.work.description,
                 "공개여부": this.work.isActive ? "Y" : "N",
                 "상태": this.work.status ? "Y" : "N",
-                "회원id": this.sharedStates.user.id
+                "회원id": this.sharedStates.user.id,
+                "작품이미지":this.work.image
             },
             function(){
                 alert('작품이 등록되었습니다.');
@@ -57,6 +67,23 @@ var worksCreateView = Vue.component("worksCreateView", {
             function(error){
                 alert("입력폼을 모두 입력해주세요.");
             });
+        },
+        onFileChange(e) {
+          var files = e.target.files || e.dataTransfer.files;
+          if (!files.length)
+          return;
+          this.createImage(files[0]);
+        },
+        createImage(file) {
+          var image = new Image();
+          var reader = new FileReader();
+          var vm = this;
+
+          reader.onload = (e) => {
+            vm.outimage = e.target.result;
+            this.work.image= reader.result;
+          };
+          reader.readAsDataURL(file);
         }
     }
 });

@@ -1,53 +1,38 @@
 package com.bcauction.application.impl;
 
-import com.bcauction.application.IEthereumService;
-import com.bcauction.domain.*;
-import com.bcauction.domain.exception.ApplicationException;
-import com.bcauction.domain.repository.ITransactionRepository;
-import com.bcauction.domain.repository.IWalletRepository;
-import com.bcauction.domain.wrapper.Block;
-import com.bcauction.domain.wrapper.EthereumTransaction;
-import com.bcauction.infrastructure.repository.WalletRepository;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.RawTransaction;
-import org.web3j.crypto.TransactionEncoder;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.admin.methods.response.PersonalUnlockAccount;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.DefaultBlockParameterNumber;
-import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.*;
-import org.web3j.protocol.core.methods.response.EthBlock.TransactionResult;
-import org.web3j.protocol.exceptions.TransactionException;
+import org.web3j.protocol.core.methods.response.EthBlock;
+import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
+import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
-import org.web3j.utils.Numeric;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import com.bcauction.application.IEthereumService;
+import com.bcauction.domain.Address;
+import com.bcauction.domain.Wallet;
+import com.bcauction.domain.exception.ApplicationException;
+import com.bcauction.domain.repository.ITransactionRepository;
+import com.bcauction.domain.repository.IWalletRepository;
+import com.bcauction.domain.wrapper.Block;
+import com.bcauction.domain.wrapper.EthereumTransaction;
 
 @Service
 public class EthereumService implements IEthereumService {
@@ -66,6 +51,7 @@ public class EthereumService implements IEthereumService {
 
 	private ITransactionRepository transactionRepository;
 	private IWalletRepository walletRepository;
+
 	@Autowired
 	private Web3j web3j;
 	@Autowired
@@ -88,11 +74,6 @@ public class EthereumService implements IEthereumService {
 		}
 	}
 
-	/**
-	 * 최근 블록 조회 예) 최근 20개의 블록 조회
-	 *
-	 * @return List<Block>
-	 */
 	@Override
 	public List<Block> 최근블록조회() {
 		BigInteger blocknum = this.최근블록(true).getNumber();
@@ -105,36 +86,20 @@ public class EthereumService implements IEthereumService {
 				block = web3j.ethGetBlockByNumber(defaultBlockParameter, false).sendAsync().get();
 				blockList.add(Block.fromOriginalBlock(block.getBlock()));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		return blockList;
 	}
 
-	/**
-	 * 최근 생성된 블록에 포함된 트랜잭션 조회 이더리움 트랜잭션을 EthereumTransaction으로 변환해야 한다.
-	 *
-	 * @return List<EthereumTransaction>
-	 */
 	@Override
-	public List<EthereumTransaction> 최근트랜잭션조회() {
-		List<EthereumTransaction> listTransaction = new ArrayList<>();
-		EthBlock.Block block = this.최근블록(true);
-		listTransaction = EthereumTransaction.getEthereumTransactionList(block.getTransactions(), block.getTimestamp(),
-				true);
-		return listTransaction;
+	public List<com.bcauction.domain.Transaction> 최근트랜잭션조회() {
+		List<com.bcauction.domain.Transaction> ListTran = transactionRepository.목록조회();
+		return ListTran;
 	}
 
-	/**
-	 * 특정 블록 검색 조회한 블록을 Block으로 변환해야 한다.
-	 *
-	 * @param 블록No
-	 * @return Block
-	 */
 	@Override
 	public Block 블록검색(String 블록No) {
 		BigInteger blocknum = new BigInteger(블록No);
@@ -155,15 +120,8 @@ public class EthereumService implements IEthereumService {
 		return Selectblock;
 	}
 
-	/**
-	 * 특정 hash 값을 갖는 트랜잭션 검색 조회한 트랜잭션을 EthereumTransaction으로 변환해야 한다.
-	 *
-	 * @param 트랜잭션Hash
-	 * @return EthereumTransaction
-	 */
 	@Override
 	public EthereumTransaction 트랜잭션검색(String 트랜잭션Hash) {
-		// TODO
 		EthereumTransaction selectTranstion = null;
 		EthTransaction ethTransaction = null;
 
@@ -176,25 +134,8 @@ public class EthereumService implements IEthereumService {
 		return selectTranstion;
 	}
 
-	/**
-	 * 이더리움으로부터 해당 주소의 잔액을 조회하고 동기화한 트랜잭션 테이블로부터 Address 정보의 trans 필드를 완성하여 정보를
-	 * 반환한다.
-	 *
-	 * @param 주소
-	 * @return Address
-	 */
-
-	/**
-	 * [주소]로 시스템에서 정한 양 만큼 이더를 송금한다. 이더를 송금하는 트랜잭션을 생성, 전송한 후 결과인 String형의 트랜잭션 hash
-	 * 값을 반환한다.
-	 *
-	 * @param 주소
-	 * @return String 생성된 트랜잭션의 hash 반환 (참고, TransactionReceipt)
-	 */
 	@Override
-	public String 충전(final String 주소) // 특정 주소로 테스트 특정 양(5Eth) 만큼 충전해준다.
-	{
-
+	public String 충전(final String 주소) {
 		PersonalUnlockAccount personalUnlockAccount = null;
 		String transactionHash = null;
 		try {
@@ -231,18 +172,61 @@ public class EthereumService implements IEthereumService {
 				walletRepository.잔액갱신(wallet.get주소(), tokenValue);
 			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public Address 주소검색(String 주소) {
-		// TODO Auto-generated method stub
-		return null;
+		Address address = new Address();
+
+		List<com.bcauction.domain.Transaction> ListTran = transactionRepository.조회By주소(주소);
+		EthGetBalance ethGetBalance;
+		EthGetTransactionCount txCount;
+		try {
+			ethGetBalance = web3j.ethGetBalance(주소, DefaultBlockParameterName.LATEST).sendAsync().get();
+			txCount = web3j.ethGetTransactionCount(주소, DefaultBlockParameterName.LATEST).sendAsync().get();
+			address.setBalance(ethGetBalance.getBalance());
+			address.setTxCount(txCount.getTransactionCount());
+			address.setTrans(ListTran);
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		return address;
 	}
 
+	public void changeTran(String BlockNumber) {
+		Block block = 블록검색(BlockNumber);
+		List<EthereumTransaction> ListTran = block.getTrans();
+		com.bcauction.domain.Transaction transaction = new com.bcauction.domain.Transaction();
+		
+		if (ListTran.size() > 0) {
+			for (int i = 0; i < ListTran.size(); i++) {
+				EthereumTransaction tx = ListTran.get(i);
+				transaction.setId(0);
+				transaction.setHash(tx.getTxHash());
+				transaction.setNonce(null);
+				transaction.setBlockHash(null);
+				transaction.setBlockNumber(tx.getBlockId());
+				transaction.setTransactionIndex(null);
+				transaction.setFrom(tx.getFrom());
+				transaction.setTo(tx.getTo());
+				transaction.setValue(null);
+				transaction.setGasPrice(tx.getGasPriceRaw());
+				transaction.setGas(tx.getGasRaw());
+				transaction.setInput(tx.getInput());
+				transaction.setCreates(null);
+				transaction.setPublicKey(null);
+				transaction.setRaw(null);
+				transaction.setR(null);
+				transaction.setS(null);
+				transaction.setV(0);
+				transaction.set저장일시(tx.getTimestamp());
+				
+				transactionRepository.추가(transaction);
+			}
+		}
+	}
 }

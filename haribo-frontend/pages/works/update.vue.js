@@ -2,7 +2,7 @@ var worksUpdateView = Vue.component("worksUpdateView", {
     template: `
         <div>
             <v-nav></v-nav>
-            <v-breadcrumb title="작품 등록" description="새로운 작품을 등록합니다."></v-breadcrumb>
+            <v-breadcrumb title="작품 수정" description="작품을 업데이트합니다."></v-breadcrumb>
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 mx-auto">
@@ -10,7 +10,7 @@ var worksUpdateView = Vue.component("worksUpdateView", {
                             <div class="card-body">
                                 <div class="form-group">
                                     <label id="name">작품 이름</label>
-                                    <input type="text" class="form-control" id="name" v-model="work.name">
+                                    <input type="text" class="form-control" id="name" v-model="work.name" readOnly>
                                 </div>
                                 <div class="form-group">
                                     <label id="description">작품 설명</label>
@@ -24,7 +24,7 @@ var worksUpdateView = Vue.component("worksUpdateView", {
                                     <label id="status">상태</label><br>
                                     <input type="checkbox" id="status" v-model="work.status">
                                 </div>
-                                <button type="button" class="btn btn-primary" v-on:click="update">작품 등록하기</button>
+                                <button type="button" class="btn btn-primary" v-on:click="update">작품 수정하기</button>
                             </div>
                         </div>
                     </div>
@@ -50,16 +50,17 @@ var worksUpdateView = Vue.component("worksUpdateView", {
             var workId = this.$route.params.id;
 
             workService.update({
-                "id": this.work.ownerId,
+                "id": workId,
                 "이름": this.work.name,
                 "설명": this.work.description,
                 "공개여부": this.work.isActive ? "Y" : "N",
-                "상태": this.work.status ? "Y" : "N"
+                "상태": this.work.status ? "Y" : "N",
+                "회원id": this.work.ownerId
             },
             function(){
                 alert('작품이 수정되었습니다.');
                 scope.$router.push('/works/detail/' + workId);
-            }, 
+            },
             function(error){
                 alert("입력폼을 모두 입력해주세요.");
             });

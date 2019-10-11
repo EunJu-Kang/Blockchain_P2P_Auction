@@ -1,7 +1,3 @@
-/**
- * 화면: 경매 입찰하기
- */
-
 var auctionBidView = Vue.component('AuctionBidView', {
     template: `
         <div>
@@ -37,8 +33,8 @@ var auctionBidView = Vue.component('AuctionBidView', {
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <button class="btn btn-sm btn-primary" v-on:click="bid" v-bind:disabled="bidding">{{ bidding ? "입찰을 진행 하는 중입니다." : "입찰하기" }}</button>
+                                <div class="col-md-6" v-show="check">
+                                    <button class="btn btn-sm btn-primary" v-on:click="bid" :disabled="bidding">{{ bidding ? "입찰을 진행 하는 중입니다." : "입찰하기" }}</button>
                                 </div>
                                 <div class="col-md-6 text-right">
                                     <button class="btn btn-sm btn-outline-secondary" v-on:click="goBack">이전으로 돌아가기</button>
@@ -60,7 +56,8 @@ var auctionBidView = Vue.component('AuctionBidView', {
                 price: 0
             },
             sharedStates: store.state,
-            wallet: {}
+            wallet: {},
+            check: false
         }
     },
     methods: {
@@ -68,54 +65,48 @@ var auctionBidView = Vue.component('AuctionBidView', {
             this.$router.go(-1);
         },
         bid: function(){
-            /**
-             * 컨트랙트를 호출하여 입찰하고
-             * 입찰 정보 등록 API를 호출합니다. 
-             */
             var scope = this;
-
             var options = {
-                amount: this.input.price,
-                contractAddress: this.auction['경매컨트랙트주소'],
-                walletAddress: this.wallet['주소'],
-                privateKey: this.input.privateKey
-            };
-            console.log(options);
+                amount: scope.input.price,
+                contractAddress: scope.auction['경매컨트랙트주소'],
+                walletAddress: scope.wallet['주소'],
+                privateKey: scope.input.privateKey
+            }
             this.bidding = true;
 
-            // 컨트랙트 bid 함수를 호출합니다.
-            // components/auctionFactory.js의 auction_bid 함수를 호출합니다.
-            // TODO auction_bid 함수의 내용을 완성합니다.             
             auction_bid(options, function(receipt){
                 var bidder = scope.sharedStates.user.id;
                 var auctionId = scope.$route.params.id;
-                
-                // 입찰 정보 등록 요청 API를 호출합니다. 
+
+                if(receipt.cumulativeGasUsed == 3000000){
+                    alert("입찰을 실패했습니다.")
+                    scope.bidding = false;
+                } else {
                 auctionService.saveBid(bidder, auctionId, options.amount, function(result){
                     alert("입찰이 완료되었습니다.");
                     scope.bidding = false;
                     scope.$router.go(-1);
                 });
+               }
             });
         }
     },
     mounted: function(){
         var scope = this;
         var auctionId = this.$route.params.id;
-
         auctionService.findById(auctionId, function(auction){
-            auction['최소금액'] = Number(auction['최소금액']) / (10**18);
-            scope.auction = auction;
+            auction['최소금액'] = Number(auction['최소금액']);
+            scope.auction = auction
+            if(auction != null ){
+              scope.check = true
+            }
             var workId = auction['작품id'];
-
             workService.findById(workId, function(work){
                 scope.work = work;
             });
         });
-
-        // 내 지갑 정보 조회
         walletService.findById(scope.sharedStates.user.id, function(wallet){
-            wallet['잔액'] = Number(wallet['잔액']) / (10 ** 18);
+            wallet['잔액'] = Number(wallet['잔액']) ;
             scope.wallet = wallet;
         });
     }
