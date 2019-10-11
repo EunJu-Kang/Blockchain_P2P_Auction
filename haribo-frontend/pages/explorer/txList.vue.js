@@ -48,7 +48,9 @@ var explorerTxListView = Vue.component('ExplorerTxListView', {
                     var tranlen = response.length;
                         for (let i = 0; i < 10; i++) {
                             if (response[i]) {
-                            etheriumService.findBlockById(response[i].blockNumber, function (blcokdata) {
+                            etheriumService.findBlockById(response[i].blockNumber, function (blockdata) {
+                              let a = Math.round(new Date(blockdata.timestamp).getTime())+32400000;
+                              a = new Date(a)
                                 response[i].저장일시 = etheriumService.timeSince(blcokdata.timestamp);
                             })
                         }
