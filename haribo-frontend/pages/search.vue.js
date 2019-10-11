@@ -34,7 +34,7 @@ var searchView = Vue.component('searchView', {
                         <div class="col-md-4 artwork" v-for="item in auctions" v-if="auctions.length > 0">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <img :src="item['작품이미지']">
+                                    <img :src="item['작품정보']['작품이미지']">
                                     <h4>{{ item['작품정보']['이름'] }}</h4>
                                     <span class="badge badge-success">{{calculateDate(item['종료일시'])}}</span>
                                     <router-link :to="{ name: 'auction.detail', params: { id: item['id'] }}" class="btn btn-block btn-secondary mt-3">자세히보기</router-link>
