@@ -91,6 +91,7 @@ a {
 
 .breadcrumb {
   padding-top: 100px;
+  margin-top: 70px;
 }
 
 #my-artwork .artwork {
@@ -306,7 +307,7 @@ nav.bottom-pagination {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-.containers: before {
+.containers:before {
   content: '';
   display: block;
   position: absolute;
@@ -382,4 +383,21 @@ nav.bottom-pagination {
 .modal-body img{
   height: 100%;
   width: 100%;
+}
+
+.watermarked {
+  position: relative;
+}
+
+.watermarked:after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-image: url(../images/waterMark.png);
+  background-size: 50%;
+  opacity: 0.2;
 }
