@@ -9,7 +9,7 @@ Vue.component('v-img', {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body watermarked">
               <img id="imgStr" src="">
             </div>
           </div>
