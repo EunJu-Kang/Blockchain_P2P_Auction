@@ -2,7 +2,7 @@
 
 윈도우 XP의 공식 배경화면으로 유명한 언덕사진을 찍은 사진작가는 세계에서 2번째로 많은 저작권료를 받고 있습니다. 핸드폰으로 사진작가 못지 않은 퀄리티를 내는 요즘, 찍은 사진들의 저작권을 쉽게 사고팔면 어떨까? 하는 생각을 바탕으로 저작권을 쉽고 안전하게 거래 할 수 있는 사이트를 개발하였습니다.
 <br>
-<iframe width="640" height="360" src="https://youtu.be/p6_8xIwxEEc" frameborder="0" gesture="media" allowfullscreen=""></iframe>
+[![예제](https://youtu.be/p6_8xIwxEEc/0.jpg)](https://youtu.be/p6_8xIwxEEc?t=0s) 
 
 ### 블록체인 
 > 신뢰를 만드는 기술
