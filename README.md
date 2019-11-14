@@ -23,7 +23,7 @@
 * [wrapper class 변환](https://web3j.readthedocs.io/en/latest/command_line_tools.html) (변환 시 web3j 파일이 필요하다면 docs/web3j에 포함)
 * [wrapper class 사용시 이해](https://medium.com/day34/klaytn-caver-java-3-%EC%8A%A4%EB%A7%88%ED%8A%B8-%EC%BB%A8%ED%8A%B8%EB%9E%99%ED%8A%B8-%EB%B0%B0%ED%8F%AC%EC%99%80-%EC%8B%A4%ED%96%89-19630316d36)
 
-##### 스마트컨트랙트
+##### -스마트컨트랙트
 ```js
 pragma solidity ^0.4.24;
 
@@ -241,14 +241,13 @@ contract Auction {
 }
 ```
 
-
-
 #### 2. Private BlockChain (Hyperledger Fabric)
 이미지의 <u>`저작권`</u>은 프라이빗 혹은 허가형 블록체인의 대표인 `하이퍼레저 패브릭`에 기록하는 기능을 지닙니다. 시스템을 통한 작품 등록, 삭제, 경매 완료 등 소유권에 변경이 발생하는 이벤트가 있을 때 [체인코드](https://miiingo.tistory.com/105?category=644184)를 호출하여 소유권 이력을 기록하게 합니다. 
 * [체인코드를 Fabric-sdk-java를 이용해서 채널 연동 및 사용법 (1)](https://medium.com/@lkolisko/hyperledger-fabric-sdk-java-basics-tutorial-a67b2b898410)
 * [체인코드를 Fabric-sdk-java를 이용해서 채널 연동 및 사용법 (2)](https://cyberx.tistory.com/191)
 * haribo-frontend/components/auctionFactory.js
 
+##### -체인코드
 ```js
 const shim = require('fabric-shim');
 
@@ -539,7 +538,6 @@ shim.start(new Chaincode());
 
 ```
 
-
 ### 네트워크 구성
 <img width="600px" src="./docs/assets/network.PNG"/>
 
@@ -548,5 +546,22 @@ shim.start(new Chaincode());
 > - docs/SETTING 에 Front-End, Back-End, DB, Ethereum, Hyperledger Fabric 설정 관련 파일 포함.
 
 
+### 개발환경
 
 
+| 구분 | 기술 | 버전 | 요약 |
+|---|:---:|---:|---:|
+| Blockchain | Ethereum | Geth 1.8.27-stable | public blockchain |
+|  | Hyperledger Fabric | | private blockchain | |
+| Chaincode | Node.js | 8.x | |
+| Smart Contract | Solidity | 0.4.22 이상 0.6.0 이하  | |
+| Frontend-Blockchain | web3.js | 0.2x.x |Ethereum Javascript API |
+| Backend-Blockchain | web3.j | web3j-spring-boot-starter 1.6.0, core 4.2.0 | Ethereum Java API |
+| | Fabric-sdk-java | 1.4.0 | Fabric Java API |
+| Frontend | Vue.js |  |  |
+|  | Javascript |  |  |
+| Backend | Java | 1.8 | OOP Language |
+|  | Spring boot | 5.0 + | Java Framework |
+|  | MySQL | 6.0.0 | RDBMS |
+|  | maven | 4.0.0 | Java Project Build Tool |
+| server | AWS |  | ubuntu |
