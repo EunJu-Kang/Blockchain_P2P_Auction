@@ -534,7 +534,7 @@ shim.start(new Chaincode());
 
 
 ### 네트워크 구성
-<img width="600px" src="./docs/network.jpg"/>
+<img width="600px" src="./docs/assets/network.PNG"/>
 
 > - haribo-backend/src/main/resources/application.properties 에 환경설정 및 변수들이 초기화 되어있다.
 > - haribo-frontend/component/constants.js 에서 URL 수정
