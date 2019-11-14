@@ -24,7 +24,8 @@
 * [wrapper class 사용시 이해](https://medium.com/day34/klaytn-caver-java-3-%EC%8A%A4%EB%A7%88%ED%8A%B8-%EC%BB%A8%ED%8A%B8%EB%9E%99%ED%8A%B8-%EB%B0%B0%ED%8F%AC%EC%99%80-%EC%8B%A4%ED%96%89-19630316d36)
 
 ##### 스마트컨트랙트
-```pragma solidity ^0.4.24;
+```js
+pragma solidity ^0.4.24;
 
 /**
  * @title Ownable
@@ -239,7 +240,9 @@ contract Auction {
   }
 }
 ```
-<br>
+
+
+
 #### 2. Private BlockChain (Hyperledger Fabric)
 이미지의 <u>`저작권`</u>은 프라이빗 혹은 허가형 블록체인의 대표인 `하이퍼레저 패브릭`에 기록하는 기능을 지닙니다. 시스템을 통한 작품 등록, 삭제, 경매 완료 등 소유권에 변경이 발생하는 이벤트가 있을 때 [체인코드](https://miiingo.tistory.com/105?category=644184)를 호출하여 소유권 이력을 기록하게 합니다. 
 * [체인코드를 Fabric-sdk-java를 이용해서 채널 연동 및 사용법 (1)](https://medium.com/@lkolisko/hyperledger-fabric-sdk-java-basics-tutorial-a67b2b898410)
