@@ -565,3 +565,19 @@ shim.start(new Chaincode());
 |  | MySQL | 6.0.0 | RDBMS |
 |  | maven | 4.0.0 | Java Project Build Tool |
 | server | AWS |  | ubuntu |
+
+### [API Reference for Developers(Swagger)](https://lab.ssafy.com/EunJu/blockchin_final/tree/master/docs/assets/api/BlockChain)
+#### 1. Auction
+<img width="700px" src="./docs/assets/api/BlockChain/Auction/Auction.png"/>
+
+#### 2. Digital_work
+<img width="700px" src="./docs/assets/api/BlockChain/Digital_work/Digital_work.png"/>
+
+#### 3. Ethereum
+<img width="700px" src="./docs/assets/api/BlockChain/Ethereum/Ethereum.png"/>
+
+#### 4. Member
+<img width="700px" src="./docs/assets/api/BlockChain/Member/Member.png"/>
+
+#### 5. Wallet
+<img width="700px" src="./docs/assets/api/BlockChain/Wallet/Wallet.png"/>
