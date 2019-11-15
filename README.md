@@ -7,12 +7,12 @@
 >
 [![예제](http://img.youtube.com/vi/p6_8xIwxEEc/0.jpg)](https://youtu.be/p6_8xIwxEEc?t=0s) 
 
-### 블록체인 
+## 블록체인 
 > 신뢰를 만드는 기술
 >
 블록체인은 이전 블록에 대한 해시를 다음 블록에 기입해 계속 이어지도록 체인을 만드는 기술이다. 이전 블록에서 거래 내역을 수정하거나 조작하면 일단 해당 해시가 변경된다. 그렇기 때문에 조작한 내역을 숨기려면 이전블록 뿐만 아니라 이전블록 앞의 연결된 모든 블록들을 변경해야만 한다. 따라서 악의를 가지고 데이터를 마음대로 바꾸는 것은 불가능하다. 이러한 블록체인의 특징을 이용해서 이미지에 대한 저작권을 블록체인에 기록하여 신뢰성을 가진 정보를 제공할 수 있다.
 
-### 블록체인 활용
+## 블록체인 활용
 #### 1. Public BlockChain (이더리움)
 <u>`경매기능`</u>은 이더리움 `스마트 컨트랙트`를 통해 직접 진행됩니다. 이때 이더리움 네트워크 상에 작성한 스마트 컨트랙트가 사용되며 `이더리움 네트워크`의 통화인 이더(Eth)가 매개가 됩니다.<br>
 
@@ -35,7 +35,7 @@
 ##### [> 체인코드 확인하기](https://lab.ssafy.com/EunJu/blockchin_final/blob/master/docs/contract/chaincode/chaincode.md)
 
 
-### 네트워크 구성
+## 네트워크 구성
 <img width="600px" src="./docs/assets/network.PNG"/>
 
 > - haribo-backend/src/main/resources/application.properties 에 환경설정 및 변수들이 초기화 되어있다.
@@ -43,7 +43,7 @@
 > - docs/SETTING 에 Front-End, Back-End, DB, Ethereum, Hyperledger Fabric 설정 관련 파일 포함.
 
 
-### 개발환경
+## 개발환경
 
 
 | 구분 | 기술 | 버전 | 요약 |
@@ -63,7 +63,7 @@
 |  | maven | 4.0.0 | Java Project Build Tool |
 | server | AWS |  | ubuntu |
 
-### [API Reference for Developers(Swagger)](https://lab.ssafy.com/EunJu/blockchin_final/tree/master/docs/assets/api/BlockChain)
+## [API Reference for Developers(Swagger)](https://lab.ssafy.com/EunJu/blockchin_final/tree/master/docs/assets/api/BlockChain)
 #### 1. Auction
 <img width="700px" src="./docs/assets/api/BlockChain/Auction/Auction.png"/>
 
